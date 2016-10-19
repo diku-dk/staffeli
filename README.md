@@ -18,5 +18,5 @@ We use a tab-width of 4 spaces, with tabs expanded to spaces.
 Add this to your `~/.vimrc`:
 
 ```
-autocmd BufNewFile,BufRead /path/to/Staffeli/* set expandtab tabstop=4
+au BufNewFile,BufRead /path/to/Staffeli/* set expandtab tabstop=4
 ```
