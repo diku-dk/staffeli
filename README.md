@@ -8,3 +8,15 @@
 These tools leverage the [Canvas LMS REST
 API](https://canvas.instructure.com/doc/api/index.html) to create a more
 pleasant experience when working with [Absalon](https://absalon.ku.dk/).
+
+## Contributing
+
+We use a tab-width of 4.
+
+### `vim`
+
+Add this to your `~/.vimrc`:
+
+```
+autocmd BufNewFile,BufRead /path/to/Staffeli/* set expandtab tabstop=4
+```
