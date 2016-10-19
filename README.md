@@ -11,6 +11,7 @@ pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
 ## Installation
 
+1. `pip3 install --user pyyaml`
 1. Add `Staffeli/src/` to your PYTHONPATH environment variable.
 1. Add `Staffeli/src/` to your PATH environment variable.
 1. Generate a token at https://absalon.instructure.com/profile/settings, save
