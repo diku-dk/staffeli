@@ -15,8 +15,8 @@ pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 1. Add `Staffeli/src/` to your PYTHONPATH environment variable.
 1. Add `Staffeli/src/` to your PATH environment variable.
 1. Generate a token at https://absalon.instructure.com/profile/settings, save
-   it in a file named `token` in the directory where you want to use Staffeli.
-   This is your personal token, so best to ignore it in git.
+   it in a file named `token` in your course directory. This is your personal
+   token, so best to ignore it in git.
 
 ## Giving Feedback via Script
 
