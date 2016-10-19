@@ -1,7 +1,6 @@
 # Staffeli — DIKU Support Tools for Canvas LMS
 
-``Staffeli'' is the Danish word for an easel — a wooden frame for holding up a
-canvas.
+``Staffeli'' is Danish ``easel`` — a wooden frame for holding up a canvas.
 
 ![An Easel](logo.jpg "An Easel")
 
