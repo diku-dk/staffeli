@@ -11,7 +11,7 @@ pleasant experience when working with [Absalon](https://absalon.ku.dk/).
 
 ## Contributing
 
-We use a tab-width of 4.
+We use a tab-width of 4 spaces, with tabs expanded to spaces.
 
 ### `vim`
 
