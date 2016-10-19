@@ -9,6 +9,47 @@ These tools leverage the [Canvas LMS REST
 API](https://canvas.instructure.com/doc/api/index.html) to create a more
 pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
+## Installation
+
+1. Add `Staffeli/src/` to your PYTHONPATH environment variable.
+1. Add `Staffeli/src/` to your PATH environment variable.
+1. Generate a token at https://absalon.instructure.com/profile/settings, save
+   it in a file named `token` in the directory where you want to use Staffeli.
+   This is your personal token, so best to ignore it in git.
+
+## Giving Feedback via Script
+
+Navigate to the student directory containing a `canvas_group.json`, or a file
+with the pattern `<name>_(late_)?_<studentid>_<submissionid>_.*`. You can now
+use `feedback.py` to give feedback:
+
+```
+feedback.py <grade> <file> [<more-files>]
+```
+
+For instance,
+
+```
+feedback.py 3 feedback.html onlineta.txt
+```
+
+or
+
+```
+feedback.py incomplete feedback.html onlineta.txt
+```
+
+`feedback.py` accepts `complete`, `incomplete`, `pass`, `fail`, or an integer
+grade. `feedback.py` does not (yet) validate whether the grade you provide is
+compatible with the assignment: beware if your assignment is marked as
+pass/fail or on a point-scale. `feedback.py` also does not (yet) verify that
+the points you give fall within the assignment point scale (neither does
+Canvas!).
+
+NB! For `feedback.py` to work you also need to have a hierarchy of
+`canvas.json` files, specifying the course and assignment ids. There is no
+automatic script for setting this up (yet).
+
 ## Contributing
 
 We use a tab-width of 4 spaces, with tabs expanded to spaces.
