@@ -20,9 +20,20 @@ pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
 ## Giving Feedback via Script
 
-Navigate to the student directory containing a `canvas_group.json`, or a file
-with the pattern `<name>_(late_)?_<studentid>_<submissionid>_.*`. You can now
-use `feedback.py` to give feedback:
+Navigate to the student directory containing a `canvas_group.json`, or a
+file with a name matching the pattern
+
+```
+<name>_(late_)?_<studentid>_<submissionid>_.*
+```
+
+For instance, a file named something like
+
+```
+kenfriislarsen_12321_1414214_src-1.zip
+```
+
+From here, you can use `feedback.py` to give feedback:
 
 ```
 feedback.py <grade> <file> [<more-files>]
@@ -31,7 +42,7 @@ feedback.py <grade> <file> [<more-files>]
 For instance,
 
 ```
-feedback.py 3 feedback.html onlineta.txt
+feedback.py 3 feedback.html
 ```
 
 or
