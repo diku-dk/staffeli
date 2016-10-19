@@ -7,5 +7,4 @@ canvas.
 
 These tools leverage the [Canvas LMS REST
 API](https://canvas.instructure.com/doc/api/index.html) to create a more
-pleasant experience when with the Canvas LMS as used at
-[DIKU](http://diku.dk/), also known as [Absalon](https://absalon.ku.dk/).
+pleasant experience when working with [Absalon](https://absalon.ku.dk/).
