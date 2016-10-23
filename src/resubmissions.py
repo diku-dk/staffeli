@@ -59,7 +59,8 @@ def grader_names(canvas, grader_ids):
         names[grader_id] = name
     return names
 
-def download_resub(canvas, resubsbase, graders, resub):
+def download_resub(assignment, resubsbase, graders, resub):
+    canvas = assignment.canvas
     user_id = resub['user_id']
     dirpath = os.path.join(resubsbase,
             graders[resub['grader_id']],
@@ -76,7 +77,12 @@ def download_resub(canvas, resubsbase, graders, resub):
     with open(canvas_path, 'w') as outfile:
         yaml.dump(resub, outfile)
 
-def download_all(canvas, resubs, subdirs):
+    history = canvas.submission_history(assignment.course.id, assignment.id, user_id)
+    history_path = os.path.join(dirpath, "history.yaml")
+    with open(history_path, 'w') as outfile:
+        yaml.dump(history, outfile)
+
+def download_all(assignment, resubs, subdirs):
     basename = os.path.basename(os.getcwd())
 
     resubsdir = os.path.join("..", "..", "resubs")
@@ -85,20 +91,20 @@ def download_all(canvas, resubs, subdirs):
     resubsbase = os.path.join(resubsdir, basename)
     mkdirp(resubsbase)
 
-    graders = grader_names(canvas, grader_ids(resubs))
+    graders = grader_names(assignment.canvas, grader_ids(resubs))
     for grader in graders.values():
         graderbase = os.path.join(resubsbase, grader)
         mkdirp(graderbase)
 
     for resub in resubs:
-        download_resub(canvas, resubsbase, graders, resub)
+        download_resub(assignment, resubsbase, graders, resub)
 
 def main():
     assignment = get_cwd_assignment()
     course = assignment.course
     resubs = get_resubs(assignment)
     subdirs = get_subdirs()
-    download_all(assignment.canvas, resubs, subdirs)
+    download_all(assignment, resubs, subdirs)
 
 if __name__ == "__main__":
     main()

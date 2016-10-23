@@ -289,6 +289,17 @@ class Canvas:
             'courses/{}/assignments/{}'.format(
                 course_id, assignment_id))
 
+    def submission_history(self, course_id, assignment_id, student_id):
+        args = [
+            ('include[]', 'visibility'),
+            ('include[]', 'submission_history'),
+            ('include[]', 'submission_comments'),
+            ('include[]', 'rubric_assessment')
+        ]
+        url = 'courses/{}/assignments/{}/submissions/{}'.format(
+            course_id, assignment_id, student_id)
+        return self.get(url, _arg_list=args)
+
     def submissions_download_url(self, course_id, assignment_id):
         return self.assignment(
             course_id, assignment_id)['submissions_download_url']
