@@ -37,6 +37,11 @@ def _find_student_ids(subdir):
         return [_find_student_id(subdir)]
 
 def _find_student_id(subdir):
+    yamlpath = os.path.join(subdir, "canvas.yaml")
+    if os.path.isfile(yamlpath):
+        with open(yamlpath, "r") as f:
+            return yaml.load(f)["user_id"]
+
     for filename in os.listdir(subdir):
         if filename.count("_") >= 3:
             filename = filename.replace("_late_", "_")
