@@ -18,7 +18,9 @@ def _req(token, method, api_base, url_relative, **args):
         args = args['_arg_list']
     except KeyError:
         pass
-    args['per_page'] = 9000
+    if type(args) == type({}):
+        args = [(v, k) for k, v in args.items()]
+    args.append(('per_page', 9000))
     query_string = urllib.parse.urlencode(args, safe='[]@', doseq=True).encode('utf-8')
     url = api_base + url_relative
     headers = {
