@@ -252,6 +252,9 @@ class Canvas:
                                            # typical "Hold 01" case.
         return students
 
+    def user(self, user_id):
+        return self.get('users/{}/profile'.format(user_id))
+
     def course_student(self, course_id, user_id):
         user = self.get('courses/{}/users/{}'.format(course_id, user_id))
         return user
