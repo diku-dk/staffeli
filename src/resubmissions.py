@@ -5,6 +5,11 @@ import os, os.path, re, shutil, sys, yaml
 from assignment import get_cwd_assignment
 from submission import find_student_id
 
+import datetime
+
+def _iso8601(datestr):
+    return datetime.datetime.strptime(datestr, "%Y-%m-%dT%H:%M:%SZ")
+
 def get_subdirs():
     parent = "."
     subs = {}
@@ -59,6 +64,47 @@ def grader_names(canvas, grader_ids):
         names[grader_id] = name
     return names
 
+def download_last_graded(canvas, user_id, history, last_graded_path):
+    sub_history = history['submission_history']
+    last_graded = None
+    for sub in sub_history:
+        if sub['workflow_state'] == "graded":
+            if last_graded == None or \
+                    _iso8601(last_graded['graded_at']) < _iso8601(sub['graded_at']):
+                last_graded = sub
+
+    if last_graded == None:
+        if len(sub_history) > 1 or not 'attachments' in sub_history[0]:
+            print("Can't deduce last graded submission for {}.".format(user_id))
+            return
+        else:
+            last_graded = sub_history[0]
+
+    for attachment in last_graded['attachments']:
+        path = os.path.join(last_graded_path, attachment['filename'])
+        canvas.get_verified_file(path, attachment['url'])
+
+def download_last_comment(canvas, user_id, history, last_graded_path):
+    sub_comments = history['submission_comments']
+    last_comment = None
+    for comment in sub_comments:
+        if not 'attachments' in comment or len(comment['attachments']) == 0:
+            continue
+        if last_comment == None or \
+                _iso8601(last_comment['created_at']) < _iso8601(comment['created_at']):
+            last_comment = comment
+
+    if last_comment == None:
+        if len(sub_comments) > 1 or not 'attachments' in sub_comments[0]:
+            print("Can't deduce last comment for {}.".format(user_id))
+            return
+        else:
+            last_comment = sub_comments[0]
+
+    for attachment in last_comment['attachments']:
+        path = os.path.join(last_graded_path, attachment['filename'])
+        canvas.get_verified_file(path, attachment['url'])
+
 def download_resub(assignment, resubsbase, graders, resub):
     canvas = assignment.canvas
     user_id = resub['user_id']
@@ -81,6 +127,12 @@ def download_resub(assignment, resubsbase, graders, resub):
     history_path = os.path.join(dirpath, "history.yaml")
     with open(history_path, 'w') as outfile:
         yaml.dump(history, outfile)
+
+    last_graded_path = os.path.join(dirpath, "last_graded")
+    mkdirp(last_graded_path)
+
+    download_last_graded(canvas, user_id, history, last_graded_path)
+    download_last_comment(canvas, user_id, history, last_graded_path)
 
 def download_all(assignment, resubs, subdirs):
     basename = os.path.basename(os.getcwd())
