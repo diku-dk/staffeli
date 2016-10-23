@@ -13,18 +13,22 @@ from os.path import basename
 def format_json(d):
     return json.dumps(d, sort_keys=True, indent=2, ensure_ascii=False)
 
-def _call_api(token, method, api_base, url_relative, **args):
+def _req(token, method, api_base, url_relative, **args):
     try:
         args = args['_arg_list']
     except KeyError:
         pass
+    args['per_page'] = 9000
     query_string = urllib.parse.urlencode(args, safe='[]@', doseq=True).encode('utf-8')
     url = api_base + url_relative
     headers = {
         'Authorization': 'Bearer ' + token
     }
-    req = urllib.request.Request(url, data=query_string, method=method,
+    return urllib.request.Request(url, data=query_string, method=method,
                                  headers=headers)
+
+def _call_api(token, method, api_base, url_relative, **args):
+    req = _req(token, method, api_base, url_relative, **args)
     with urllib.request.urlopen(req) as f:
         data = json.loads(f.read().decode('utf-8'))
     return data
