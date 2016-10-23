@@ -223,6 +223,9 @@ class Canvas:
     def get(self, url_relative, **args):
         return _call_api(self.token, 'GET', self.api_base, url_relative, **args)
 
+    def get_verified_file(self, path, url):
+        return urllib.request.urlretrieve(url, filename=path)
+
     def post(self, url_relative, **args):
         return _call_api(self.token, 'POST', self.api_base, url_relative, **args)
 
