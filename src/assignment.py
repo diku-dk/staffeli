@@ -12,7 +12,7 @@ def canvas_yaml_dir(parent):
     raise LookupError("Couldn't locate a canvas.yaml.")
 
 def get_cwd_assignment():
-    assignment_dir = canvas_yaml_dir(".")
+    assignment_dir = canvas_yaml_dir("..")
 
     with open(os.path.join(assignment_dir, "canvas.yaml"), "r") as f:
         conf = yaml.load(f)

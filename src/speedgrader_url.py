@@ -6,8 +6,9 @@ from assignment import get_cwd_assignment
 from submission import find_student_id
 
 def main():
-    assignment = get_cwd_assignment()
     student_id = find_student_id(os.getcwd())
+    os.chdir("..")
+    assignment = get_cwd_assignment()
     print("https://absalon.ku.dk/courses/{}/gradebook/speed_grader?assignment_id={}#%7B%22student_id%22%3A%22{}%22%7D".format(
         assignment.course.id, assignment.id, student_id))
 
