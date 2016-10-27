@@ -106,10 +106,13 @@ def _upload_via_url(token, api_base, url_relative, filepath, viaurl):
     id = json['id']
     status_url = json['status_url']
 
-    while json['upload_status'] != 'ready':
+    while json['upload_status'] == 'pending':
       print("Waiting for Canvas to download it..")
       time.sleep(3)
       json = requests.get(status_url, headers=headers).json()
+
+    if json['upload_status'] != 'ready':
+        raise Exception("Canvas refused to upload the file(s):\n{}". format(json))
 
     print("Canvas got it!")
 
