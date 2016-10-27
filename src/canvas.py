@@ -315,17 +315,14 @@ class Canvas:
             self.token, self.api_base, url_relative, course_name, filepath)
         ids = list(map(upload, filepaths))
 
-        _arg_list = {
-            "comment[text_comment]" : 'See attached files.',
-            "comment[group_comment]" : True,
-            "comment[file_ids][]" : ids,
-            "submission[posted_grade]" : grade
-        }
+        _arg_list = list(map(lambda x: ("comment[file_ids][]", x), ids))
+        _arg_list.append(("comment[text_comment]", 'See attached files.'))
+        _arg_list.append(("comment[group_comment]", True))
+        _arg_list.append(("submission[posted_grade]", grade))
 
         resp = self.put(url_relative, _arg_list=_arg_list)
         if not 'grade' in resp:
           raise Exception("Canvas response looks weird: {}".format(resp))
-
 
         speedgrader_url = "https://absalon.ku.dk/courses/{}/gradebook/speed_grader?assignment_id={}#%7B%22student_id%22%3A%22{}%22%7D".format(course_id, assignment_id, user_id)
 
