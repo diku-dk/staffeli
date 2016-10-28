@@ -9,6 +9,8 @@ These tools leverage the [Canvas LMS REST
 API](https://canvas.instructure.com/doc/api/index.html) to create a more
 pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
+[![Documentation Status](https://readthedocs.org/projects/staffeli/badge/?version=latest)](http://staffeli.readthedocs.io/en/latest/?badge=latest)
+
 ## Installation
 
 1. `pip3 install --user pyyaml`
