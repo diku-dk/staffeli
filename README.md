@@ -40,8 +40,8 @@ In the following, the "foreseeable future" is roughly 5 years.
 
 3. Staffeli SHOULD be fast and easy to extend. It is unlikely that Staffeli
    meets everyone's needs, and so it should have a clear, modular design,
-   allowing for quick and dirty extensions, which over time can grow into
-   stable parts of Staffeli proper.
+   allowing for quick and dirty extensions, which can grow into stable parts
+   of Staffeli proper over time.
 
 4. Staffeli SHOULD be *fast*, not reloading information that is known (i.e.,
    known to Staffeli users) to not have changed. This is to combat Canvas
