@@ -56,10 +56,10 @@ For instance, when handling file system paths.
 particular set of desktop platforms, and a part of Staffeli would be faster to
 write in a platform-specific way.
 
-**Outcome 2:** YAML is a human-readable data serialization language. It is
-similar to JSON, but is deemed[1] slightly more readable. Staffeli generates local
-YAML dumps of Canvas course data that is not likely to change. These SHOULD be
-decorated with an expiration timestamp.
+**Outcome 2:** [YAML](http://yaml.org/) is a human-readable data serialization
+language. It is similar to JSON, but is deemed[1] slightly more readable.
+Staffeli generates local YAML dumps of Canvas course data that is not likely to
+change. These SHOULD be decorated with an expiration timestamp.
 
 [1]: By @oleks, @nqpz. (Your name here?)
 
