@@ -61,7 +61,7 @@ similar to JSON, but is deemed[1] slightly more readable. Staffeli generates loc
 YAML dumps of Canvas course data that is not likely to change. These SHOULD be
 decorated with an expiration timestamp.
 
-[1]: By @oleks, @nqpz.
+[1]: By @oleks, @nqpz. (Your name here?)
 
 ## Giving Feedback via Script
 
