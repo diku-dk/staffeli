@@ -28,13 +28,15 @@ interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119)
 (Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP
 14, RFC 2119, March 1997).
 
+In the following, the "foreseeable future" is roughly 5 years.
+
 1. Staffeli SHOULD be "cross-platform", working across all the *desktop*
    platforms that teachers and teaching assistants might use for the foreseeable
-   future (5 years).
+   future.
 
-2. Staffeli SHOULD be easy to maintain for the foreseeable future (5 years). The
-   primary programming language SHOULD be the one deemed most familiar to DIKU
-   students and staff in that period.
+2. Staffeli SHOULD be easy to maintain for the foreseeable future. The primary
+   programming language SHOULD be the one deemed most familiar to DIKU
+   perspective teaching assistants in that period.
 
 3. Staffeli SHOULD be fast and easy to extend. It is unlikely that Staffeli
    meets everyone's needs, and so it should have a clear, modular design,
