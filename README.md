@@ -45,7 +45,7 @@ RFCs to Indicate Requirement Levels", BCP 14, RFC 2119, March 1997).
    known to Staffeli users) to not have changed. This is to combat Canvas
    page-loading time issues, and possible Canvas down-times.
 
-**Outcome 1:** Python 3, is deemed a popular, modern, cross-platform language.
+**Outcome 1:** Python 3, is deemed[1] a popular, modern, cross-platform language.
 Python 3 is the primary choice for every part of Staffeli. When relevant,
 cross-platform Python 3 code SHOULD be preferred over non-cross-platform code.
 For instance, when handling file system paths.
@@ -55,9 +55,11 @@ particular set of desktop platforms, and a part of Staffeli would be faster to
 write in a platform-specific way.
 
 **Outcome 2:** YAML is a human-readable data serialization language. It is
-similar to JSON, but is deemed slightly more readable. Staffeli generates local
+similar to JSON, but is deemed[1] slightly more readable. Staffeli generates local
 YAML dumps of Canvas course data that is not likely to change. These SHOULD be
 decorated with an expiration timestamp.
+
+[1]: By @oleks, @nqpz.
 
 ## Giving Feedback via Script
 
