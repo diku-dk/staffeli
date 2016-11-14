@@ -20,6 +20,45 @@ pleasant environment for working with [Absalon](https://absalon.ku.dk/).
    it in a file named `token` in your course directory. This is your personal
    token, so best to ignore it in git.
 
+## Design
+
+In the following specifications, the keywords "MUST", "MUST NOT", "REQUIRED",
+"SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+"OPTIONAL" are to be interpreted as described in [RFC
+2119](http://tools.ietf.org/html/rfc2119) (Bradner, S., "Key words for use in
+RFCs to Indicate Requirement Levels", BCP 14, RFC 2119, March 1997).
+
+1. Staffeli SHOULD be "cross-platform", working across all the *desktop*
+   platforms that teachers and teaching assistants might use for the foreseeable
+   future (5 years).
+
+2. Staffeli SHOULD be easy to maintain for the foreseeable future (5 years). The
+   primary programming language SHOULD be the one deemed most familiar to DIKU
+   students and staff in that period.
+
+3. Staffeli SHOULD be fast and easy to extend. It is unlikely that Staffeli
+   meets everyone's needs, and so it should have a clear, modular design,
+   allowing for quick and dirty extensions, which over time can grow into
+   stable parts of Staffeli proper.
+
+4. Staffeli SHOULD be *fast*, not reloading information that is known (i.e.,
+   known to Staffeli users) to not have changed. This is to combat Canvas
+   page-loading time issues, and possible Canvas down-times.
+
+**Outcome 1:** Python 3, is deemed a popular, modern, cross-platform language.
+Python 3 is the primary choice for every part of Staffeli. When relevant,
+cross-platform Python 3 code SHOULD be preferred over non-cross-platform code.
+For instance, when handling file system paths.
+
+**Exceptions to outcome 1:** When everyone involved is known to use a
+particular set of desktop platforms, and a part of Staffeli would be faster to
+write in a platform-specific way.
+
+**Outcome 2:** YAML is a human-readable data serialization language. It is
+similar to JSON, but is deemed slightly more readable. Staffeli generates local
+YAML dumps of Canvas course data that is not likely to change. These SHOULD be
+decorated with an expiration timestamp.
+
 ## Giving Feedback via Script
 
 Navigate to the student directory containing a `canvas_group.json`, or a
