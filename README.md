@@ -35,7 +35,7 @@ In the following, the "foreseeable future" is roughly 5 years.
    future.
 
 2. Staffeli SHOULD be easy to maintain for the foreseeable future. The primary
-   programming language SHOULD be the one deemed most familiar to DIKU
+   programming language SHOULD be the one deemed most familiar to
    perspective teaching assistants in that period.
 
 3. Staffeli SHOULD be fast and easy to extend. It is unlikely that Staffeli
