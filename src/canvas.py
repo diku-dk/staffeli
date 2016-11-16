@@ -7,6 +7,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+import yaml
 
 from os.path import basename
 
@@ -255,6 +256,28 @@ class Canvas:
 
     def get_course(self, course_id):
         return self.get('courses/{}'.format(course_id))
+
+    def section_list(self, course_id):
+        _arg_list = [('include[]', 'students')]
+        return self.get('courses/{}/sections'.format(course_id),
+            _arg_list=_arg_list)
+
+    def section_create(self, course_id, name):
+        sections= self.sections(course_id)
+        for section in sections:
+            if name != section['name']:
+                continue
+            raise Exception(
+                "The section {} already exists. YAML dump:\n{}".format(
+                    name, yaml.dump(section, default_flow_style=False)))
+        _arg_list = [('course_section[name]', name)]
+        return self.post('courses/{}/sections'.format(course_id),
+            _arg_list=_arg_list)
+
+    def section_enroll(self, section_id, user_id):
+        _arg_list = [('enrollment[user_id]', user_id)]
+        return self.post('sections/{}/enrollments'.format(section_id),
+            _arg_list=_arg_list)
 
     def all_students(self, course_id):
         sections = self.get('courses/{}/sections'.format(course_id),
