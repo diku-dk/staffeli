@@ -15,8 +15,11 @@ pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
 The purpose of Staffeli is two-fold:
 
-1. Leverage the Canvas LMS API to get things done better, faster, stronger.
-1. Quick prototyping of new features for Canvas LMS.
+1. Leverage the [Canvas LMS REST
+API](https://canvas.instructure.com/doc/api/index.html) to get things done
+better, faster, stronger.
+1. Quick prototyping of new features for [Canvas
+LMS](https://www.canvaslms.com/).
 
 Initially, Staffeli is not intended for managing course content, merely to let
 teachers and teaching assistants get an overview of the course (students,
