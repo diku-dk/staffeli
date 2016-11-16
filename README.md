@@ -10,7 +10,7 @@ API](https://canvas.instructure.com/doc/api/index.html) to create a more
 pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
 [![Documentation Status](https://readthedocs.org/projects/staffeli/badge/?version=latest)](http://staffeli.readthedocs.io/en/latest/?badge=latest)
-[![License](https://img.shields.io/badge/license-EUPL%20v1.1-blue.svg)](https://raw.githubusercontent.com/DIKU-EDU/Staffeli/master/LICENSE.md)
+[![License](https://img.shields.io/badge/license-EUPL%20v1.1-blue.svg)](https://github.com/DIKU-EDU/Staffeli/blob/master/LICENSE.md)
 
 ## Purpose
 
