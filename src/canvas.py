@@ -263,13 +263,12 @@ class Canvas:
             _arg_list=_arg_list)
 
     def section_create(self, course_id, name):
-        sections= self.sections(course_id)
-        for section in sections:
-            if name != section['name']:
-                continue
+        sections = self.section_list(course_id)
+        existing = [s for s in sections if name == s['name']]
+        for s in existing:
             raise Exception(
                 "The section {} already exists. YAML dump:\n{}".format(
-                    name, yaml.dump(section, default_flow_style=False)))
+                    name, yaml.dump(s, default_flow_style=False)))
         _arg_list = [('course_section[name]', name)]
         return self.post('courses/{}/sections'.format(course_id),
             _arg_list=_arg_list)
