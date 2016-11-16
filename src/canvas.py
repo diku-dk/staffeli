@@ -258,10 +258,12 @@ class Canvas:
 
     def all_students(self, course_id):
         sections = self.get('courses/{}/sections'.format(course_id),
-                            include='students')
-        students = sections[0]['students'] # This only works if there's one
-                                           # group for all students, like in the
-                                           # typical "Hold 01" case.
+                            _arg_list=[('include','students')])
+        students = []
+        for section in sections:
+            if 'students' in section:
+                students.extend(section['students'])
+
         return students
 
     def user(self, user_id):

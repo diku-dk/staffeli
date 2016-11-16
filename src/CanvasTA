@@ -15,15 +15,22 @@ def init_course(name):
 
     course_dir = dir_name(name)
     os.mkdir(course_dir)
+    os.mkdir(os.path.join(course_dir, "students"))
 
     c = Canvas()
-    json = c.course(name = name.lower()).json
+    course = c.course(name = name.lower())
+    json = course.json
 
     with open(os.path.join(course_dir, 'canvas.yaml'), 'w') as f:
-        yaml.dump(json, f, default_flow_style=False)
+        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
 
     with open(os.path.join(course_dir, "token.txt"), "w") as f:
         f.write(c.token)
+
+    json = c.all_students(course.id)
+    students_path = os.path.join(course_dir, "students", "students.yaml")
+    with open(students_path, 'w') as f:
+        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
 
     return json
 
