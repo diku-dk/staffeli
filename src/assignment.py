@@ -24,10 +24,7 @@ def get_cwd_assignment():
         conf = yaml.load(f)
     course_id = conf['course_id']
 
-    with open(os.path.join(course_dir, "token"), "r") as f:
-        api_token = f.read().strip()
-
-    assignment = Canvas(api_token).course(
+    assignment = Canvas().course(
         id = course_id).assignment(
             id = assignment_id)
     return assignment
