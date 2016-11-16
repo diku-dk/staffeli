@@ -25,6 +25,11 @@ Initially, Staffeli is not intended for managing course content, merely to let
 teachers and teaching assistants get an overview of the course (students,
 submissions, etc.), and to get grading done efficiently.
 
+## Status
+
+This is a somewhat coherent summoning of scripts developed during courses using
+Canvas. Brace yourself, help clean this up.
+
 ## Installation
 
 1. `pip3 install --user pyyaml`
@@ -128,6 +133,12 @@ NB! For `feedback.py` to work you also need to have a hierarchy of
 automatic script for setting this up (yet).
 
 ## Contributing
+
+Contact us at dikunix at dikumail dot dk.
+
+Take a look at our on-going [issues](https://github.com/DIKU-EDU/Staffeli/issues).
+
+## Style Guide
 
 We use a tab-width of 4 spaces, with tabs expanded to spaces.
 
