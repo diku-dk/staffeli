@@ -38,7 +38,7 @@ In the following, the "foreseeable future" is roughly 5 years.
    programming language SHOULD be the one deemed most familiar to present and
    perspective teaching assistants.
 
-3. Staffeli SHOULD be fast and easy to extend. It is unlikely that Staffeli
+3. Staffeli SHOULD be easy to extend. It is unlikely that Staffeli
    meets everyone's needs, and so it should have a clear, modular design,
    allowing for quick and dirty extensions, which can grow into stable parts
    of Staffeli proper over time.
