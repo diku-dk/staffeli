@@ -11,6 +11,17 @@ pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
 [![Documentation Status](https://readthedocs.org/projects/staffeli/badge/?version=latest)](http://staffeli.readthedocs.io/en/latest/?badge=latest)
 
+## Purpose
+
+The purpose of Staffeli is two-fold:
+
+1. Leverage the Canvas LMS API to get things done better, faster, stronger.
+1. Quick prototyping of new features for Canvas LMS.
+
+Initially, Staffeli is not intended for managing course content, merely to let
+teachers and teaching assistants get an overview of the course (students,
+submissions, etc.), and to get grading done efficiently.
+
 ## Installation
 
 1. `pip3 install --user pyyaml`
