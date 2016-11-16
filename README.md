@@ -29,7 +29,7 @@ submissions, etc.), and to get grading done efficiently.
 ## Status
 
 This is a somewhat coherent summoning of scripts developed during courses using
-Canvas. Brace yourself, help clean this up.
+Canvas. Brace yourself. Lend a hand.
 
 ## Installation
 
