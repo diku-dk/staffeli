@@ -12,7 +12,7 @@ or
 
 https://web.archive.org/web/20160822183947/http://ec.europa.eu/idabc/eupl.html
 
-or see it verbatim below.
+or see it verbatim (in English) below.
 
 Unless required by applicable law or agreed to in writing, software distributed
 under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR
