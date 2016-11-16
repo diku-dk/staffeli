@@ -274,6 +274,18 @@ class Canvas:
     def group_categories(self, course_id):
         return self.get('courses/{}/group_categories'.format(course_id))
 
+    ########## group methods ######################
+    def groups(self, group_category_id):
+        return self.get('group_categories/{}/groups'.format(group_category_id),
+                          per_page=9000)
+    def group(self, group_id):
+        return self.get('/groups/{}'.format(group_id))
+
+    def group_members(self, group_id):
+        return self.get('/groups/{}/users'.format(group_id),
+                          per_page=9000)
+    ##################################
+
     def create_group(self, group_category_id, name):
         return self.post('group_categories/{}/groups'.format(group_category_id),
                          name=name, join_level='invitation_only')
