@@ -1,7 +1,9 @@
-Copyright 2016 DIKU
+# Copyright 2016 DIKU
 
 Licensed under the EUPL v.1.1 only (the "Licence");
+
 You may not use this work except in compliance with the Licence.
+
 You may obtain a copy of the Licence at:
 
 http://ec.europa.eu/idabc/eupl.html
@@ -19,8 +21,7 @@ specific language governing permissions and limitations under the Licence.
 
 ---
 
-European Union Public Licence
-v.1.1
+## European Union Public Licence v.1.1
 
 EUPL © the European Community 2007
 
@@ -37,7 +38,7 @@ Licensed under the EUPL v.1.1
 
 or has expressed by any other mean his willingness to license under the EUPL.
 
-## Definitions
+### Definitions
 
 In this Licence, the following terms have the following meaning:
 
