@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import os.path, yaml, canvas, sys, re
+from canvas import Canvas
+
+def dir_name(name):
+    name = re.sub("[^a-zA-Z0-9-]", '_', name)
+    if os.path.exists(name):
+        raise Exception(
+            "You already got a directory or file named '{}'.\n \
+            Please rename or remove this in order to set up TA environment.".format(name))
+    return name
+
+def init_course(name):
+
+    course_dir = dir_name(name)
+    os.mkdir(course_dir)
+
+    c = Canvas()
+    json = c.course(name = name.lower()).json
+
+    with open(os.path.join(course_dir, 'canvas.yaml'), 'w') as f:
+        yaml.dump(json, f, default_flow_style=False)
+
+    with open(os.path.join(course_dir, "token.txt"), "w") as f:
+        f.write(c.token)
+
+    return json
+
+def init(args):
+    if len(args) < 1:
+        raise Exception(
+            "Please specify a course name.")
+
+    name = args[0]
+    init_course(name)
+    print("TA environment for course {} was succesfully set up.".format(name))
+
+def main():
+    command = sys.argv[1]
+    if command == "init":
+        init(sys.argv[2:])
+    else:
+        raise Exception(
+            "Unknown CanvasTA command: {}".format(command))
+
+if __name__ == "__main__":
+    main()
