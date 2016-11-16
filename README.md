@@ -76,11 +76,9 @@ Staffeli generates local YAML dumps of Canvas course data that is not likely to
 change. These SHOULD be decorated with an expiration timestamp.
 
 **Outcome 3:** Staffeli provides first-and-foremost a [Python 3 library
-interface](https://github.com/DIKU-EDU/Staffeli/blob/master/src/canvas.py),
-which hides low-level mechanics of the REST API. To make Staffeli accessible
-further, a [command-line
-interface](https://github.com/DIKU-EDU/Staffeli/blob/master/src/CanvasTA) hides
-the low-level mechanics of the Python 3 library interface. We are open to
+interface](src/canvas.py), which hides low-level mechanics of the REST API. To
+make Staffeli accessible further, a [command-line interface](src/CanvasTA)
+hides the low-level mechanics of the Python 3 library interface. We are open to
 adding a web, mobile, or desktop UI, but no one has done any work on this yet.
 
 [1]: By @oleks, @nqpz. (Your name here?)
