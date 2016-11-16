@@ -35,8 +35,8 @@ In the following, the "foreseeable future" is roughly 5 years.
    future.
 
 2. Staffeli SHOULD be easy to maintain for the foreseeable future. The primary
-   programming language SHOULD be the one deemed most familiar to
-   perspective teaching assistants in that period.
+   programming language SHOULD be the one deemed most familiar to present and
+   perspective teaching assistants.
 
 3. Staffeli SHOULD be fast and easy to extend. It is unlikely that Staffeli
    meets everyone's needs, and so it should have a clear, modular design,
