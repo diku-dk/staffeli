@@ -25,7 +25,7 @@ def _cache(o, dirpath):
 def clone(args):
     name = " ".join(args)
 
-    course = Canvas().course(name = name.lower())
+    course = Canvas().course(name = name)
     course_dir_name = dir_name(name)
     os.mkdir(course_dir_name)
     course.cache(course_dir_name)
