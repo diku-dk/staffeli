@@ -268,6 +268,9 @@ class Assignment(NamedEntity):
 
 
 def _find_file(cs):
+    if type(cs) == type(""):
+        cs = [cs]
+
     parent = "."
     for i in range(9):
         for c in cs:
