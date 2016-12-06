@@ -171,15 +171,22 @@ def _lookup_name(name, entities):
 
     return matches[0]
 
+def _find_staffeli_yml(cachename, searchdir = "."):
+    parent = searchdir
+    namestr = ".staffeli.yml"
+    for i in range(9):
+        path = _find_file(namestr, parent)
+        with open(path, 'r') as f:
+            model = yaml.load(f)
+        if len(model) == 1 and cachename in model:
+            return model
+        parent = os.path.join(os.path.split(path)[0], "..")
+
+    _raise_lookup_file(namestr, parent)
+
 class CachedEntity:
     def __init__(self, searchdir = "."):
-        parent = searchdir
-        for i in range(9):
-            path = _find_file(".staffeli.yml", parent)
-            with open(path, 'r') as f:
-                model = yaml.load(f)
-            if len(model) != 1 or not self.cachename in model:
-                parent = os.path.split(path)[0]
+        model = _find_staffeli_yml(self.cachename, searchdir)
         self.json = model[self.cachename]
 
     def cache(self, path = None):
@@ -280,6 +287,14 @@ class Assignment(NamedEntity):
           self.course.id, self.course.displayname,
           self.id, submission_id, grade, filepaths)
 
+def _raise_lookup_file(namestr, lastparent):
+    raise LookupError((
+            "Couldn't locate a file named {}. " +
+            "I have looked for it here and in\n" +
+            "parent directories up to, and including {}."
+        ).format(
+            namestr,
+            os.path.abspath(os.path.split(lastparent)[0])))
 
 def _find_file(cs, parent = "."):
     if type(cs) == type(""):
@@ -293,19 +308,13 @@ def _find_file(cs, parent = "."):
         parent = os.path.join("..", parent)
 
     if len(cs) == 1:
-        cs = cs[0]
+        namestr = cs[0]
     elif len(cs) == 2:
-        cs = "either {} or {}".format(cs[0], cs[1])
+        namestr = "either {} or {}".format(cs[0], cs[1])
     else:
-        cd = "either {}, or {}".format(", ".join(cs[:-1]), cs[-1])
+        namestr = "either {}, or {}".format(", ".join(cs[:-1]), cs[-1])
 
-    raise LookupError((
-            "Couldn't locate a file named {}. " +
-            "I have looked for it here and in\n" +
-            "parent directories up to, and including {}."
-        ).format(
-            cs,
-            os.path.abspath(os.path.split(parent)[0])))
+    _raise_lookup_file(namestr, parent)
 
 def _find_token_file():
     return _find_file([ "token", "token.txt", ".token" ])
