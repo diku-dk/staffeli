@@ -270,14 +270,17 @@ def _find_token_file():
     candidates = [ "token", "token.txt", ".token" ]
 
     parent = "."
-    for i in range(5):
+    for i in range(9):
         for c in candidates:
             path = os.path.join(parent, c)
             if os.path.isfile(path):
                 return path
         parent = os.path.join("..", parent)
 
-    raise LookupError("Couldn't locate a token file")
+    raise LookupError((
+            "Couldn't locate a token file. I have looked for it in \n" +
+            "parent directories up to, and including {}."
+        ).format(os.path.abspath(os.path.split(parent)[0])))
 
 class Canvas:
     def __init__(self,
