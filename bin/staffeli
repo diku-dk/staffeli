@@ -29,9 +29,6 @@ def clone(args):
 
 #    os.mkdir(os.path.join(course_dir_name, "students"))
 
-#    with open(os.path.join(course_dir_name, "token.txt"), "w") as f:
-#        f.write(c.token)
-
 #    json = c.all_students(course.id)
 #    students_path = os.path.join(course_dir_name, "students", "students.yaml")
 #    with open(students_path, 'w') as f:
