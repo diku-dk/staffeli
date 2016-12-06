@@ -5,12 +5,17 @@ import argparse, os.path, yaml, canvas, sys, re
 from canvas import Canvas
 
 def dir_name(name):
-    name = re.sub("[^a-zA-Z0-9-]", '_', name)
-    if os.path.exists(name):
+    dir_name = re.sub("[^a-zA-Z0-9-]", '_', name)
+    if name != dir_name:
+        print((
+                "I don't like the name \"{}\".\n" +
+                "Creating a directory called \"{}\" instead."
+            ).format(name, dir_name))
+    if os.path.exists(dir_name):
         raise Exception(
             "You already got a directory or file named '{}'.\n \
-            Please rename or remove this in order to set up TA environment.".format(name))
-    return name
+            Please rename or remove this in order to set up TA environment.".format(dir_name))
+    return dir_name
 
 def clone(args):
     name = " ".join(args)
