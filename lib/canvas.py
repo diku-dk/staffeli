@@ -266,21 +266,33 @@ class Assignment(NamedEntity):
           self.course.id, self.course.displayname,
           self.id, submission_id, grade, filepaths)
 
-def _find_token_file():
-    candidates = [ "token", "token.txt", ".token" ]
 
+def _find_file(cs):
     parent = "."
     for i in range(9):
-        for c in candidates:
+        for c in cs:
             path = os.path.join(parent, c)
             if os.path.isfile(path):
                 return path
         parent = os.path.join("..", parent)
 
+    if len(cs) == 1:
+        cs = cs[0]
+    elif len(cs) == 2:
+        cs = "either {} or {}".format(cs[0], cs[1])
+    else:
+        cd = "either {}, or {}".format(", ".join(cs[:-1]), cs[-1])
+
     raise LookupError((
-            "Couldn't locate a token file. I have looked for it in \n" +
+            "Couldn't locate a file named {}." +
+            "I have looked for it in \n" +
             "parent directories up to, and including {}."
-        ).format(os.path.abspath(os.path.split(parent)[0])))
+        ).format(
+            cs
+            os.path.abspath(os.path.split(parent)[0])))
+
+def _find_token_file():
+    return _find_file([ "token", "token.txt", ".token" ])
 
 class Canvas:
     def __init__(self,
