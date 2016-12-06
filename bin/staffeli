@@ -12,12 +12,14 @@ def dir_name(name):
             Please rename or remove this in order to set up TA environment.".format(name))
     return name
 
-def clone_course(name):
-    c = Canvas()
-    course = c.course(name = name.lower())
+def clone(args):
+    name = " ".join(args)
+
+    course = Canvas().course(name = name.lower())
 
     course_dir_name = dir_name(name)
     os.mkdir(course_dir_name)
+
     course.backup(course_dir_name)
 
 #    os.mkdir(os.path.join(course_dir_name, "students"))
@@ -30,15 +32,8 @@ def clone_course(name):
 #    with open(students_path, 'w') as f:
 #        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
 
-def clone(args):
-    if len(args) < 1:
-        raise Exception(
-            "Please specify a course name.")
 
-    name = args[0]
-    clone_course(name)
-
-def parse_main_args():
+def main_args_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=
@@ -51,17 +46,24 @@ start a working area
     parser.add_argument(
         "action", metavar="ACTION",
         help="the action to perform")
-    args, remargs = parser.parse_known_args()
+    return parser
+
+def parse_action_arg(parser, args):
+    args, remargs = parser.parse_known_args(args)
     if args.action == "help":
         parser.print_help()
         sys.exit(0)
     return args.action, remargs
 
 def main():
-    action, remargs = parse_main_args()
+    parser = main_args_parser()
+    action, remargs = parse_action_arg(parser, sys.argv[1:])
 
     if action == "clone":
         clone(remargs)
+    else:
+        print("Unknown action {}.".format(action))
+        parser.print_usage()
 
 if __name__ == "__main__":
     main()
