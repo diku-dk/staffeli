@@ -268,10 +268,16 @@ class Assignment(NamedEntity):
 
 def _find_token_file():
     candidates = [ "token", "token.txt", ".token" ]
-    for c in candidates:
-        if os.path.exists(c):
-            return c
-    raise Exception("No token file found.")
+
+    parent = "."
+    for i in range(5):
+        for c in candidates:
+            path = os.path.join(parent, c)
+            if os.path.isfile(path):
+                return path
+        parent = os.path.join("..", parent)
+
+    raise LookupError("Couldn't locate a token file")
 
 class Canvas:
     def __init__(self,
