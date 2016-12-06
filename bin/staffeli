@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import os.path, yaml, canvas, sys, re
+import argparse, os.path, yaml, canvas, sys, re
+
 from canvas import Canvas
 
 def dir_name(name):
@@ -12,14 +13,13 @@ def dir_name(name):
     return name
 
 def init_course(name):
+    c = Canvas()
+    course = c.course(name = name.lower())
+    json = course.json
 
     course_dir = dir_name(name)
     os.mkdir(course_dir)
     os.mkdir(os.path.join(course_dir, "students"))
-
-    c = Canvas()
-    course = c.course(name = name.lower())
-    json = course.json
 
     with open(os.path.join(course_dir, 'canvas.yaml'), 'w') as f:
         yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
@@ -41,15 +41,33 @@ def init(args):
 
     name = args[0]
     init_course(name)
-    print("TA environment for course {} was succesfully set up.".format(name))
+
+def parse_main_args():
+    parser = argparse.ArgumentParser(
+        description=
+"""
+git-style, git-compatible command-line interface for canvas.
+
+start a working area
+    init    Create a course directory
+""")
+    parser.add_argument(
+        "action", metavar="ACTION",
+        help=
+"""
+the action to perform
+""")
+    args, remargs = parser.parse_known_args()
+    if args.action == "help":
+        parser.print_help()
+        sys.exit(0)
+    return args.action, remargs
 
 def main():
-    command = sys.argv[1]
-    if command == "init":
-        init(sys.argv[2:])
-    else:
-        raise Exception(
-            "Unknown CanvasTA command: {}".format(command))
+    action, remargs = parse_main_args()
+
+    if action == "init":
+        init(remargs)
 
 if __name__ == "__main__":
     main()
