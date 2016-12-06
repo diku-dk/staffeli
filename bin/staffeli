@@ -30,21 +30,23 @@ def clone(args):
     os.mkdir(course_dir_name)
     course.cache(course_dir_name)
 
-    def cache(o, dirname):
-        dirpath = os.path.join(course_dir_name, dirname)
-        os.mkdir(dirpath)
-        o.cache(dirpath)
+    os.chdir(course_dir_name)
+    fetch_students(course)
+    fetch_groups(course)
 
-    cache(course.list_students(), "students")
-    cache(course.list_group_categories(), "groups")
+def fetch_students(course):
+    _cache(course.list_students(), "students")
 
-def fetch_groups():
-    course = canvas.Course(Canvas())
+def fetch_groups(course):
     _cache(course.list_group_categories(), "groups")
 
 def fetch(args):
-    if args[0] == "groups":
-        fetch_groups()
+    course = canvas.Course(Canvas())
+    what = args[0]
+    if what == "students":
+        fetch_students(course)
+    elif what == "groups":
+        fetch_groups(course)
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 
