@@ -34,11 +34,22 @@ Canvas. Brace yourself. Lend a hand.
 ## Installation
 
 1. `pip3 install --user pyyaml`
-1. Add `Staffeli/src/` to your PYTHONPATH environment variable.
-1. Add `Staffeli/src/` to your PATH environment variable.
-1. Generate a token at https://absalon.instructure.com/profile/settings, save
-   it in a file named `token` in your course directory. This is your personal
-   token, so best to ignore it in git.
+1. Add `Staffeli/lib/` to your PYTHONPATH environment variable.
+1. Add `Staffeli/bin/` to your PATH environment variable.
+
+## Getting Started
+
+We recommend that you create a local directory `canvas`, `absalon`, or similar,
+for all of you Canvas-related local course clones. Staffeli needs some initial
+help to be able to login with your credentials. You need to [generate a
+token](https://guides.instructure.com/m/4214/l/40399-how-do-i-obtain-an-api-access-token-for-an-account)
+for Staffeli to use, and place it as `.token` or `token.txt` in this high-level
+directory.
+
+**NB!** This is your personal token so **do not** share it with others, else
+they can easily impersonate you using a tool like Staffeli. Unfortunately, to
+the best of our knowledge, Canvas has no means to segregate or specialize
+tokens, so this is really all or nothing.
 
 ## Design
 
