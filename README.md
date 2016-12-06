@@ -59,7 +59,7 @@ tokens, so this is really "all or nothing".
 To clone a course:
 
 ```
-staffeli clone <course name>
+$ staffeli clone <course name>
 ```
 
 The `<course name>` may be a substring of the course name as it appears on your
