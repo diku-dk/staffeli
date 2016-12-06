@@ -15,24 +15,20 @@ def dir_name(name):
 def init_course(name):
     c = Canvas()
     course = c.course(name = name.lower())
-    json = course.json
 
-    course_dir = dir_name(name)
-    os.mkdir(course_dir)
-    os.mkdir(os.path.join(course_dir, "students"))
+    course_dir_name = dir_name(name)
+    os.mkdir(course_dir_name)
+    course.backup(course_dir_name)
 
-    with open(os.path.join(course_dir, 'canvas.yaml'), 'w') as f:
-        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
+#    os.mkdir(os.path.join(course_dir_name, "students"))
 
-    with open(os.path.join(course_dir, "token.txt"), "w") as f:
-        f.write(c.token)
+#    with open(os.path.join(course_dir_name, "token.txt"), "w") as f:
+#        f.write(c.token)
 
-    json = c.all_students(course.id)
-    students_path = os.path.join(course_dir, "students", "students.yaml")
-    with open(students_path, 'w') as f:
-        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
-
-    return json
+#    json = c.all_students(course.id)
+#    students_path = os.path.join(course_dir_name, "students", "students.yaml")
+#    with open(students_path, 'w') as f:
+#        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
 
 def init(args):
     if len(args) < 1:

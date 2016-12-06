@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import copy
 import json
 import os
 import requests
@@ -27,6 +28,9 @@ def _req(token, method, api_base, url_relative, **args):
     headers = {
         'Authorization': 'Bearer ' + token
     }
+    print(method)
+    print(url)
+    print(query_string)
     return urllib.request.Request(url, data=query_string, method=method,
                                  headers=headers)
 
@@ -163,12 +167,20 @@ def _lookup_name(name, entities):
                 name, _ppnames(matching_names)))
 
     if len(matches) == 0:
-        all_names = [entity[attr] for entity in entities]
+        all_names = [entity['name'] for entity in entities]
         raise LookupError(
             "No candidate for \"{}\". Your options include {}.".format(
-            key, _ppnames(all_names)))
+            name, _ppnames(all_names)))
 
     return matches[0]
+
+class JSONEntity:
+    def backup(self, path = None):
+        if not os.path.isfile(path):
+            path = os.path.join(path, ".staffeli.yml")
+        with open(path, 'w') as f:
+            yaml.dump(self.publicjson(),
+                f, default_flow_style=False, encoding='utf-8')
 
 class NamedEntity:
     def __init__(self, entities, name = None, id = None):
@@ -184,7 +196,7 @@ class NamedEntity:
         self.displayname = self.json['name']
 
 
-class Course(NamedEntity):
+class Course(NamedEntity, JSONEntity):
     def __init__(self, canvas, name = None, id = None):
         self.canvas = canvas
 
@@ -193,6 +205,11 @@ class Course(NamedEntity):
 
     def assignment(self, name = None, id = None):
         return Assignment(self.canvas, self, name, id)
+
+    def publicjson(self):
+        json = copy.deepcopy(self.json)
+        del json['enrollments']
+        return json
 
 class Assignment(NamedEntity):
     def __init__(self, canvas, course, name = None, id = None):
@@ -272,6 +289,9 @@ class Canvas:
         _arg_list = [('course_section[name]', name)]
         return self.post('courses/{}/sections'.format(course_id),
             _arg_list=_arg_list)
+
+    def section_delete(self, section_id):
+        return self.delete('sections/{}'.format(section_id))
 
     def section_enroll(self, section_id, user_id):
         _arg_list = [('enrollment[user_id]', user_id)]
