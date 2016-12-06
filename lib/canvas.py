@@ -28,9 +28,6 @@ def _req(token, method, api_base, url_relative, **args):
     headers = {
         'Authorization': 'Bearer ' + token
     }
-    print(method)
-    print(url)
-    print(query_string)
     return urllib.request.Request(url, data=query_string, method=method,
                                  headers=headers)
 
