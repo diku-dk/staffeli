@@ -283,8 +283,8 @@ def _find_file(cs, parent = "."):
         cd = "either {}, or {}".format(", ".join(cs[:-1]), cs[-1])
 
     raise LookupError((
-            "Couldn't locate a file named {}." +
-            "I have looked for it in \n" +
+            "Couldn't locate a file named {}. " +
+            "I have looked for it in\n" +
             "parent directories up to, and including {}."
         ).format(
             cs,
