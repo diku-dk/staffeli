@@ -27,13 +27,11 @@ def clone(args):
 
     course.backup(course_dir_name)
 
-#    os.mkdir(os.path.join(course_dir_name, "students"))
+    student_list = course.list_students()
 
-#    json = c.all_students(course.id)
-#    students_path = os.path.join(course_dir_name, "students", "students.yaml")
-#    with open(students_path, 'w') as f:
-#        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
-
+    students_dirpath = os.path.join(course_dir_name, "students")
+    os.mkdir(students_dirpath)
+    student_list.backup(students_dirpath)
 
 def main_args_parser():
     parser = argparse.ArgumentParser(
