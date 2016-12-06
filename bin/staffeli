@@ -17,6 +17,11 @@ def dir_name(name):
             Please rename or remove this in order to set up TA environment.".format(dir_name))
     return dir_name
 
+def _cache(o, dirpath):
+    if not os.path.isdir(dirpath):
+        os.mkdir(dirpath)
+    o.cache(dirpath)
+
 def clone(args):
     name = " ".join(args)
 
@@ -33,6 +38,15 @@ def clone(args):
     cache(course.list_students(), "students")
     cache(course.list_group_categories(), "groups")
 
+def fetch_groups():
+    course = canvas.Course(Canvas())
+    _cache(course.list_group_categories(), "groups")
+
+def fetch(args):
+    if args[0] == "groups":
+        fetch_groups()
+    else:
+        raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 
 def main_args_parser():
     parser = argparse.ArgumentParser(
@@ -42,7 +56,10 @@ def main_args_parser():
 git-style, git-compatible command-line interface for canvas.
 
 start a working area
-    clone    Create a local clone for a course
+    clone   Create a local clone for a course
+
+update a working area
+    fetch   Fetch something that might have changed
 """)
     parser.add_argument(
         "action", metavar="ACTION",
@@ -62,6 +79,8 @@ def main():
 
     if action == "clone":
         clone(remargs)
+    elif action == "fetch":
+        fetch(remargs)
     else:
         print("Unknown action {}.".format(action))
         parser.print_usage()

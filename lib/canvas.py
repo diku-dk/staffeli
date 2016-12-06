@@ -171,7 +171,17 @@ def _lookup_name(name, entities):
 
     return matches[0]
 
-class JSONEntity:
+class CachedEntity:
+    def __init__(self, searchdir = "."):
+        parent = searchdir
+        for i in range(9):
+            path = _find_file(".staffeli.yml", parent)
+            with open(path, 'r') as f:
+                model = yaml.load(f)
+            if len(model) != 1 or not self.cachename in model:
+                parent = os.path.split(path)[0]
+        self.json = model[self.cachename]
+
     def cache(self, path = None):
         if not os.path.isfile(path):
             path = os.path.join(path, ".staffeli.yml")
@@ -192,7 +202,7 @@ class NamedEntity:
         self.id = self.json['id']
         self.displayname = self.json['name']
 
-class Group(NamedEntity, JSONEntity):
+class Group(NamedEntity, CachedEntity):
     def __init__(self, canvas, name = None, id = None):
         self.canvas = canvas
 
@@ -201,7 +211,7 @@ class Group(NamedEntity, JSONEntity):
 
         return json
 
-class GroupCategoryList(JSONEntity):
+class GroupCategoryList(CachedEntity):
     def __init__(self, canvas, course_id):
         self.json = canvas.group_categories(course_id)
 
@@ -211,12 +221,19 @@ class GroupCategoryList(JSONEntity):
             del cat['is_member']
         return { 'group_categories': json }
 
-class Course(NamedEntity, JSONEntity):
+class Course(NamedEntity, CachedEntity):
     def __init__(self, canvas, name = None, id = None):
         self.canvas = canvas
+        self.cachename = 'course'
 
-        entities = self.canvas.courses()
-        NamedEntity.__init__(self, entities, name, id)
+        if name == None and id == None:
+            CachedEntity.__init__(self)
+        else:
+            entities = self.canvas.courses()
+            NamedEntity.__init__(self, entities, name, id)
+
+        self.id = self.json['id']
+        self.displayname = self.json['name']
 
     def assignment(self, name = None, id = None):
         return Assignment(self.canvas, self, name, id)
@@ -233,9 +250,9 @@ class Course(NamedEntity, JSONEntity):
     def publicjson(self):
         json = copy.deepcopy(self.json)
         del json['enrollments']
-        return { 'course': json }
+        return { self.cachename : json }
 
-class StudentList(JSONEntity):
+class StudentList(CachedEntity):
     def __init__(self, canvas, course_id):
         self.json = canvas.all_students(course_id)
 
