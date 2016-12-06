@@ -39,9 +39,8 @@ Canvas. Brace yourself. Lend a hand.
 
 ## Getting Started
 
-With Staffeli, we work with local course clones. Staffeli, at this point, is
-primarily for fetching course content and working with it locally, but
-uploading feedback on submissions is also supported.
+With Staffeli, we work with local course clones. We aim to keep these clones
+compatible with git.
 
 We recommend that you create a local directory `canvas`, `absalon`, or similar,
 for all of you Canvas-related local course clones. Staffeli needs some initial
