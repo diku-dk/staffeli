@@ -267,11 +267,10 @@ class Assignment(NamedEntity):
           self.id, submission_id, grade, filepaths)
 
 
-def _find_file(cs):
+def _find_file(cs, parent = "."):
     if type(cs) == type(""):
         cs = [cs]
 
-    parent = "."
     for i in range(9):
         for c in cs:
             path = os.path.join(parent, c)
