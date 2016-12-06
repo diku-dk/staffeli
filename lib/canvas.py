@@ -287,7 +287,7 @@ def _find_file(cs, parent = "."):
             "I have looked for it in \n" +
             "parent directories up to, and including {}."
         ).format(
-            cs
+            cs,
             os.path.abspath(os.path.split(parent)[0])))
 
 def _find_token_file():
