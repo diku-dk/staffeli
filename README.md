@@ -59,12 +59,12 @@ tokens, so this is really "all or nothing".
 To clone a course:
 
 ```
-staffeli clone <name>
+staffeli clone <course name>
 ```
 
-The `<name>` may be a substring of the course name as it appears on your
-dashboard. Casing is not important. If there are multiple conflicting names,
-or no matching course names, Staffeli will complain and let you try again.
+The `<course name>` may be a substring of the course name as it appears on your
+dashboard. Casing is not important. If there are multiple conflicting names, or
+no matching course names, Staffeli will complain and let you try again.
 
 ## Design
 
