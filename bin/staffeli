@@ -25,10 +25,13 @@ def clone(args):
     os.mkdir(course_dir_name)
     course.backup(course_dir_name)
 
-    student_list = course.list_students()
-    students_dirpath = os.path.join(course_dir_name, "students")
-    os.mkdir(students_dirpath)
-    student_list.backup(students_dirpath)
+    def backup(o, dirname):
+        dirpath = os.path.join(course_dir_name, dirname)
+        os.mkdir(dirpath)
+        o.backup(dirpath)
+
+    backup(course.list_students(), "students")
+    backup(course.list_group_categories(), "groups")
 
 def main_args_parser():
     parser = argparse.ArgumentParser(
