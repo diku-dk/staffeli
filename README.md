@@ -52,7 +52,7 @@ high-level directory.
 **NB!** This is your personal token so **do not** share it with others, else
 they can easily impersonate you using a tool like Staffeli. Unfortunately, to
 the best of our knowledge, Canvas has no means to segregate or specialize
-tokens, so this is really all or nothing.
+tokens, so this is really "all or nothing".
 
 ## Design
 
