@@ -175,7 +175,7 @@ def _lookup_name(name, entities):
     return matches[0]
 
 class JSONEntity:
-    def backup(self, path = None):
+    def cache(self, path = None):
         if not os.path.isfile(path):
             path = os.path.join(path, ".staffeli.yml")
         with open(path, 'w') as f:
@@ -195,6 +195,21 @@ class NamedEntity:
         self.id = self.json['id']
         self.displayname = self.json['name']
 
+class Group(NamedEntity, JSONEntity):
+    def __init__(self, canvas, name = None, id = None):
+        self.canvas = canvas
+
+        entities = self.canvas.groups()
+        NamedEntity.__init__(self, entities, name, id)
+
+        return json
+
+class GroupCategoryList(JSONEntity):
+    def __init__(self, canvas, course_id):
+        self.json = canvas.group_categories(course_id)
+
+    def publicjson(self):
+        return self.json
 
 class Course(NamedEntity, JSONEntity):
     def __init__(self, canvas, name = None, id = None):
@@ -206,10 +221,26 @@ class Course(NamedEntity, JSONEntity):
     def assignment(self, name = None, id = None):
         return Assignment(self.canvas, self, name, id)
 
+    def list_students(self):
+        return StudentList(self.canvas, self.id)
+
+    def list_group_categories(self):
+        return GroupCategoryList(self.canvas, self.id)
+
+    def group(self, name = None, id = None):
+        return Group(self.canvas, name, id)
+
     def publicjson(self):
         json = copy.deepcopy(self.json)
         del json['enrollments']
         return json
+
+class StudentList(JSONEntity):
+    def __init__(self, canvas, course_id):
+        self.json = canvas.all_students(course_id)
+
+    def publicjson(self):
+        return self.json
 
 class Assignment(NamedEntity):
     def __init__(self, canvas, course, name = None, id = None):
