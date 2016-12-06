@@ -21,14 +21,11 @@ def clone(args):
     name = " ".join(args)
 
     course = Canvas().course(name = name.lower())
-
     course_dir_name = dir_name(name)
     os.mkdir(course_dir_name)
-
     course.backup(course_dir_name)
 
     student_list = course.list_students()
-
     students_dirpath = os.path.join(course_dir_name, "students")
     os.mkdir(students_dirpath)
     student_list.backup(students_dirpath)
