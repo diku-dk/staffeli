@@ -12,7 +12,7 @@ def dir_name(name):
             Please rename or remove this in order to set up TA environment.".format(name))
     return name
 
-def init_course(name):
+def clone_course(name):
     c = Canvas()
     course = c.course(name = name.lower())
 
@@ -30,13 +30,13 @@ def init_course(name):
 #    with open(students_path, 'w') as f:
 #        yaml.dump(json, f, default_flow_style=False, encoding='utf-8')
 
-def init(args):
+def clone(args):
     if len(args) < 1:
         raise Exception(
             "Please specify a course name.")
 
     name = args[0]
-    init_course(name)
+    clone_course(name)
 
 def parse_main_args():
     parser = argparse.ArgumentParser(
@@ -45,7 +45,7 @@ def parse_main_args():
 git-style, git-compatible command-line interface for canvas.
 
 start a working area
-    init    Create a course directory
+    clone    Create a local clone for a course
 """)
     parser.add_argument(
         "action", metavar="ACTION",
@@ -62,8 +62,8 @@ the action to perform
 def main():
     action, remargs = parse_main_args()
 
-    if action == "init":
-        init(remargs)
+    if action == "clone":
+        clone(remargs)
 
 if __name__ == "__main__":
     main()

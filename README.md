@@ -54,6 +54,18 @@ they can easily impersonate you using a tool like Staffeli. Unfortunately, to
 the best of our knowledge, Canvas has no means to segregate or specialize
 tokens, so this is really "all or nothing".
 
+## Cloning a Course
+
+To clone a course:
+
+```
+staffeli clone <name>
+```
+
+The `<name>` may be a substring of the course name as it appears on your
+dashboard. Casing is not important. If there are multiple conflicting names,
+or no matching course names, Staffeli will complain and let you try again.
+
 ## Design
 
 In the following, the keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
