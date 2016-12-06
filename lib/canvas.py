@@ -209,7 +209,10 @@ class GroupCategoryList(JSONEntity):
         self.json = canvas.group_categories(course_id)
 
     def publicjson(self):
-        return self.json
+        json = copy.deepcopy(self.json)
+        for cat in json:
+            del cat['is_member']
+        return { 'group_categories': json }
 
 class Course(NamedEntity, JSONEntity):
     def __init__(self, canvas, name = None, id = None):
@@ -233,7 +236,7 @@ class Course(NamedEntity, JSONEntity):
     def publicjson(self):
         json = copy.deepcopy(self.json)
         del json['enrollments']
-        return json
+        return { 'course': json }
 
 class StudentList(JSONEntity):
     def __init__(self, canvas, course_id):
