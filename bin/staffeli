@@ -40,6 +40,7 @@ def clone(args):
 
 def parse_main_args():
     parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawTextHelpFormatter,
         description=
 """
 git-style, git-compatible command-line interface for canvas.
@@ -49,10 +50,7 @@ start a working area
 """)
     parser.add_argument(
         "action", metavar="ACTION",
-        help=
-"""
-the action to perform
-""")
+        help="the action to perform")
     args, remargs = parser.parse_known_args()
     if args.action == "help":
         parser.print_help()
