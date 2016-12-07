@@ -44,14 +44,14 @@ def fetch_groups(course):
     print("Fetching group lists for each category..")
     for gc in gcs.json:
         print("Fetching {}..".format(gc['name']))
-        gl = canvas.GroupList(course, id = gc['id'])
-        gl.cache(os.path.join("groups", gc['name'] + ".yml"))
+        gs = canvas.GroupList(course, id = gc['id'])
+        gs.cache(os.path.join("groups", gc['name'] + ".yml"))
 
 def fetch_group(course, name):
-    gl = canvas.GroupList(course, name = name)
+    gs = canvas.GroupList(course, name = name)
     mkdir("groups")
-    path = os.path.join("groups", gl.name + ".yml")
-    gl.cache(path)
+    path = os.path.join("groups", gs.name + ".yml")
+    gs.cache(path)
     print("Fetched {} as {}.".format(name, path))
 
 def fetch_all_subs(course):
