@@ -178,15 +178,16 @@ def _find_staffeli_yml(cachename, searchdir = "."):
         path = _find_file(namestr, parent)
         with open(path, 'r') as f:
             model = yaml.load(f)
+        parent = os.path.split(path)[0]
         if len(model) == 1 and cachename in model:
-            return model
-        parent = os.path.join(os.path.split(path)[0], "..")
+            return parent, model
+        parent = os.path.join(parent, "..")
 
     _raise_lookup_file(namestr, parent)
 
 class CachedEntity:
     def __init__(self, searchdir = "."):
-        model = _find_staffeli_yml(self.cachename, searchdir)
+        self.parentdir, model = _find_staffeli_yml(self.cachename, searchdir)
         self.json = model[self.cachename]
 
     def cache(self, path = None):
