@@ -262,7 +262,7 @@ class Course(NamedEntity, CachedEntity):
         return self.canvas.list_assignments(self.id)
 
     def list_students(self):
-        return StudentList(self.canvas, self.id)
+        return StudentList(self)
 
     def list_group_categories(self):
         return GroupCategoryList(self.canvas, self.id)
@@ -276,8 +276,10 @@ class Course(NamedEntity, CachedEntity):
         return { self.cachename : json }
 
 class StudentList(CachedEntity):
-    def __init__(self, canvas, course_id):
-        self.json = canvas.all_students(course_id)
+    def __init__(self, course):
+        self.canvas = course.canvas
+        self.course = course
+        self.json = self.canvas.all_students(course.id)
         self.cachename = 'students'
 
     def publicjson(self):
