@@ -54,6 +54,27 @@ def fetch_group(course, name):
     gl.cache(path)
     print("Fetched {} as {}.".format(name, path))
 
+def fetch_all_subs(course):
+    print("Fetching all assignments..")
+    assigns = course.list_assignments()
+    mkdir("subs")
+    for assign in assigns:
+        if assign['grading_type'] == 'not_graded':
+            continue
+        print("Fetching {}..".format(assign['name']))
+        assign = canvas.Assignment(course, id = assign['id'])
+        path = os.path.join("subs", assign.displayname)
+        mknewdir(path)
+        assign.cache(path)
+
+def fetch_subs(course, name):
+    a = canvas.Assignment(course, name = name)
+    mkdir("subs")
+    path = os.path.join("subs", name)
+    mknewdir(path)
+    a.cache(path)
+    print("Fetched {} as {}.".format(name, path))
+
 def fetch(args):
     course = Course()
     what = args[0]
@@ -64,6 +85,11 @@ def fetch(args):
         fetch_groups(course)
     elif what == "group":
         fetch_group(course, " ".join(args))
+    elif what == "subs":
+        if len(args) == 0:
+            fetch_all_subs(course)
+        else:
+            fetch_subs(course, " ".join(args))
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 
