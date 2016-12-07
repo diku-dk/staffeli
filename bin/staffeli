@@ -96,6 +96,10 @@ def fetch(args):
     course = Course()
     what = args[0]
     args = args[1:]
+    if '/' in what:
+        partition = what.partition('/')
+        what = partition[0]
+        args.insert(0, partition[2])
     if what == "students":
         fetch_students(course)
     elif what == "groups":
