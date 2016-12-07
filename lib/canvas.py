@@ -276,9 +276,6 @@ class StudentList(CachedEntity):
     def __init__(self, canvas, course_id):
         self.json = canvas.all_students(course_id)
 
-    def publicjson(self):
-        return self.json
-
 class Assignment(NamedEntity):
     def __init__(self, canvas, course, name = None, id = None):
         self.canvas = canvas
