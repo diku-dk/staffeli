@@ -258,6 +258,9 @@ class Course(NamedEntity, CachedEntity):
     def assignment(self, name = None, id = None):
         return Assignment(self, name, id)
 
+    def list_assignments(self):
+        return self.canvas.list_assignments(self.id)
+
     def list_students(self):
         return StudentList(self.canvas, self.id)
 
