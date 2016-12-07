@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
-import argparse, os.path, yaml, canvas, sys, re
+import argparse, os, os.path, shutil, yaml, canvas, sys, re
 
 from canvas import Canvas, Course
+
+from urllib.request import urlretrieve
 
 def mkdir(path):
     if not os.path.exists(path):
@@ -67,13 +69,28 @@ def fetch_all_subs(course):
         mknewdir(path)
         assign.cache(path)
 
-def fetch_subs(course, name):
+def fetch_attachments(path, attachments):
+    for att in attachments:
+        targetpath = os.path.join(path, att['filename'])
+        print("Downloading {}..".format(targetpath))
+        urlretrieve(att['url'], targetpath)
+
+def fetch_subs(course, name, deep = False):
     assign = canvas.Assignment(course, name = name)
     mkdir("subs")
-    path = os.path.join("subs", name)
+    path = os.path.join("subs", assign.displayname)
     mknewdir(path)
     assign.cache(path)
     print("Fetched {} as {}.".format(name, path))
+    if not deep:
+        return
+
+    students = canvas.StudentList(searchdir = "students").mapping
+    for sub in assign.json['submissions']:
+        sid = sub['user_id']
+        subpath = os.path.join(path, "{}_{}".format(students[sid]['kuid'], sid))
+        os.mkdir(subpath)
+        fetch_attachments(subpath, sub['attachments'])
 
 def fetch(args):
     course = Course()
@@ -89,7 +106,7 @@ def fetch(args):
         if len(args) == 0:
             fetch_all_subs(course)
         else:
-            fetch_subs(course, " ".join(args))
+            fetch_subs(course, " ".join(args), deep = True)
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 
