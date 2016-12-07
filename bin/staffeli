@@ -4,6 +4,10 @@ import argparse, os.path, yaml, canvas, sys, re
 
 from canvas import Canvas, Course
 
+def mkdir(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
+
 def mknewdir(path):
     if os.path.exists(path):
         raise Exception((
@@ -45,8 +49,7 @@ def fetch_groups(course):
 
 def fetch_group(course, name):
     gl = canvas.GroupList(course, name = name)
-    if not os.path.isdir("groups"):
-        os.mkdir("groups")
+    mkdir("groups")
     path = os.path.join("groups", gl.name + ".yml")
     gl.cache(path)
     print("Fetched {} as {}.".format(name, path))
