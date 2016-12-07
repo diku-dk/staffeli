@@ -221,12 +221,13 @@ class NamedEntity:
         self.displayname = self.json['name']
 
 class GroupList(NamedEntity, CachedEntity):
-    def __init__(self, course = None, path = None, name = None, id = None):
+    def __init__(self, course, path = None, name = None, id = None):
         self.cachename = 'groups'
-        if course == None:
+        self.canvas = course.canvas
+
+        if path != None:
             CachedEntity.__init__(self, path = path)
         else:
-            self.canvas = course.canvas
             if id != None:
                 self.id = id
             else:
