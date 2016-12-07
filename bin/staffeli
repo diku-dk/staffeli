@@ -4,12 +4,13 @@ import argparse, os.path, yaml, canvas, sys, re
 
 from canvas import Canvas
 
-def dir_name(name):
-    if os.path.exists(name):
-        raise Exception(
-            "You already got a directory or file named '{}'.\n \
-            Please rename or remove this in order to set up TA environment.".format(name))
-    return name
+def mknewdir(path):
+    if os.path.exists(path):
+        raise Exception((
+                "You already exists a file or directory \"{}\".\n" +
+                "Please rename or remove this first."
+            ).format(path))
+    os.mkdir(path)
 
 def _cache(o, dirpath):
     if not os.path.isdir(dirpath):
@@ -17,14 +18,13 @@ def _cache(o, dirpath):
     o.cache(dirpath)
 
 def clone(args):
-    name = " ".join(args)
+    dirname = " ".join(args)
 
-    course = Canvas().course(name = name)
-    course_dir_name = dir_name(name)
-    os.mkdir(course_dir_name)
-    course.cache(course_dir_name)
+    course = Canvas().course(name = dirname)
+    mknewdir(dirname)
+    course.cache(dirname)
 
-    os.chdir(course_dir_name)
+    os.chdir(dirname)
     fetch_students(course)
     fetch_groups(course)
 
