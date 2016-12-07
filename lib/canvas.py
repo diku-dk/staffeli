@@ -280,9 +280,13 @@ class Assignment(NamedEntity, CachedEntity):
     def __init__(self, course, name = None, id = None):
         self.canvas = course.canvas
         self.course = course
+        self.cachename = 'assignment'
 
         entities = self.canvas.list_assignments(self.course.id)
         NamedEntity.__init__(self, entities, name, id)
+
+    def publicjson(self):
+        return { self.cachename : self.json }
 
     def submissions(self):
         return self.canvas.get(
