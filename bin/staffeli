@@ -32,15 +32,34 @@ def fetch_students(course):
     cache(course.list_students(), "students")
 
 def fetch_groups(course):
-    cache(course.list_group_categories(), "groups")
+    print("Fetching group categories..")
+    gcs = course.list_group_categories()
+    cache(gcs, "groups")
+
+    print("Fetching group lists for each category..")
+    for gc in gcs.json:
+        gl = canvas.GroupList(course, id = gc['id'])
+        print("Fetched {}.".format(gc['name']))
+        gl.cache(os.path.join("groups", gc['name'] + ".yml"))
+
+def fetch_group(course, name):
+    gl = canvas.GroupList(course, name = name)
+    if not os.path.isdir("groups"):
+        os.mkdir("groups")
+    path = os.path.join("groups", gl.name + ".yml")
+    gl.cache(path)
+    print("Fetched {} as {}.".format(name, path))
 
 def fetch(args):
     course = Course()
     what = args[0]
+    args = args[1:]
     if what == "students":
         fetch_students(course)
     elif what == "groups":
         fetch_groups(course)
+    elif what == "group":
+        fetch_group(course, " ".join(args))
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 

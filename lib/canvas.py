@@ -212,14 +212,20 @@ class NamedEntity:
         self.id = self.json['id']
         self.displayname = self.json['name']
 
-class Group(NamedEntity, CachedEntity):
-    def __init__(self, canvas, name = None, id = None):
-        self.canvas = canvas
+class GroupList(NamedEntity, CachedEntity):
+    def __init__(self, course, name = None, id = None):
+        self.canvas = course.canvas
+        if id != None:
+            self.id = id
+        else:
+            entities = self.canvas.group_categories(course.id)
+            NamedEntity.__init__(self, entities, name)
+            self.name = self.json['name']
 
-        entities = self.canvas.groups()
-        NamedEntity.__init__(self, entities, name, id)
+        self.json = self.canvas.groups(self.id)
+        for group in self.json:
+            group['members'] = self.canvas.group_members(group['id'])
 
-        return json
 
 class GroupCategoryList(CachedEntity):
     def __init__(self, canvas, course_id):
