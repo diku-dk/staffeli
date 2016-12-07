@@ -11,7 +11,7 @@ def mkdir(path):
 def mknewdir(path):
     if os.path.exists(path):
         raise Exception((
-                "You already exists a file or directory \"{}\".\n" +
+                "There already exists a file or directory \"{}\".\n" +
                 "Please rename or remove this first."
             ).format(path))
     os.mkdir(path)
