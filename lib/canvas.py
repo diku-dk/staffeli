@@ -171,13 +171,16 @@ def _lookup_name(name, entities):
 
     return matches[0]
 
+def _load_file(path):
+    with open(path, 'r') as f:
+        return yaml.load(f)
+
 def _find_staffeli_yml(cachename, searchdir = "."):
     parent = searchdir
     namestr = ".staffeli.yml"
     for i in range(9):
         path = _find_file(namestr, parent)
-        with open(path, 'r') as f:
-            model = yaml.load(f)
+        model = _load_file(path)
         parent = os.path.split(path)[0]
         if len(model) == 1 and cachename in model:
             return parent, model
@@ -186,8 +189,12 @@ def _find_staffeli_yml(cachename, searchdir = "."):
     _raise_lookup_file(namestr, parent)
 
 class CachedEntity:
-    def __init__(self, searchdir = "."):
-        self.parentdir, model = _find_staffeli_yml(self.cachename, searchdir)
+    def __init__(self, searchdir = ".", path = None):
+        if path == None:
+            self.parentdir, model = _find_staffeli_yml(self.cachename, searchdir)
+        else:
+            self.parentdir = os.path.split(path)[0]
+            model = _load_file(path)
         self.json = model[self.cachename]
 
     def cache(self, path = None):
@@ -214,19 +221,25 @@ class NamedEntity:
         self.displayname = self.json['name']
 
 class GroupList(NamedEntity, CachedEntity):
-    def __init__(self, course, name = None, id = None):
-        self.canvas = course.canvas
-        if id != None:
-            self.id = id
+    def __init__(self, course = None, path = None, name = None, id = None):
+        self.cachename = 'groups'
+        if course == None:
+            CachedEntity.__init__(self, path = path)
         else:
-            entities = self.canvas.group_categories(course.id)
-            NamedEntity.__init__(self, entities, name)
-            self.name = self.json['name']
+            self.canvas = course.canvas
+            if id != None:
+                self.id = id
+            else:
+                entities = self.canvas.group_categories(course.id)
+                NamedEntity.__init__(self, entities, name)
 
-        self.json = self.canvas.groups(self.id)
+            self.json = self.canvas.groups(self.id)
+
         for group in self.json:
             group['members'] = self.canvas.group_members(group['id'])
 
+    def publicjson(self):
+        return { self.cachename : self.json }
 
 class GroupCategoryList(CachedEntity):
     def __init__(self, canvas, course_id):
