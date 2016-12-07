@@ -144,7 +144,14 @@ def student_dirname(student):
 def normalize_pathname(pathname):
     return pathname.replace("/", "_")
 
-def split_according_to_groups(course, subsid, path):
+def split_according_to_groups(course, subspath, path):
+    if not os.path.isdir(subspath):
+        subspath = os.path.join("subs", subspath)
+        if not os.path.isdir(subspath):
+            raise LookupError("Can't resolve subs directory.")
+
+    subsid = os.path.split(subspath)[0]
+
     splitpath = os.path.join("splits", subsid)
     mkdir("splits")
     mkdir(splitpath)
@@ -152,8 +159,6 @@ def split_according_to_groups(course, subsid, path):
     gl = canvas.GroupList(course, path = path)
     teams = gl.uidmap()
     students = canvas.StudentList(searchdir = "students").mapping
-
-    subspath = os.path.join("subs", subsid)
 
     for name, uids in teams.items():
         name = normalize_pathname(name)
