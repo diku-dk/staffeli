@@ -229,7 +229,11 @@ class GroupCategoryList(CachedEntity):
         return { 'group_categories': json }
 
 class Course(NamedEntity, CachedEntity):
-    def __init__(self, canvas, name = None, id = None):
+    def __init__(self, canvas = None, name = None, id = None):
+
+        if canvas == None:
+            canvas = Canvas()
+
         self.canvas = canvas
         self.cachename = 'course'
 

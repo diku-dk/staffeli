@@ -2,7 +2,7 @@
 
 import argparse, os.path, yaml, canvas, sys, re
 
-from canvas import Canvas
+from canvas import Canvas, Course
 
 def mknewdir(path):
     if os.path.exists(path):
@@ -35,7 +35,7 @@ def fetch_groups(course):
     cache(course.list_group_categories(), "groups")
 
 def fetch(args):
-    course = canvas.Course(Canvas())
+    course = Course()
     what = args[0]
     if what == "students":
         fetch_students(course)
