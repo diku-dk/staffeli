@@ -190,7 +190,7 @@ class CachedEntity:
         self.json = model[self.cachename]
 
     def cache(self, path = None):
-        if not os.path.isfile(path):
+        if os.path.isdir(path):
             path = os.path.join(path, ".staffeli.yml")
         with open(path, 'w') as f:
             yaml.dump(self.publicjson(),
