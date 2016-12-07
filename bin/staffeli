@@ -150,7 +150,7 @@ def split_according_to_groups(course, subspath, path):
         if not os.path.isdir(subspath):
             raise LookupError("Can't resolve subs directory.")
 
-    subsid = os.path.split(subspath)[0]
+    subsid = os.path.split(subspath)[1]
 
     splitpath = os.path.join("splits", subsid)
     mkdir("splits")
