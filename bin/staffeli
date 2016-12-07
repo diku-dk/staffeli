@@ -43,8 +43,8 @@ def fetch_groups(course):
 
     print("Fetching group lists for each category..")
     for gc in gcs.json:
+        print("Fetching {}..".format(gc['name']))
         gl = canvas.GroupList(course, id = gc['id'])
-        print("Fetched {}.".format(gc['name']))
         gl.cache(os.path.join("groups", gc['name'] + ".yml"))
 
 def fetch_group(course, name):
