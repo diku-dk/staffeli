@@ -277,14 +277,30 @@ class Course(NamedEntity, CachedEntity):
         return { self.cachename : json }
 
 class StudentList(CachedEntity):
-    def __init__(self, course):
-        self.canvas = course.canvas
-        self.course = course
-        self.json = self.canvas.all_students(course.id)
+    def __init__(self, course = None, searchdir = "."):
         self.cachename = 'students'
 
+        if course == None:
+            CachedEntity.__init__(self, searchdir)
+        else:
+            self.json = course.canvas.all_students(course.id)
+
+        self.mapping = {}
+        for student in self.json:
+            sid = student['id']
+            self.mapping[sid] = student
+            self.mapping[sid]['kuid'] = student['sis_login_id'][:6]
+
     def publicjson(self):
-        return { self.cachename : json }
+        return { self.cachename : self.json }
+
+class Submission(CachedEntity):
+    def __init__(self, json):
+        self.json = json
+        self.cachename = 'submisison'
+
+    def publicjson(self):
+        return { self.cachename : self.json }
 
 class Assignment(NamedEntity, CachedEntity):
     def __init__(self, course, name = None, id = None):
@@ -295,7 +311,7 @@ class Assignment(NamedEntity, CachedEntity):
         entities = self.canvas.list_assignments(self.course.id)
         NamedEntity.__init__(self, entities, name, id)
 
-        self.json['submissions'] = self.submissions()
+        self.subs = map(Submission, self.submissions())
 
     def publicjson(self):
         return { self.cachename : self.json }
