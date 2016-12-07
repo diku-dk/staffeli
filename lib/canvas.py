@@ -239,6 +239,13 @@ class GroupList(NamedEntity, CachedEntity):
         for group in self.json:
             group['members'] = self.canvas.group_members(group['id'])
 
+    def uidmap(self):
+        mapping = {}
+        for group in self.json:
+            name = group['name']
+            mapping[name] = map(lambda m: m['id'], group['members'])
+        return mapping
+
     def publicjson(self):
         return { self.cachename : self.json }
 

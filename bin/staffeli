@@ -128,6 +128,45 @@ def fetch(args):
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 
+def copySub(uid, dst):
+  uid = str(uid)
+  for root, _, files in os.walk(subsdir):
+    for f in files:
+      if uid in f:
+        dst = os.path.join(dst, os.path.basename(root))
+        shutil.rmtree(dst, ignore_errors=True)
+        shutil.copytree(root, dst, symlinks=True)
+        return
+
+def student_dirname(student):
+    return "{}_{}".format(student['kuid'], student['id'])
+
+def normalize_pathname(pathname):
+    return pathname.replace("/", "_")
+
+def split_according_to_groups(course, subsid, path):
+    splitpath = os.path.join("splits", subsid)
+    mkdir("splits")
+    mkdir(splitpath)
+
+    gl = canvas.GroupList(course, path = path)
+    teams = gl.uidmap()
+    students = canvas.StudentList(searchdir = "students").mapping
+
+    subspath = os.path.join("subs", subsid)
+
+    for name, uids in teams.items():
+        name = normalize_pathname(name)
+        namepath = os.path.join(splitpath, name)
+        mkdir(namepath)
+        for uid in uids:
+            dirname = student_dirname(students[uid])
+            subpath = os.path.join(subspath, dirname)
+            if os.path.isdir(subpath):
+                src = os.path.relpath(subpath, namepath)
+                tgt = os.path.join(namepath, dirname)
+                os.symlink(src, tgt)
+
 def main_args_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
@@ -161,6 +200,8 @@ def main():
         clone(remargs)
     elif action == "fetch":
         fetch(remargs)
+    elif action == "groupsplit":
+        split_according_to_groups(Course(), remargs[0], remargs[1])
     else:
         print("Unknown action {}.".format(action))
         parser.print_usage()
