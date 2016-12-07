@@ -68,11 +68,11 @@ def fetch_all_subs(course):
         assign.cache(path)
 
 def fetch_subs(course, name):
-    a = canvas.Assignment(course, name = name)
+    assign = canvas.Assignment(course, name = name)
     mkdir("subs")
     path = os.path.join("subs", name)
     mknewdir(path)
-    a.cache(path)
+    assign.cache(path)
     print("Fetched {} as {}.".format(name, path))
 
 def fetch(args):
