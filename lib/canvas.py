@@ -196,6 +196,9 @@ class CachedEntity:
             yaml.dump(self.publicjson(),
                 f, default_flow_style=False, encoding='utf-8')
 
+    def publicjson(self):
+        return self.json
+
 class NamedEntity:
     def __init__(self, entities, name = None, id = None):
         if name != None:
