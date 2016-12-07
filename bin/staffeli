@@ -12,7 +12,7 @@ def mknewdir(path):
             ).format(path))
     os.mkdir(path)
 
-def _cache(o, dirpath):
+def cache(o, dirpath):
     if not os.path.isdir(dirpath):
         os.mkdir(dirpath)
     o.cache(dirpath)
@@ -29,10 +29,10 @@ def clone(args):
     fetch_groups(course)
 
 def fetch_students(course):
-    _cache(course.list_students(), "students")
+    cache(course.list_students(), "students")
 
 def fetch_groups(course):
-    _cache(course.list_group_categories(), "groups")
+    cache(course.list_group_categories(), "groups")
 
 def fetch(args):
     course = canvas.Course(Canvas())
