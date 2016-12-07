@@ -29,6 +29,7 @@ def clone(args):
     fetch_groups(course)
 
 def fetch_students(course):
+    print("Fetching students..")
     cache(course.list_students(), "students")
 
 def fetch_groups(course):
