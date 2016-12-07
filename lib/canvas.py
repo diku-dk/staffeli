@@ -285,6 +285,8 @@ class Assignment(NamedEntity, CachedEntity):
         entities = self.canvas.list_assignments(self.course.id)
         NamedEntity.__init__(self, entities, name, id)
 
+        self.json['submissions'] = self.submissions()
+
     def publicjson(self):
         return { self.cachename : self.json }
 
