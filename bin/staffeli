@@ -78,7 +78,7 @@ def fetch_attachments(path, attachments):
 def fetch_subs(course, name, deep = False):
     assign = canvas.Assignment(course, name = name)
     mkdir("subs")
-    path = os.path.join("subs", assign.displayname)
+    path = os.path.join("subs", name)
     mknewdir(path)
     assign.cache(path)
     print("Fetched {} as {}.".format(name, path))
