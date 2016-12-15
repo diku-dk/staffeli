@@ -34,8 +34,8 @@ Canvas. Brace yourself. Lend a hand.
 ## Installation
 
 1. `pip3 install --user pyyaml`
-1. Add `Staffeli/lib/` to your PYTHONPATH environment variable.
-1. Add `Staffeli/bin/` to your PATH environment variable.
+2. Add `Staffeli/lib/` to your PYTHONPATH environment variable.
+3. Add `Staffeli/bin/` to your PATH environment variable.
 
 ## Getting Started
 
