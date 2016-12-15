@@ -131,7 +131,7 @@ def fetch(args):
         if len(args) == 0:
             fetch_all_subs(course)
         else:
-            fetch_subs(course, " ".join(args), deep = True)
+            fetch_subs(course, " ".join(args).strip('/'), deep = True)
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 
