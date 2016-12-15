@@ -54,7 +54,7 @@ they can easily impersonate you using a tool like Staffeli. Unfortunately, to
 the best of our knowledge, Canvas has no means to segregate or specialize
 tokens, so this is really "all or nothing".
 
-## Cloning a Course
+### Cloning a Course
 
 To clone a course:
 
@@ -65,6 +65,43 @@ $ staffeli clone <course name>
 The `<course name>` may be a substring of the course name as it appears on your
 dashboard. Casing is not important. If there are multiple conflicting names, or
 no matching course names, Staffeli will complain and let you try again.
+
+### Fetch Submissions for a New Assignment
+
+Use `staffeli fetch`. For instance, to fetch all submissions for "A3":
+
+```
+$ staffeli fetch subs/A3
+```
+
+To fetch just the metadata for all submissions, but not the submissions
+themselves:
+
+```
+$ staffeli fetch subs
+```
+
+### Fetch Groups
+
+This is a good idea to make sure you are up-to-date with canvas.
+
+```
+$ staffeli fetch groups
+```
+
+### Split According to Some Group Category
+
+Assuming you already fetched groups and submissions,
+
+```
+$ staffeli groupsplit subs/A3 groups/Team.yml
+```
+
+### NB
+
+If you are using git to share course internals, remember to push both changes
+to [`groups`](groups), [`subs`](subs), and [`splits`](splits), when making
+splits for some new assignment.
 
 ## Design
 
