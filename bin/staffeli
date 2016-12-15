@@ -82,6 +82,13 @@ def fetch_attachments(path, attachments):
 def fetch_sub(students, path, sub):
     json = sub.json
     sid = json['user_id']
+    if (not sid in students) or \
+            (not 'kuid' in students[sid]):
+        print("There is something wrong with {}.. Skipping".format(sid))
+        print("Looks like this is a Test Student..")
+        print("Try and have a look in SpeedGrader(tm):\n{}".format(json['preview_url']))
+        print(sub)
+        return
     subpath = os.path.join(path, "{}_{}".format(students[sid]['kuid'], sid))
     mkdir(subpath)
     sub.cache(subpath)
