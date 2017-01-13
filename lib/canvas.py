@@ -308,6 +308,8 @@ class StudentList(CachedEntity):
 
         self.mapping = {}
         for student in self.json:
+            if not 'sis_login_id' in student:
+                continue
             sid = student['id']
             self.mapping[sid] = student
             self.mapping[sid]['kuid'] = student['sis_login_id'][:6]
