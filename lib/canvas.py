@@ -333,8 +333,11 @@ class Assignment(ListedEntity, CachedEntity):
         self.course = course
         self.cachename = 'assignment'
 
-        entities = self.canvas.list_assignments(self.course.id)
-        ListedEntity.__init__(self, entities, name, id)
+        if name == None and id == None:
+            CachedEntity.__init__(self)
+        else:
+            entities = self.canvas.list_assignments(self.course.id)
+            ListedEntity.__init__(self, entities, name, id)
 
         self.subs = map(Submission, self.submissions())
 
