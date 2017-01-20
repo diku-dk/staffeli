@@ -1,6 +1,6 @@
-import argparse, os, os.path, shutil, yaml, canvas, sys, re
+import argparse, os, os.path, shutil, yaml, sys, re
 
-from canvas import Canvas, Course
+from staffeli import canvas
 
 from urllib.request import urlretrieve
 
@@ -24,7 +24,7 @@ def cache(o, dirpath):
 def clone(args):
     dirname = " ".join(args)
 
-    course = Canvas().course(name = dirname)
+    course = canvas.Canvas().course(name = dirname)
     mknewdir(dirname)
     course.cache(dirname)
 
@@ -112,7 +112,7 @@ def fetch_subs(course, name, deep = False):
         fetch_sub(students, path, sub)
 
 def fetch(args):
-    course = Course()
+    course = canvas.Course()
     what = args[0]
     args = args[1:]
     if '/' in what:
@@ -203,7 +203,7 @@ def parse_action_arg(parser, args):
     return args.action, remargs
 
 def groupsplit(args):
-    split_according_to_groups(Course(), args[0], args[1])
+    split_according_to_groups(canvas.Course(), args[0], args[1])
 
 def main():
     parser = main_args_parser()
