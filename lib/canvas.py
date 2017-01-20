@@ -318,11 +318,12 @@ class StudentList(CachableEntity):
         return { self.cachename : self.json }
 
 class Submission(CachableEntity):
-    def __init__(self, json):
-        self.json = json
+    def __init__(self, json = None):
         self.cachename = 'submisison'
-
-        CachableEntity.__init__(self)
+        if json == None:
+            CachableEntity.__init__(self)
+        else:
+            self.json = json
 
     def publicjson(self):
         return { self.cachename : self.json }
