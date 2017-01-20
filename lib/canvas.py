@@ -207,7 +207,7 @@ class CachedEntity:
     def publicjson(self):
         return self.json
 
-class NamedEntity:
+class ListedEntity:
     def __init__(self, entities, name = None, id = None):
         if name != None:
             self.json = _lookup_name(name, entities)
@@ -220,7 +220,7 @@ class NamedEntity:
         self.id = self.json['id']
         self.displayname = self.json['name']
 
-class GroupList(NamedEntity, CachedEntity):
+class GroupList(ListedEntity, CachedEntity):
     def __init__(self, course, path = None, name = None, id = None):
         self.cachename = 'groups'
         self.canvas = course.canvas
@@ -232,7 +232,7 @@ class GroupList(NamedEntity, CachedEntity):
                 self.id = id
             else:
                 entities = self.canvas.group_categories(course.id)
-                NamedEntity.__init__(self, entities, name)
+                ListedEntity.__init__(self, entities, name)
 
             self.json = self.canvas.groups(self.id)
 
@@ -259,7 +259,7 @@ class GroupCategoryList(CachedEntity):
             del cat['is_member']
         return { 'group_categories': json }
 
-class Course(NamedEntity, CachedEntity):
+class Course(ListedEntity, CachedEntity):
     def __init__(self, canvas = None, name = None, id = None):
 
         if canvas == None:
@@ -272,7 +272,7 @@ class Course(NamedEntity, CachedEntity):
             CachedEntity.__init__(self)
         else:
             entities = self.canvas.courses()
-            NamedEntity.__init__(self, entities, name, id)
+            ListedEntity.__init__(self, entities, name, id)
 
         self.id = self.json['id']
         self.displayname = self.json['name']
@@ -322,17 +322,19 @@ class Submission(CachedEntity):
         self.json = json
         self.cachename = 'submisison'
 
+        CachedEntity.__init__(self)
+
     def publicjson(self):
         return { self.cachename : self.json }
 
-class Assignment(NamedEntity, CachedEntity):
+class Assignment(ListedEntity, CachedEntity):
     def __init__(self, course, name = None, id = None):
         self.canvas = course.canvas
         self.course = course
         self.cachename = 'assignment'
 
         entities = self.canvas.list_assignments(self.course.id)
-        NamedEntity.__init__(self, entities, name, id)
+        ListedEntity.__init__(self, entities, name, id)
 
         self.subs = map(Submission, self.submissions())
 
