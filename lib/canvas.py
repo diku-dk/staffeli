@@ -188,7 +188,7 @@ def _find_staffeli_yml(cachename, searchdir = "."):
 
     _raise_lookup_file(namestr, parent)
 
-class CachedEntity:
+class CachableEntity:
     def __init__(self, searchdir = ".", path = None):
         if path == None:
             self.parentdir, model = _find_staffeli_yml(self.cachename, searchdir)
@@ -220,13 +220,13 @@ class ListedEntity:
         self.id = self.json['id']
         self.displayname = self.json['name']
 
-class GroupList(ListedEntity, CachedEntity):
+class GroupList(ListedEntity, CachableEntity):
     def __init__(self, course, path = None, name = None, id = None):
         self.cachename = 'groups'
         self.canvas = course.canvas
 
         if path != None:
-            CachedEntity.__init__(self, path = path)
+            CachableEntity.__init__(self, path = path)
         else:
             if id != None:
                 self.id = id
@@ -249,7 +249,7 @@ class GroupList(ListedEntity, CachedEntity):
     def publicjson(self):
         return { self.cachename : self.json }
 
-class GroupCategoryList(CachedEntity):
+class GroupCategoryList(CachableEntity):
     def __init__(self, canvas, course_id):
         self.json = canvas.group_categories(course_id)
 
@@ -259,7 +259,7 @@ class GroupCategoryList(CachedEntity):
             del cat['is_member']
         return { 'group_categories': json }
 
-class Course(ListedEntity, CachedEntity):
+class Course(ListedEntity, CachableEntity):
     def __init__(self, canvas = None, name = None, id = None):
 
         if canvas == None:
@@ -269,7 +269,7 @@ class Course(ListedEntity, CachedEntity):
         self.cachename = 'course'
 
         if name == None and id == None:
-            CachedEntity.__init__(self)
+            CachableEntity.__init__(self)
         else:
             entities = self.canvas.courses()
             ListedEntity.__init__(self, entities, name, id)
@@ -297,12 +297,12 @@ class Course(ListedEntity, CachedEntity):
         del json['enrollments']
         return { self.cachename : json }
 
-class StudentList(CachedEntity):
+class StudentList(CachableEntity):
     def __init__(self, course = None, searchdir = "."):
         self.cachename = 'students'
 
         if course == None:
-            CachedEntity.__init__(self, searchdir)
+            CachableEntity.__init__(self, searchdir)
         else:
             self.json = course.canvas.all_students(course.id)
 
@@ -317,24 +317,24 @@ class StudentList(CachedEntity):
     def publicjson(self):
         return { self.cachename : self.json }
 
-class Submission(CachedEntity):
+class Submission(CachableEntity):
     def __init__(self, json):
         self.json = json
         self.cachename = 'submisison'
 
-        CachedEntity.__init__(self)
+        CachableEntity.__init__(self)
 
     def publicjson(self):
         return { self.cachename : self.json }
 
-class Assignment(ListedEntity, CachedEntity):
+class Assignment(ListedEntity, CachableEntity):
     def __init__(self, course, name = None, id = None):
         self.canvas = course.canvas
         self.course = course
         self.cachename = 'assignment'
 
         if name == None and id == None:
-            CachedEntity.__init__(self)
+            CachableEntity.__init__(self)
         else:
             entities = self.canvas.list_assignments(self.course.id)
             ListedEntity.__init__(self, entities, name, id)
