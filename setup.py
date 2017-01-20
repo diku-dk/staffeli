@@ -1,0 +1,34 @@
+from setuptools import setup, find_packages
+import os
+import sys
+
+
+if sys.version_info < (3, 0):
+    sys.exit("Staffeli requires Python >= 3.0.")
+
+
+def readsybling(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+
+setup(
+    name="Staffeli",
+    description="DIKU support tools for Canvas LMS",
+    install_requires=[
+        "pyyaml>=3.12",
+        "requests>=2.12.5",
+    ],
+    keywords=["staffeli", "Canvas", "DIKU"],
+    long_description=readsybling('README.md'),
+    url="https://github.com/DIKU-EDU/Staffeli",
+    version='0.2.0',
+    packages=find_packages(),
+    maintainer="Oleks",
+    maintainer_email="oleks@oleks.info",
+    license="EUPLv1.1",
+    entry_points={
+        'console_scripts': [
+            'staffeli = staffeli.cli:main'
+        ]
+    },
+)

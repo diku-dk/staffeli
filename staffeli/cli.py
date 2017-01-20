@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import argparse, os, os.path, shutil, yaml, canvas, sys, re
 
 from canvas import Canvas, Course
