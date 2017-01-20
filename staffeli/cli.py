@@ -202,6 +202,9 @@ def parse_action_arg(parser, args):
         sys.exit(0)
     return args.action, remargs
 
+def groupsplit(args):
+    split_according_to_groups(Course(), args[0], args[1])
+
 def main():
     parser = main_args_parser()
     action, remargs = parse_action_arg(parser, sys.argv[1:])
@@ -211,7 +214,7 @@ def main():
     elif action == "fetch":
         fetch(remargs)
     elif action == "groupsplit":
-        split_according_to_groups(Course(), remargs[0], remargs[1])
+        groupsplit(remargs)
     else:
         print("Unknown action {}.".format(action))
         parser.print_usage()
