@@ -63,7 +63,8 @@ def fetch_all_subs(course):
             continue
         print("Fetching {}..".format(assign['name']))
         assign = canvas.Assignment(course, id = assign['id'])
-        path = os.path.join("subs", assign.displayname)
+        dirname = assign.displayname.replace('/', '_')
+        path = os.path.join("subs", dirname)
         mkdir(path)
         assign.cache(path)
 
