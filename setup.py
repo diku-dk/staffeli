@@ -12,7 +12,7 @@ def readsybling(fname):
 
 
 setup(
-    name="Staffeli",
+    name="staffeli",
     description="DIKU support tools for Canvas LMS",
     install_requires=[
         "pyyaml>=3.12",
