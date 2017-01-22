@@ -154,7 +154,7 @@ def normalize_pathname(pathname):
     return pathname.replace("/", "_")
 
 def split_according_to_groups(course, subspath, path):
-    /paif not os.path.isdir(subspath):
+    if not os.path.isdir(subspath):
         subspath = os.path.join("subs", subspath)
         if not os.path.isdir(subspath):
             raise LookupError("Can't resolve subs directory.")
