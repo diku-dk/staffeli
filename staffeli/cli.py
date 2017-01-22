@@ -195,10 +195,12 @@ update a working area
     fetch   Fetch something that might have changed
 
 Grade a submission:
-    grade
-        -m COMMENT      An optional comment to write.
+    grade GRADE [-m COMMENT] [FILEPATH]...
+
+    Where
         GRADE           pass, fail, or an int.
-        [FILEPATH]      Optional files to upload alongside.
+        [-m COMMENT]    An optional comment to write.
+        [FILEPATH]...   Optional files to upload alongside.
 """)
     parser.add_argument(
         "action", metavar="ACTION",
