@@ -45,17 +45,26 @@ Listed Entities
 Cachable Entities
 ~~~~~~~~~~~~~~~~~
 
-Cachable cached on disk, they are stored in a YAML file called
-``.staffeli.yml`` (note the leading ``.``, so the file remains hidden to many
-Unix-style utilities; this is intentional).
+Cachable entities are cached on disk. They are stored in a dedicated directory,
+in a YAML file called ``.staffeli.yml`` (note the leading ``.``: the file
+remains hidden to many Unix-style utilities; you might find this useful).
 
-Cachable entities have a ``cachename``. This is the name identifies the cache
-entry as belonging to this particular cachable entity. This is used to
-distinguish different cachable entities (e.g. course and assignment).
+Cachable entities have a ``cachename``. This identifies a cache entry (some
+``.staffeli.yml`` file) as belonging to this particular cachable entity. This
+is used to distinguish different cachable entities (e.g., course and
+assignment).
 
-Cachable entities can be initialized with a path or search directory. If
-initialized with a path to a staffeli file, or its containing directory, the
-file is loaded without further a due (provided that the cachename matches). If
-a search directory is given (e.g., current working directory), the file system
-path is search from the given directory and up, until a matching staffeli file
-is found.
+Cachable entities can be initialized with a path or search directory:
+
+  * If initialized with a path to a cache entry, or its containing directory,
+    the file is loaded without further a due (failing if the cachename does
+    not match).
+
+  * If a search directory is given (e.g., current working directory),
+    ``staffeli`` walks up the file system hierarchy starting at the given
+    search path, looking for a matching cache entry. (``staffeli`` will
+    walk at most 8 levels up in the filesystem hierarchy.)
+
+The search directory approach is useful if you would like to find some
+containing cache entry while deep inside the file system hierarchy (e.g., find
+the course while marking a submission).
