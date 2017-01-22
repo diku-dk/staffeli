@@ -10,8 +10,8 @@ API](https://canvas.instructure.com/doc/api/index.html) to create a more
 pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
 [![Documentation Status](https://readthedocs.org/projects/staffeli/badge/)](http://staffeli.readthedocs.io/en/latest/)
-[![License: EUPL v1.1](https://img.shields.io/badge/license-EUPL%20v1.1-blue.svg)](https://github.com/DIKU-EDU/Staffeli/blob/master/LICENSE.md)
 [![Travis CI (Linux + macOS) Status](https://travis-ci.org/DIKU-EDU/staffeli.svg)](https://travis-ci.org/DIKU-EDU/staffeli)
+[![License: EUPL v1.1](https://img.shields.io/badge/license-EUPL%20v1.1-blue.svg)](https://github.com/DIKU-EDU/Staffeli/blob/master/LICENSE.md)
 
 ## Purpose
 
