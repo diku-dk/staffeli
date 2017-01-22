@@ -67,8 +67,8 @@ to find a matching cache entry:
 
   * By default, the path is set to ``.`` i.e., the current working directory.
 
-Cachable entities which have no backing cache should simply not call the
-constructor.
+Cachable entities which have no backing cache entry yet, should simply not call
+the constructor.
 
 The filesystem walk is useful if you would like to find some containing cache
 entry while deep inside the file system hierarchy (e.g., find the course while
