@@ -12,7 +12,7 @@ import yaml
 
 from os.path import basename
 
-from staffeli import files, names
+from staffeli import cachable, files, names
 
 def format_json(d):
     return json.dumps(d, sort_keys=True, indent=2, ensure_ascii=False)
@@ -164,34 +164,6 @@ def _lookup_name(name, entities):
 
     return matches[0]
 
-class CachableEntity:
-    def __init__(self, searchdir = ".", path = None):
-        if path == None:
-            self.parentdir, model = files.find_staffeli_file(
-                self.cachename, searchdir)
-        else:
-            if os.path.isdir(path):
-              self.parentdir = path
-              path = os.path.join(self.parentdir, files.STAFFELI_FILENAME)
-            elif os.path.isfile(path):
-              self.parentdir = os.path.split(path)[0]
-            else:
-              raise LookupError((
-                "{} is neither a directory, nor file path."
-                ).format(path))
-            model = files.load_staffeli_file(path)
-        self.json = model[self.cachename]
-
-    def cache(self, path = None):
-        if os.path.isdir(path):
-            path = os.path.join(path, ".staffeli.yml")
-        with open(path, 'w') as f:
-            yaml.dump(self.publicjson(),
-                f, default_flow_style=False, encoding='utf-8')
-
-    def publicjson(self):
-        return self.json
-
 class ListedEntity:
     def __init__(self, entities = None, name = None, id = None):
         if entities != None:
@@ -209,13 +181,13 @@ class ListedEntity:
             raise TypeError(
                 "ListedEntity initialized with insufficient data")
 
-class GroupList(ListedEntity, CachableEntity):
+class GroupList(ListedEntity, cachable.CachableEntity):
     def __init__(self, course, path = None, name = None, id = None):
         self.cachename = 'groups'
         self.canvas = course.canvas
 
         if path != None:
-            CachableEntity.__init__(self, path = path)
+            cachable.CachableEntity.__init__(self, path = path, walk = False)
         else:
             if id != None:
                 self.id = id
@@ -238,7 +210,7 @@ class GroupList(ListedEntity, CachableEntity):
     def publicjson(self):
         return { self.cachename : self.json }
 
-class GroupCategoryList(CachableEntity):
+class GroupCategoryList(cachable.CachableEntity):
     def __init__(self, canvas, course_id):
         self.json = canvas.group_categories(course_id)
 
@@ -248,7 +220,7 @@ class GroupCategoryList(CachableEntity):
             del cat['is_member']
         return { 'group_categories': json }
 
-class Course(ListedEntity, CachableEntity):
+class Course(ListedEntity, cachable.CachableEntity):
     def __init__(self, canvas = None, name = None, id = None):
 
         if canvas == None:
@@ -258,7 +230,7 @@ class Course(ListedEntity, CachableEntity):
         self.cachename = 'course'
 
         if name == None and id == None:
-            CachableEntity.__init__(self)
+            cachable.CachableEntity.__init__(self)
             ListedEntity.__init__(self)
         else:
             entities = self.canvas.courses()
@@ -287,12 +259,12 @@ class Course(ListedEntity, CachableEntity):
         del json['enrollments']
         return { self.cachename : json }
 
-class StudentList(CachableEntity):
+class StudentList(cachable.CachableEntity):
     def __init__(self, course = None, searchdir = "."):
         self.cachename = 'students'
 
         if course == None:
-            CachableEntity.__init__(self, searchdir)
+            cachable.CachableEntity.__init__(self, searchdir)
         else:
             self.json = course.canvas.all_students(course.id)
 
@@ -307,25 +279,25 @@ class StudentList(CachableEntity):
     def publicjson(self):
         return { self.cachename : self.json }
 
-class Submission(CachableEntity):
+class Submission(cachable.CachableEntity):
     def __init__(self, json = None):
         self.cachename = 'submisison'
         if json == None:
-            CachableEntity.__init__(self)
+            cachable.CachableEntity.__init__(self)
         else:
             self.json = json
 
     def publicjson(self):
         return { self.cachename : self.json }
 
-class Assignment(ListedEntity, CachableEntity):
+class Assignment(ListedEntity, cachable.CachableEntity):
     def __init__(self, course, name = None, id = None, path = None):
         self.canvas = course.canvas
         self.course = course
         self.cachename = 'assignment'
 
         if name == None and id == None:
-            CachableEntity.__init__(self, path = path)
+            cachable.CachableEntity.__init__(self, path = path, walk = False)
             ListedEntity.__init__(self)
         else:
             entities = self.canvas.list_assignments(self.course.id)

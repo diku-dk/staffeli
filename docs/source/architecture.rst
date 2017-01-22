@@ -46,8 +46,8 @@ Cachable Entities
 ~~~~~~~~~~~~~~~~~
 
 Cachable entities are cached on disk. They are stored in a dedicated directory,
-in a YAML file called ``.staffeli.yml`` (note the leading ``.``: the file
-remains hidden to many Unix-style utilities; you might find this useful).
+in a YAML file called ``.staffeli.yml``. (Note the leading ``.``: The file
+remains hidden to many Unix-style utilities. You might find this useful.)
 
 Cachable entities have a ``cachename``. This identifies a cache entry (some
 ``.staffeli.yml`` file) as belonging to this particular cachable entity. This
