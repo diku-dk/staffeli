@@ -105,6 +105,20 @@ If you are using git to share course internals, remember to push both changes
 to [`groups`](groups), [`subs`](subs), and [`splits`](splits), when making
 splits for some new assignment.
 
+### Grade a Submission
+
+Assuming you are in the submission directory, you can use `staffeli grade` to
+grade the submission:
+
+```
+staffeli grade GRADE [-m COMMENT] [FILEPATH]...
+
+Where
+    GRADE           pass, fail, or an int.
+    [-m COMMENT]    An optional comment to write.
+    [FILEPATH]...   Optional files to upload alongside.
+```
+
 ## Design
 
 In the following, the keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
@@ -153,50 +167,6 @@ hides the low-level mechanics of the Python 3 library interface. We are open to
 adding a web, mobile, or desktop UI, but no one has done any work on this yet.
 
 [1]: By @oleks, @nqpz. (Your name here?)
-
-## Giving Feedback via Script
-
-Navigate to the student directory containing a `canvas_group.json`, or a
-file with a name matching the pattern
-
-```
-<name>_(late_)?_<studentid>_<submissionid>_.*
-```
-
-For instance, a file named something like
-
-```
-kenfriislarsen_12321_1414214_src-1.zip
-```
-
-From here, you can use `feedback.py` to give feedback:
-
-```
-feedback.py <grade> <file> [<more-files>]
-```
-
-For instance,
-
-```
-feedback.py 3 feedback.html
-```
-
-or
-
-```
-feedback.py incomplete feedback.html onlineta.txt
-```
-
-`feedback.py` accepts `complete`, `incomplete`, `pass`, `fail`, or an integer
-grade. `feedback.py` does not (yet) validate whether the grade you provide is
-compatible with the assignment: beware if your assignment is marked as
-pass/fail or on a point-scale. `feedback.py` also does not (yet) verify that
-the points you give fall within the assignment point scale (neither does
-Canvas!).
-
-NB! For `feedback.py` to work you also need to have a hierarchy of
-`canvas.json` files, specifying the course and assignment ids. There is no
-automatic script for setting this up (yet).
 
 ## Contributing
 
