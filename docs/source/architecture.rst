@@ -1,11 +1,11 @@
 Architecture
 ============
 
-Staffeli has a *layered* architecture, staring with a low-level REST API
-wrapper, wrapped in an object model.
+Staffeli has a *layered* architecture, staring with a low-level API wrapper,
+wrapped in an object model.
 
-Low-level REST API Wrapper
---------------------------
+Low-level API Wrapper
+---------------------
 
 The ``Canvas`` object, defined in ``canvas.py``, implements a number of
 low-level wrappers for the `Canvas LMS REST API`_. It makes few abstractions,
