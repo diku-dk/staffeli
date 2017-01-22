@@ -34,3 +34,28 @@ the disk. The choice between these is made at runtime. The former is chosen if
 any identifying information is given. For instance, if the user is cloning a
 given course, or fetching a given assignment, then we reach for Canvas
 regardless of what may be on disk.
+
+Listed Entities
+~~~~~~~~~~~~~~~
+
+.. todo::
+
+   Coming soon.
+
+Cachable Entities
+~~~~~~~~~~~~~~~~~
+
+Cachable cached on disk, they are stored in a YAML file called
+``.staffeli.yml`` (note the leading ``.``, so the file remains hidden to many
+Unix-style utilities; this is intentional).
+
+Cachable entities have a ``cachename``. This is the name identifies the cache
+entry as belonging to this particular cachable entity. This is used to
+distinguish different cachable entities (e.g. course and assignment).
+
+Cachable entities can be initialized with a path or search directory. If
+initialized with a path to a staffeli file, or its containing directory, the
+file is loaded without further a due (provided that the cachename matches). If
+a search directory is given (e.g., current working directory), the file system
+path is search from the given directory and up, until a matching staffeli file
+is found.
