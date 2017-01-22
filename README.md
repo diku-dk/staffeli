@@ -1,4 +1,4 @@
-# Staffeli — DIKU Support Tools for Canvas LMS
+# `staffeli` — DIKU Support Tools for Canvas LMS
 
 "Staffeli" is Danish for "easel" — a support frame for holding up a canvas.
 
