@@ -15,12 +15,16 @@ python:
 matrix:
   exclude:
   - os: osx
-    python:
-    - "3.2"
-    - "3.3"
-    - "3.4"
-    - "3.5"
-    - "3.5-dev"
-    - "3.6"
+    python: "3.2"
+  - os: osx
+    python: "3.3"
+  - os: osx
+    python: "3.4"
+  - os: osx
+    python: "3.5"
+  - os: osx
+    python: "3.5-dev"
+  - os: osx
+    python: "3.6"
 install: "pip install ."
 script: exit 0
