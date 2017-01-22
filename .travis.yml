@@ -25,8 +25,11 @@ matrix:
     python: "3.6"
 before_install:
   - pip install mypy flake8
-  - flake8 staffeli/names.py staffeli/files.py staffeli/cachable.py
+  - flake8 staffeli/names.py
+  - flake8 staffeli/files.py staffeli/cachable.py
+  - flake8 staffeli/upload.py
   - mypy staffeli/names.py
   - mypy --ignore-missing-imports staffeli/files.py staffeli/cachable.py
+  - mypy --ignore-missing-imports staffeli/upload.py
 install: "pip install ."
 script: exit 0

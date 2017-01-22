@@ -154,7 +154,7 @@ def normalize_pathname(pathname):
     return pathname.replace("/", "_")
 
 def split_according_to_groups(course, subspath, path):
-    if not os.path.isdir(subspath):
+    /paif not os.path.isdir(subspath):
         subspath = os.path.join("subs", subspath)
         if not os.path.isdir(subspath):
             raise LookupError("Can't resolve subs directory.")
@@ -193,6 +193,12 @@ start a working area
 
 update a working area
     fetch   Fetch something that might have changed
+
+Grade a submission:
+    grade
+        -m COMMENT      An optional comment to write.
+        GRADE           pass, fail, or an int.
+        [FILEPATH]      Optional files to upload alongside.
 """)
     parser.add_argument(
         "action", metavar="ACTION",
@@ -209,6 +215,48 @@ def parse_action_arg(parser, args):
 def groupsplit(args):
     split_according_to_groups(canvas.Course(), args[0], args[1])
 
+def _check_grade(grade):
+    goodgrades = ["pass", "fail"]
+    if not grade in goodgrades:
+        try:
+            x = int(grade)
+        except ValueError:
+            print((
+                "\"{}\" is a bad grade. Acceptable grades are: \"{}\", or an int."
+                ).format(grade, "\", \"".join(goodgrades)))
+            sys.exit(1)
+    return grade
+
+def _check_filepaths(filepaths):
+    for filepath in filepaths:
+        if not os.path.isfile(filepath):
+            print("\"{}\" is not a file. What is this?".format(filepath))
+            sys.exit(1)
+    return filepaths
+
+def grade_args_parser():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawTextHelpFormatter,
+        description="")
+    parser.add_argument(
+        "-m", metavar="COMMENT", dest='message', default="See attached files.")
+    parser.add_argument(
+        "grade", metavar="GRADE")
+    return parser
+
+def grade(args):
+    args, remargs = grade_args_parser().parse_known_args(args)
+    grade = _check_grade(args.grade)
+    filepaths = _check_filepaths(remargs)
+    message = args.message
+
+    course = canvas.Course()
+    assignment = canvas.Assignment(course)
+    submission = canvas.Submission()
+    for student_id in submission.student_ids:
+        assignment.give_feedback(student_id, grade,
+            message, filepaths, use_post = True)
+
 def main():
     parser = main_args_parser()
     action, remargs = parse_action_arg(parser, sys.argv[1:])
@@ -217,6 +265,8 @@ def main():
         clone(remargs)
     elif action == "fetch":
         fetch(remargs)
+    elif action == "grade":
+        grade(remargs)
     elif action == "groupsplit":
         groupsplit(remargs)
     else:

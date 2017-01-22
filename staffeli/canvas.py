@@ -9,10 +9,11 @@ import time
 import urllib.parse
 import urllib.request
 import yaml
+import pdb
 
 from os.path import basename
 
-from staffeli import cachable, files, names
+from staffeli import cachable, files, names, upload
 
 def format_json(d):
     return json.dumps(d, sort_keys=True, indent=2, ensure_ascii=False)
@@ -38,37 +39,6 @@ def _call_api(token, method, api_base, url_relative, **args):
     with urllib.request.urlopen(req) as f:
         data = json.loads(f.read().decode('utf-8'))
     return data
-
-def _upload_via_post(token, api_base, url_relative, filepath):
-
-    url = api_base + url_relative
-    headers = {
-        'Authorization': 'Bearer ' + token
-    }
-
-    name = basename(filepath)
-    size = os.stat(filepath).st_size
-
-    params = {
-        'name'    : name,
-        'size'    : size
-    }
-
-    resp = requests.post(url, headers=headers, params=params)
-
-    json = resp.json()
-    upload_url = json['upload_url']
-    params = json['upload_params']
-    name = json['file_param']
-
-    with open(filepath, "rb") as f:
-        resp = requests.post(
-            upload_url, params=params, files=[(name, f)])
-
-    print(resp.status_code)
-    print(resp.text)
-
-    return resp
 
 def _upload_transit(course, filepath):
     form_url = "https://file-transit.appspot.com/upload"
@@ -124,12 +94,20 @@ def _upload_via_url(token, api_base, url_relative, filepath, viaurl):
 
     return attachment['id']
 
-def _upload_submission_comment_file(token, api_base, url_relative, course, filepath):
-    viaurl = _upload_transit(course, filepath)
-    return _upload_via_url(
-        token, api_base,
-        url_relative + "/comments/files",
-        filepath, viaurl)
+def _upload_submission_comment_file(
+        token, api_base, url_relative, course, filepath, use_post = False):
+    if use_post:
+        return upload.via_post(
+            api_base,
+            url_relative + "/comments/files",
+            token,
+            filepath)
+    else:
+        viaurl = _upload_transit(course, filepath)
+        return _upload_via_url(
+            token, api_base,
+            url_relative + "/comments/files",
+            filepath, viaurl)
 
 def _lookup_id(id, entities):
     for entity in entities:
@@ -287,6 +265,8 @@ class Submission(cachable.CachableEntity):
         else:
             self.json = json
 
+        self.student_ids = [self.json['user_id']]
+
     def publicjson(self):
         return { self.cachename : self.json }
 
@@ -297,7 +277,12 @@ class Assignment(ListedEntity, cachable.CachableEntity):
         self.cachename = 'assignment'
 
         if name == None and id == None:
-            cachable.CachableEntity.__init__(self, path = path, walk = False)
+            if path == None:
+                path = '.'
+                walk = True
+            else:
+                walk = False
+            cachable.CachableEntity.__init__(self, path = path, walk = walk)
             ListedEntity.__init__(self)
         else:
             entities = self.canvas.list_assignments(self.course.id)
@@ -316,10 +301,11 @@ class Assignment(ListedEntity, cachable.CachableEntity):
     def submissions_download_url(self):
         return self.canvas.submissions_download_url(self.course.id, self.id)
 
-    def give_feedback(self, submission_id, grade, filepaths):
+    def give_feedback(self, submission_id, grade, filepaths, message,
+        use_post = False):
         self.canvas.give_feedback(
           self.course.id, self.course.displayname,
-          self.id, submission_id, grade, filepaths)
+          self.id, submission_id, grade, filepaths, message, use_post)
 
 def _raise_lookup_file(namestr, lastparent):
     raise LookupError((
@@ -462,18 +448,19 @@ class Canvas:
             course_id, assignment_id)['submissions_download_url']
 
     def give_feedback(self,
-            course_id, course_name, assignment_id, user_id, grade, filepaths):
+            course_id, course_name, assignment_id, user_id, grade, message, filepaths,
+            use_post = False):
 
         url_relative = \
             'courses/{}/assignments/{}/submissions/{}'.format(
                 course_id, assignment_id, user_id)
 
         upload = lambda filepath : _upload_submission_comment_file(
-            self.token, self.api_base, url_relative, course_name, filepath)
+            self.token, self.api_base, url_relative, course_name, filepath, use_post)
         ids = list(map(upload, filepaths))
 
         _arg_list = list(map(lambda x: ("comment[file_ids][]", x), ids))
-        _arg_list.append(("comment[text_comment]", 'See attached files.'))
+        _arg_list.append(("comment[text_comment]", message))
         _arg_list.append(("comment[group_comment]", True))
         _arg_list.append(("submission[posted_grade]", grade))
 
@@ -482,8 +469,10 @@ class Canvas:
           raise Exception("Canvas response looks weird: {}".format(resp))
 
         speedgrader_url = "https://absalon.ku.dk/courses/{}/gradebook/speed_grader?assignment_id={}#%7B%22student_id%22%3A%22{}%22%7D".format(course_id, assignment_id, user_id)
+        gradebook_url = "https://absalon.ku.dk/courses/{}/gradebook/".format(course_id)
 
-        print("Looks good.\nVerification URL: " + speedgrader_url)
+        print("Looks good.\nVerification URLs: \n{}\n{}".format(
+            speedgrader_url, gradebook_url))
         return resp
 
 def main(args):
