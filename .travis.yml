@@ -26,5 +26,11 @@ matrix:
     python: "3.5-dev"
   - os: osx
     python: "3.6"
+before_install:
+  - pip install mypy flake8
+  - flake8 staffeli/names.py
+  - flake8 staffeli/files.py
+  - mypy staffeli/names.py
+  - mypy --ignore-missing-imports staffeli/files.py
 install: "pip install ."
 script: exit 0
