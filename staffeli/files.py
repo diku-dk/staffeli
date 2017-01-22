@@ -6,6 +6,7 @@ from staffeli import names
 
 STAFFELI_FILENAME = ".staffeli.yml"
 TOKEN_FILENAMES = ["token", "token.txt", ".token"]
+MAX_DIR_SEARCH_DEPTH = 9
 
 
 def _raise_lookup_error(key, attr, entities):
@@ -19,7 +20,7 @@ def _find_file(candidate_names, parent="."):
     if isinstance(candidate_names, str):
         candidate_names = [candidate_names]
 
-    for i in range(9):
+    for i in range(MAX_DIR_SEARCH_DEPTH):
         for name in candidate_names:
             path = os.path.join(parent, name)
             if os.path.isfile(path):
