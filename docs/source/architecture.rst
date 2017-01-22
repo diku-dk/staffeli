@@ -54,17 +54,22 @@ Cachable entities have a ``cachename``. This identifies a cache entry (some
 is used to distinguish different cachable entities (e.g., course and
 assignment).
 
-Cachable entities can be initialized with a path or search directory:
+Cachable entities can be initialized with a path, which is optionally walked up
+to find a matching cache entry:
 
   * If initialized with a path to a cache entry, or its containing directory,
     the file is loaded without further a due (failing if the cachename does
     not match).
 
-  * If a search directory is given (e.g., current working directory),
-    ``staffeli`` walks up the file system hierarchy starting at the given
-    search path, looking for a matching cache entry. (``staffeli`` will
-    walk at most 8 levels up in the filesystem hierarchy.)
+  * If allowed to walk, ``staffeli`` walks up in the filesystem
+    hierarchy, until a matching cache entry is found, if any. ``staffeli``
+    eventually gives up at ``/``, if not earlier.
 
-The search directory approach is useful if you would like to find some
-containing cache entry while deep inside the file system hierarchy (e.g., find
-the course while marking a submission).
+  * By default, the path is set to ``.`` i.e., the current working directory.
+
+Cachable entities which have no backing cache should simply not call the
+constructor.
+
+The filesystem walk is useful if you would like to find some containing cache
+entry while deep inside the file system hierarchy (e.g., find the course while
+marking a submission).
