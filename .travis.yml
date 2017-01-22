@@ -3,7 +3,6 @@ os:
   - linux
   - osx
 python:
-  - "3.2"
   - "3.3"
   - "3.4"
   - "3.5"
@@ -14,8 +13,6 @@ python:
   - "nightly" # currently points to 3.7-dev
 matrix:
   exclude:
-  - os: osx
-    python: "3.2"
   - os: osx
     python: "3.3"
   - os: osx
