@@ -154,38 +154,6 @@ adding a web, mobile, or desktop UI, but no one has done any work on this yet.
 
 [1]: By @oleks, @nqpz. (Your name here?)
 
-## Architecture
-
-Staffeli has a _layered_ architecture, staring with a low-level REST API
-wrapper, wrapped in an object model.
-
-### Low-level REST API Wrapper
-
-The `Canvas` object in `canvas.py` implements a number of low-level wrappers
-for the Canvas REST API. It makes few abstractions, and is mainly a functional
-reflection of the REST API.
-
-### Object Model
-
-There are two fundamental classes:
-
-1. A `ListedEntity` has a `name`, or `id`, and occurs in some listing on
-canvas.  For instance, both courses and assignments are "listed entities".
-
-2. A `CachableEntity` may be "cached" on disk, to avoid excessive REST API
-requests, which can otherwise be a drag.
-
-Python allows multiple inheritance, so some objects are both an instance of
-`ListedEntity` and `CachableEntity`. For instance, both `Course` and
-`Assignment` inherit from the two.
-
-NB! `ListedEntity` and `CachableEntity` have conflicting constructors.  One
-will reach for the containing list on Canvas, while the other will reach for
-the disk. The choice between these is made at runtime. The former is chosen if
-any identifying information is given. For instance, if the user is cloning a
-given course, or fetching a given assignment, then we reach for Canvas
-regardless of what may be on disk.
-
 ## Giving Feedback via Script
 
 Navigate to the student directory containing a `canvas_group.json`, or a
