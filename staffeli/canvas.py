@@ -12,6 +12,8 @@ import yaml
 
 from os.path import basename
 
+from staffeli import files, names
+
 def format_json(d):
     return json.dumps(d, sort_keys=True, indent=2, ensure_ascii=False)
 
@@ -129,15 +131,6 @@ def _upload_submission_comment_file(token, api_base, url_relative, course, filep
         url_relative + "/comments/files",
         filepath, viaurl)
 
-def _ppnames(names):
-    return "\"{}\"".format("\", \"".join(names))
-
-def _raise_lookup_error(key, attr, entities):
-    all_names = [entity[attr] for entity in entities]
-    raise LookupError(
-        "No candidate for \"{}\". Your options include {}.".format(
-        key, _ppnames(all_names)))
-
 def _lookup_id(id, entities):
     for entity in entities:
         if entity['id'] == id:
@@ -161,50 +154,32 @@ def _lookup_name(name, entities):
         matching_names = [match['name'] for match in matches]
         raise LookupError(
             "Multiple candidates for \"{}\": {}.".format(
-                name, _ppnames(matching_names)))
+                name, names.pp(matching_names)))
 
     if len(matches) == 0:
         all_names = [entity['name'] for entity in entities]
         raise LookupError(
             "No candidate for \"{}\". Your options include {}.".format(
-            name, _ppnames(all_names)))
+            name, names.pp(all_names)))
 
     return matches[0]
-
-def _load_file(path):
-    with open(path, 'r') as f:
-        return yaml.load(f)
-
-STAFFELI_FILENAME = ".staffeli.yml"
-
-def _find_staffeli_yml(cachename, searchdir = "."):
-    parent = searchdir
-    namestr = STAFFELI_FILENAME
-    for i in range(9):
-        path = _find_file(namestr, parent)
-        model = _load_file(path)
-        parent = os.path.split(path)[0]
-        if len(model) == 1 and cachename in model:
-            return parent, model
-        parent = os.path.join(parent, "..")
-
-    _raise_lookup_file(namestr, parent)
 
 class CachableEntity:
     def __init__(self, searchdir = ".", path = None):
         if path == None:
-            self.parentdir, model = _find_staffeli_yml(self.cachename, searchdir)
+            self.parentdir, model = files.find_staffeli_file(
+                self.cachename, searchdir)
         else:
             if os.path.isdir(path):
               self.parentdir = path
-              path = os.path.join(self.parentdir, STAFFELI_FILENAME)
+              path = os.path.join(self.parentdir, files.STAFFELI_FILENAME)
             elif os.path.isfile(path):
               self.parentdir = os.path.split(path)[0]
             else:
               raise LookupError((
                 "{} is neither a directory, nor file path."
                 ).format(path))
-            model = _load_file(path)
+            model = files.load_staffeli_file(path)
         self.json = model[self.cachename]
 
     def cache(self, path = None):
@@ -383,29 +358,6 @@ def _raise_lookup_file(namestr, lastparent):
             namestr,
             os.path.abspath(os.path.split(lastparent)[0])))
 
-def _find_file(cs, parent = "."):
-    if type(cs) == type(""):
-        cs = [cs]
-
-    for i in range(9):
-        for c in cs:
-            path = os.path.join(parent, c)
-            if os.path.isfile(path):
-                return path
-        parent = os.path.join("..", parent)
-
-    if len(cs) == 1:
-        namestr = cs[0]
-    elif len(cs) == 2:
-        namestr = "either {} or {}".format(cs[0], cs[1])
-    else:
-        namestr = "either {}, or {}".format(", ".join(cs[:-1]), cs[-1])
-
-    _raise_lookup_file(namestr, parent)
-
-def _find_token_file():
-    return _find_file([ "token", "token.txt", ".token" ])
-
 class Canvas:
     def __init__(self,
                  token=None,
@@ -413,7 +365,7 @@ class Canvas:
         self.api_base = api_base
 
         if token is None:
-            with open(_find_token_file()) as f:
+            with open(files.find_token_file()) as f:
                 token = f.read().strip()
         self.token = token
 
