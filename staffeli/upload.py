@@ -23,11 +23,11 @@ def via_post(
     resp = requests.post(url, headers=headers, params=params).json()
 
     upload_url = resp['upload_url']
-    params = resp['upload_params']
+    data = resp['upload_params']
     name = resp['file_param']
 
     with open(filepath, "rb") as f:
         resp = requests.post(
-            upload_url, data=params, files=[(name, f)])
+            upload_url, data=data, files=[(name, f)])
 
     return json.loads(resp.text)['id']
