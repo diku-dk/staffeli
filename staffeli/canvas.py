@@ -175,9 +175,11 @@ def _load_file(path):
     with open(path, 'r') as f:
         return yaml.load(f)
 
+STAFFELI_FILENAME = ".staffeli.yml"
+
 def _find_staffeli_yml(cachename, searchdir = "."):
     parent = searchdir
-    namestr = ".staffeli.yml"
+    namestr = STAFFELI_FILENAME
     for i in range(9):
         path = _find_file(namestr, parent)
         model = _load_file(path)
@@ -193,7 +195,15 @@ class CachableEntity:
         if path == None:
             self.parentdir, model = _find_staffeli_yml(self.cachename, searchdir)
         else:
-            self.parentdir = os.path.split(path)[0]
+            if os.path.isdir(path):
+              self.parentdir = path
+              path = os.path.join(self.parentdir, STAFFELI_FILENAME)
+            elif os.path.isfile(path):
+              self.parentdir = os.path.split(path)[0]
+            else:
+              raise LookupError((
+                "{} is neither a directory, nor file path."
+                ).format(path))
             model = _load_file(path)
         self.json = model[self.cachename]
 
@@ -208,17 +218,21 @@ class CachableEntity:
         return self.json
 
 class ListedEntity:
-    def __init__(self, entities, name = None, id = None):
-        if name != None:
-            self.json = _lookup_name(name, entities)
-        elif id != None:
-            self.json = _lookup_id(id, entities)
+    def __init__(self, entities = None, name = None, id = None):
+        if entities != None:
+            if name != None:
+                self.json = _lookup_name(name, entities)
+            elif id != None:
+                self.json = _lookup_id(id, entities)
+            else:
+                raise LookupError(
+                    "For me to find a course, you must provide a name or id.")
+        if self.json != None:
+            self.id = self.json['id']
+            self.displayname = self.json['name']
         else:
-            raise LookupError(
-                "For me to find a course, you must provide a name or id.")
-
-        self.id = self.json['id']
-        self.displayname = self.json['name']
+            raise TypeError(
+                "ListedEntity initialized with insufficient data")
 
 class GroupList(ListedEntity, CachableEntity):
     def __init__(self, course, path = None, name = None, id = None):
@@ -270,6 +284,7 @@ class Course(ListedEntity, CachableEntity):
 
         if name == None and id == None:
             CachableEntity.__init__(self)
+            ListedEntity.__init__(self)
         else:
             entities = self.canvas.courses()
             ListedEntity.__init__(self, entities, name, id)
@@ -329,13 +344,14 @@ class Submission(CachableEntity):
         return { self.cachename : self.json }
 
 class Assignment(ListedEntity, CachableEntity):
-    def __init__(self, course, name = None, id = None):
+    def __init__(self, course, name = None, id = None, path = None):
         self.canvas = course.canvas
         self.course = course
         self.cachename = 'assignment'
 
         if name == None and id == None:
-            CachableEntity.__init__(self)
+            CachableEntity.__init__(self, path = path)
+            ListedEntity.__init__(self)
         else:
             entities = self.canvas.list_assignments(self.course.id)
             ListedEntity.__init__(self, entities, name, id)

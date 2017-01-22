@@ -99,9 +99,12 @@ def fetch_sub(students, path, sub):
     fetch_attachments(subpath, json['attachments'])
 
 def fetch_subs(course, name, deep = False):
-    assign = canvas.Assignment(course, name = name)
-    mkdir("subs")
     path = os.path.join("subs", name)
+    if os.path.isdir(path):
+      assign = canvas.Assignment(course, path = path)
+    else:
+      assign = canvas.Assignment(course, name = name)
+    mkdir("subs")
     mkdir(path)
     assign.cache(path)
     print("Fetched {} as {}.".format(name, path))
