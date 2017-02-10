@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    architecture.rst
+   examples.rst
 
 Indices and tables
 ==================
