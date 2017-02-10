@@ -78,7 +78,7 @@ def fetch_attachments(path, attachments):
             continue
         urlretrieve(att['url'], targetpath)
 
-def fetch_sub(students, path, sub):
+def fetch_sub(students, path, sub, metadata = False):
     json = sub.json
     sid = json['user_id']
     if (not sid in students) or \
@@ -91,14 +91,15 @@ def fetch_sub(students, path, sub):
     subpath = os.path.join(path, "{}_{}".format(students[sid]['kuid'], sid))
     mkdir(subpath)
     sub.cache(subpath)
-    if not 'attachments' in json:
-        print("There is something wrong with {}.. Skipping".format(sid))
-        print("Try and have a look in SpeedGrader(tm):\n{}".format(json['preview_url']))
-        print(sub)
-        return
-    fetch_attachments(subpath, json['attachments'])
+    if not metadata:
+        if not 'attachments' in json:
+            print("There is something wrong with {}.. Skipping".format(sid))
+            print("Try and have a look in SpeedGrader(tm):\n{}".format(json['preview_url']))
+            print(sub)
+            return
+        fetch_attachments(subpath, json['attachments'])
 
-def fetch_subs(course, name, deep = False):
+def fetch_subs(course, name, deep = False, metadata = False):
     path = os.path.join("subs", name)
     if os.path.isdir(path):
       assign = canvas.Assignment(course, path = path)
@@ -113,9 +114,9 @@ def fetch_subs(course, name, deep = False):
 
     students = canvas.StudentList(searchdir = "students").mapping
     for sub in assign.subs:
-        fetch_sub(students, path, sub)
+        fetch_sub(students, path, sub, metadata)
 
-def fetch(args):
+def fetch(args, metadata):
     course = canvas.Course()
     what = args[0]
     args = args[1:]
@@ -133,7 +134,8 @@ def fetch(args):
         if len(args) == 0:
             fetch_all_subs(course)
         else:
-            fetch_subs(course, " ".join(args).strip('/'), deep = True)
+            fetch_subs(course, " ".join(args).strip('/'), deep = True,
+                metadata = metadata == True)
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
 
@@ -205,6 +207,9 @@ Grade a submission:
     parser.add_argument(
         "action", metavar="ACTION",
         help="the action to perform")
+    parser.add_argument(
+        "--metadata", action='store_true',
+        help="fetch metadata only")
     return parser
 
 def parse_action_arg(parser, args):
@@ -212,7 +217,7 @@ def parse_action_arg(parser, args):
     if args.action == "help":
         parser.print_help()
         sys.exit(0)
-    return args.action, remargs
+    return args, remargs
 
 def groupsplit(args):
     split_according_to_groups(canvas.Course(), args[0], args[1])
@@ -261,12 +266,13 @@ def grade(args):
 
 def main():
     parser = main_args_parser()
-    action, remargs = parse_action_arg(parser, sys.argv[1:])
+    args, remargs = parse_action_arg(parser, sys.argv[1:])
+    action = args.action
 
     if action == "clone":
         clone(remargs)
     elif action == "fetch":
-        fetch(remargs)
+        fetch(remargs, args.metadata)
     elif action == "grade":
         grade(remargs)
     elif action == "groupsplit":
