@@ -1,36 +1,39 @@
-#!/usr/bin/env python3
+from staffeli import cachable
 
-import os.path, yaml
 
-from canvas import Canvas
+class Assignment(ListedEntity, cachable.CachableEntity):
+    def __init__(self, course, name = None, id = None, path = None):
+        self.canvas = course.canvas
+        self.course = course
+        self.cachename = 'assignment'
 
-def canvas_yaml_dir(parent):
-    for i in range(5):
-        if os.path.isfile(os.path.join(parent, "canvas.yaml")):
-            return parent
-        parent = os.path.join("..", parent)
-    raise LookupError("Couldn't locate a canvas.yaml.")
+        if name == None and id == None:
+            if path == None:
+                path = '.'
+                walk = True
+            else:
+                walk = False
+            cachable.CachableEntity.__init__(self, path = path, walk = walk)
+            ListedEntity.__init__(self)
+        else:
+            entities = self.canvas.list_assignments(self.course.id)
+            ListedEntity.__init__(self, entities, name, id)
 
-def get_cwd_assignment():
-    assignment_dir = canvas_yaml_dir(".")
+        self.subs = map(Submission, self.submissions())
 
-    with open(os.path.join(assignment_dir, "canvas.yaml"), "r") as f:
-        conf = yaml.load(f)
-    assignment_id = conf['assignment_id']
+    def publicjson(self):
+        return { self.cachename : self.json }
 
-    course_dir = canvas_yaml_dir(os.path.join(assignment_dir, ".."))
+    def submissions(self):
+        return self.canvas.get(
+            'courses/{}/assignments/{}/submissions?per_page=9000'.format(
+            self.course.id, self.id))
 
-    with open(os.path.join(course_dir, "canvas.yaml"), "r") as f:
-        conf = yaml.load(f)
-    course_id = conf['course_id']
+    def submissions_download_url(self):
+        return self.canvas.submissions_download_url(self.course.id, self.id)
 
-    assignment = Canvas().course(
-        id = course_id).assignment(
-            id = assignment_id)
-    return assignment
-
-def main():
-    print(get_cwd_assignment().json)
-
-if __name__ == "__main__":
-    main()
+    def give_feedback(self, submission_id, grade, filepaths, message,
+        use_post = False):
+        self.canvas.give_feedback(
+          self.course.id, self.course.displayname,
+          self.id, submission_id, grade, filepaths, message, use_post)

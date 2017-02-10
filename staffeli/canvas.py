@@ -13,7 +13,7 @@ import pdb
 
 from os.path import basename
 
-from staffeli import cachable, files, names, upload
+from staffeli import cachable, files, listed, names, upload
 
 def format_json(d):
     return json.dumps(d, sort_keys=True, indent=2, ensure_ascii=False)
@@ -109,57 +109,7 @@ def _upload_submission_comment_file(
             url_relative + "/comments/files",
             filepath, viaurl)
 
-def _lookup_id(id, entities):
-    for entity in entities:
-        if entity['id'] == id:
-            return entity
-
-    ids = ["{} ({})".format(entity['id'], entity['name'])
-        for entity in entities]
-    raise LookupError(
-        "No candidate for {}. Your options include {}.".format(
-        id, ", ".join(ids)))
-
-def _lookup_name(name, entities):
-    id = None
-    matches = []
-
-    for entity in entities:
-        if name.lower() in entity['name'].lower():
-            matches.append(entity)
-
-    if len(matches) > 1:
-        matching_names = [match['name'] for match in matches]
-        raise LookupError(
-            "Multiple candidates for \"{}\": {}.".format(
-                name, names.pp(matching_names)))
-
-    if len(matches) == 0:
-        all_names = [entity['name'] for entity in entities]
-        raise LookupError(
-            "No candidate for \"{}\". Your options include {}.".format(
-            name, names.pp(all_names)))
-
-    return matches[0]
-
-class ListedEntity:
-    def __init__(self, entities = None, name = None, id = None):
-        if entities != None:
-            if name != None:
-                self.json = _lookup_name(name, entities)
-            elif id != None:
-                self.json = _lookup_id(id, entities)
-            else:
-                raise LookupError(
-                    "For me to find a course, you must provide a name or id.")
-        if self.json != None:
-            self.id = self.json['id']
-            self.displayname = self.json['name']
-        else:
-            raise TypeError(
-                "ListedEntity initialized with insufficient data")
-
-class GroupList(ListedEntity, cachable.CachableEntity):
+class GroupList(listed.ListedEntity, cachable.CachableEntity):
     def __init__(self, course, path = None, name = None, id = None):
         self.cachename = 'groups'
         self.canvas = course.canvas
@@ -171,7 +121,7 @@ class GroupList(ListedEntity, cachable.CachableEntity):
                 self.id = id
             else:
                 entities = self.canvas.group_categories(course.id)
-                ListedEntity.__init__(self, entities, name)
+                listed.ListedEntity.__init__(self, entities, name)
 
             self.json = self.canvas.groups(self.id)
 
@@ -198,7 +148,7 @@ class GroupCategoryList(cachable.CachableEntity):
             del cat['is_member']
         return { 'group_categories': json }
 
-class Course(ListedEntity, cachable.CachableEntity):
+class Course(listed.ListedEntity, cachable.CachableEntity):
     def __init__(self, canvas = None, name = None, id = None):
 
         if canvas == None:
@@ -209,10 +159,10 @@ class Course(ListedEntity, cachable.CachableEntity):
 
         if name == None and id == None:
             cachable.CachableEntity.__init__(self)
-            ListedEntity.__init__(self)
+            listed.ListedEntity.__init__(self)
         else:
             entities = self.canvas.courses()
-            ListedEntity.__init__(self, entities, name, id)
+            listed.ListedEntity.__init__(self, entities, name, id)
 
         self.id = self.json['id']
         self.displayname = self.json['name']
@@ -273,7 +223,7 @@ class Submission(cachable.CachableEntity):
     def publicjson(self):
         return { self.cachename : self.json }
 
-class Assignment(ListedEntity, cachable.CachableEntity):
+class Assignment(listed.ListedEntity, cachable.CachableEntity):
     def __init__(self, course, name = None, id = None, path = None):
         self.canvas = course.canvas
         self.course = course
@@ -286,10 +236,10 @@ class Assignment(ListedEntity, cachable.CachableEntity):
             else:
                 walk = False
             cachable.CachableEntity.__init__(self, path = path, walk = walk)
-            ListedEntity.__init__(self)
+            listed.ListedEntity.__init__(self)
         else:
             entities = self.canvas.list_assignments(self.course.id)
-            ListedEntity.__init__(self, entities, name, id)
+            listed.ListedEntity.__init__(self, entities, name, id)
 
         self.subs = map(Submission, self.submissions())
 
