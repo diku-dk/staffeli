@@ -76,6 +76,8 @@ def _call_api(token, method, api_base, url_relative, all_pages=False, **args):
                 else:
                     url_absolute = pagination_links['next']
                     req = _req(token, method, api_base, None, url_absolute, **args)
+            else:
+                break
     return entries
 
 def _upload_transit(course, filepath):
