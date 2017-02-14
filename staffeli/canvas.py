@@ -18,27 +18,65 @@ from staffeli import cachable, files, listed, names, upload
 def format_json(d):
     return json.dumps(d, sort_keys=True, indent=2, ensure_ascii=False)
 
-def _req(token, method, api_base, url_relative, **args):
+def _req(token, method, api_base, url_relative, url_absolute=None, **args):
     try:
         args = args['_arg_list']
     except KeyError:
         pass
     if type(args) == type({}):
-        args = [(v, k) for k, v in args.items()]
-    args.append(('per_page', 9000))
+        args = list(args.items())
+
+    # In the case of list-returning API calls, maximize the number of entries
+    # returned.  100 appears to be the max in at least one instance.  Combine
+    # this with the 'all_pages=True' argument in calling '_call_api'.
+    args.append(('per_page', 100))
+
     query_string = urllib.parse.urlencode(args, safe='[]@', doseq=True).encode('utf-8')
-    url = api_base + url_relative
+
+    if url_absolute is not None:
+        url = url_absolute
+    else:
+        url = api_base + url_relative
     headers = {
         'Authorization': 'Bearer ' + token
     }
     return urllib.request.Request(url, data=query_string, method=method,
                                  headers=headers)
 
-def _call_api(token, method, api_base, url_relative, **args):
-    req = _req(token, method, api_base, url_relative, **args)
-    with urllib.request.urlopen(req) as f:
-        data = json.loads(f.read().decode('utf-8'))
-    return data
+def _parse_pagination_link(s):
+    link, rel = s.split('; rel="')
+    link = link[1:-1]
+    rel = rel[:-1]
+    return (rel, link)
+
+def _call_api(token, method, api_base, url_relative, all_pages=False, **args):
+    req = _req(token, method, api_base, url_relative, None, **args)
+    entries = []
+    while True:
+        with urllib.request.urlopen(req) as f:
+            data = json.loads(f.read().decode('utf-8'))
+            entries.extend(data)
+
+            # In some cases we want to extract many entries, e.g. the students
+            # in a course.  However, some Absalon instances set a per_page limit
+            # to 100, so we cannot just set per_page to 9000 and hope for the
+            # best.  Instead we utilize the API's pagination facilities
+            # documented at
+            # <https://canvas.instructure.com/doc/api/file.pagination.html>.
+            # This works, although it is not foolproof in the extreme case that
+            # entries are added or removed from Absalon between our requests.
+            # This is probably not something to worry about.
+            if all_pages:
+                pagination_links = {rel: link
+                                    for rel, link in
+                                    (_parse_pagination_link(s)
+                                     for s in f.info()['Link'].split(','))}
+                if pagination_links['current'] == pagination_links['last']:
+                    break
+                else:
+                    url_absolute = pagination_links['next']
+                    req = _req(token, method, api_base, None, url_absolute, **args)
+    return entries
 
 def _upload_transit(course, filepath):
     form_url = "https://file-transit.appspot.com/upload"
@@ -241,15 +279,16 @@ class Assignment(listed.ListedEntity, cachable.CachableEntity):
             entities = self.canvas.list_assignments(self.course.id)
             listed.ListedEntity.__init__(self, entities, name, id)
 
-        self.subs = map(Submission, self.submissions())
+        self.subs = list(map(Submission, self.submissions()))
 
     def publicjson(self):
         return { self.cachename : self.json }
 
     def submissions(self):
         return self.canvas.get(
-            'courses/{}/assignments/{}/submissions?per_page=9000'.format(
-            self.course.id, self.id))
+            'courses/{}/assignments/{}/submissions'.format(
+                self.course.id, self.id),
+            all_pages=True)
 
     def submissions_download_url(self):
         return self.canvas.submissions_download_url(self.course.id, self.id)
@@ -351,13 +390,13 @@ class Canvas:
     ########## group methods ######################
     def groups(self, group_category_id):
         return self.get('group_categories/{}/groups'.format(group_category_id),
-                          per_page=9000)
+                        all_pages=True)
     def group(self, group_id):
         return self.get('/groups/{}'.format(group_id))
 
     def group_members(self, group_id):
         return self.get('/groups/{}/users'.format(group_id),
-                          per_page=9000)
+                        all_pages=True)
     ##################################
 
     def create_group(self, group_category_id, name):
@@ -366,7 +405,7 @@ class Canvas:
 
     def delete_all_assignment_groups(self, group_category_id):
         groups = self.get('group_categories/{}/groups'.format(group_category_id),
-                          per_page=9000)
+                          all_pages=True)
         group_ids = [g['id'] for g in groups]
         for gid in group_ids:
             self.delete('groups/{}'.format(gid))
