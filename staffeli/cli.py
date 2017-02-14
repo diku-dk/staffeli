@@ -94,6 +94,7 @@ def fetch_sub(students, path, sub, metadata = False):
     if not metadata:
         if not 'attachments' in json:
             print("There is something wrong with {}.. Skipping".format(sid))
+            print("This might be a 'No submission' submission.")
             print("Try and have a look in SpeedGrader(tm):\n{}".format(json['preview_url']))
             print(sub)
             return
