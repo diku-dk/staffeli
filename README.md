@@ -166,7 +166,7 @@ make Staffeli accessible further, a [command-line interface](src/CanvasTA)
 hides the low-level mechanics of the Python 3 library interface. We are open to
 adding a web, mobile, or desktop UI, but no one has done any work on this yet.
 
-[1]: By @oleks, @nqpz. (Your name here?)
+[1]: By @oleks, @nqpz, @orkeren. (Your name here?)
 
 ## Contributing
 
