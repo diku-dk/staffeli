@@ -4,6 +4,8 @@ from staffeli import canvas
 
 from urllib.request import urlretrieve
 
+from slugify import slugify
+
 def mkdir(path):
     if not os.path.exists(path):
         os.mkdir(path)
@@ -63,7 +65,7 @@ def fetch_all_subs(course):
             continue
         print("Fetching {}..".format(assign['name']))
         assign = canvas.Assignment(course, id = assign['id'])
-        dirname = assign.displayname.replace('/', '_')
+        dirname = slugify(assign.displayname.replace('/', '_'))
         path = os.path.join("subs", dirname)
         mkdir(path)
         assign.cache(path)
@@ -101,6 +103,7 @@ def fetch_sub(students, path, sub, metadata = False):
         fetch_attachments(subpath, json['attachments'])
 
 def fetch_subs(course, name, deep = False, metadata = False):
+    name = slugify(name)
     path = os.path.join("subs", name)
     if os.path.isdir(path):
       assign = canvas.Assignment(course, path = path)
