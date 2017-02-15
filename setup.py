@@ -17,6 +17,7 @@ setup(
     install_requires=[
         "pyyaml>=3.12",
         "requests>=2.12.5",
+        "python-slugify>=1.2.1",
     ],
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=readsybling('README.md'),
