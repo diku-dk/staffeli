@@ -65,7 +65,7 @@ def fetch_all_subs(course):
             continue
         print("Fetching {}..".format(assign['name']))
         assign = canvas.Assignment(course, id = assign['id'])
-        dirname = slugify(assign.displayname.replace('/', '_'))
+        dirname = slugify(assign.displayname.replace(os.sep, '_'))
         path = os.path.join("subs", dirname)
         mkdir(path)
         assign.cache(path)
@@ -124,8 +124,8 @@ def fetch(args, metadata):
     course = canvas.Course()
     what = args[0]
     args = args[1:]
-    if '/' in what:
-        partition = what.partition('/')
+    if os.sep in what:
+        partition = what.partition(os.sep)
         what = partition[0]
         args.insert(0, partition[2])
     if what == "students":
@@ -138,7 +138,7 @@ def fetch(args, metadata):
         if len(args) == 0:
             fetch_all_subs(course)
         else:
-            fetch_subs(course, " ".join(args).strip('/'), deep = True,
+            fetch_subs(course, " ".join(args).strip(os.sep), deep = True,
                 metadata = metadata == True)
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
@@ -157,7 +157,7 @@ def student_dirname(student):
     return "{}_{}".format(student['kuid'], student['id'])
 
 def normalize_pathname(pathname):
-    return pathname.replace("/", "_")
+    return pathname.replace(os.sep  , "_")
 
 def split_according_to_groups(course, subspath, path):
     if not os.path.isdir(subspath):
