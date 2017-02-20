@@ -18,6 +18,7 @@ setup(
         "pyyaml>=3.12",
         "requests>=2.12.5",
         "python-slugify>=1.2.1",
+        "sphinx>=1.5.2",
     ],
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=readsybling('README.md'),
