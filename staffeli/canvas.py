@@ -393,6 +393,9 @@ class Canvas:
     def groups(self, group_category_id):
         return self.get('group_categories/{}/groups'.format(group_category_id),
                         all_pages=True)
+    def groups_in_course(self, course_id):
+        return self.get('courses/{}/groups'.format(course_id),
+                        all_pages=True)
     def group(self, group_id):
         return self.get('/groups/{}'.format(group_id))
 

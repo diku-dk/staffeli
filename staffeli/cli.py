@@ -223,6 +223,13 @@ Grade a submission:
         GRADE           pass, fail, or an int.
         [-m COMMENT]    An optional comment to write.
         [FILEPATH]...   Optional files to upload alongside.
+
+Work with groups:
+    group add group GROUP_CATEGORY GROUP_NAME
+        Add a new group to an *existing* group category.
+
+    group add user GROUP_NAME USER
+        Add a user to a group.
 """)
     parser.add_argument(
         "action", metavar="ACTION",
@@ -238,6 +245,53 @@ def parse_action_arg(parser, args):
         parser.print_help()
         sys.exit(0)
     return args, remargs
+
+def group(args):
+    if len(args) == 4 and args[0] == 'add' and args[1] == 'group':
+        add_group(args[2], args[3])
+
+    if len(args) == 4 and args[0] == 'add' and args[1] == 'user':
+        add_group_user(args[2], args[3])
+
+def add_group(group_category_name, group_name):
+    course = canvas.Course()
+
+    can = canvas.Canvas()
+    categories_all = can.group_categories(course.id)
+    categories = list(filter(lambda x: x['name'] == group_category_name,
+                             categories_all))
+    if len(categories) < 1:
+        raise Exception('no category of that name')
+    else:
+        group_category_id = categories[0]['id']
+
+    can.create_group(group_category_id, group_name)
+
+    fetch_groups(course) # a bit silly
+
+def add_group_user(group_name, user_name):
+    course = canvas.Course()
+
+    can = canvas.Canvas()
+    groups_all = can.groups_in_course(course.id)
+    groups = list(filter(lambda x: x['name'] == group_name,
+                         groups_all))
+    if len(groups) < 1:
+        raise Exception('no group of that name')
+    else:
+        group_id = groups[0]['id']
+
+    users_all = can.all_students(course.id)
+    users = list(filter(lambda x: x['name'] == user_name,
+                        users_all))
+    if len(users) < 1:
+        raise Exception('no user of that name')
+    else:
+        user_id = users[0]['id']
+    print(user_id)
+    can.add_group_members(group_id, [user_id])
+
+    fetch_groups(course) # a bit silly
 
 def groupsplit(args):
     split_according_to_groups(canvas.Course(), args[0], args[1])
@@ -295,6 +349,8 @@ def main():
         fetch(remargs, args.metadata)
     elif action == "grade":
         grade(remargs)
+    elif action == "group":
+        group(remargs)
     elif action == "groupsplit":
         groupsplit(remargs)
     else:
