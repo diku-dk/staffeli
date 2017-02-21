@@ -6,6 +6,8 @@ from urllib.request import urlretrieve
 
 from slugify import slugify
 
+import Levenshtein as levenshtein
+
 if os.name == "nt":
     import _winapi
 
@@ -230,6 +232,10 @@ Work with groups:
 
     group add user GROUP_NAME USER
         Add a user to a group.
+
+Work with users:
+    user find USER_NAME
+        Check if the user exists.  If not, make a guess.
 """)
     parser.add_argument(
         "action", metavar="ACTION",
@@ -293,6 +299,38 @@ def add_group_user(group_name, user_name):
 
     fetch_groups(course) # a bit silly
 
+def user(args):
+    if len(args) == 2 and args[0] == 'find':
+        find_user(args[1])
+
+def find_user(user_name):
+    course = canvas.Course()
+    can = canvas.Canvas()
+    users = list(can.all_students(course.id))
+
+    # Hack to remove duplicates.
+    users_found = list(filter(lambda user: user_name == user['name'], users))
+    users_found = list(set(tuple(x.items()) for x in users_found))
+    users_found = [{k: v for k, v in x} for x in users_found]
+    if len(users_found) == 1:
+        print('Found; id: {}, sis_user_id: {}, sis_login_id: {}'.format(
+            users_found[0]['id'], users_found[0]['sis_user_id'],
+            users_found[0]['sis_login_id']))
+    elif len(users_found) > 1:
+        print('{} users found:'.format(len(users_found)))
+        for user in users_found:
+            print(user)
+        sys.exit(1)
+    else:
+        print('No users found.  Guesses:')
+        users.sort(key=lambda user: levenshtein.ratio(user_name, user['name']),
+                   reverse=True)
+        for user in users[:10]:
+            print('{} ({:2%} match)'.format(
+                user['name'],
+                levenshtein.ratio(user_name, user['name'])))
+        sys.exit(1)
+
 def groupsplit(args):
     split_according_to_groups(canvas.Course(), args[0], args[1])
 
@@ -351,6 +389,8 @@ def main():
         grade(remargs)
     elif action == "group":
         group(remargs)
+    elif action == "user":
+        user(remargs)
     elif action == "groupsplit":
         groupsplit(remargs)
     else:

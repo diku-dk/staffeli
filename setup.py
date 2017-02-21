@@ -19,6 +19,7 @@ setup(
         "requests>=2.12.5",
         "python-slugify>=1.2.1",
         "sphinx>=1.5.2",
+        "python-Levenshtein>=0.11.0"
     ],
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=readsybling('README.md'),
