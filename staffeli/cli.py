@@ -128,7 +128,6 @@ def fetch(args, metadata):
     what = args[0]
     args = args[1:]
     if os.sep in what:
-        #partition = what.partition(os.sep)
         partition = os.path.split(what)
         what = partition[0]
         args.insert(0, partition[1])
@@ -200,7 +199,6 @@ def split_according_to_groups(course, subspath, path):
             dirname = student_dirname(students[uid])
             subpath = os.path.join(subspath, dirname)
             if os.path.isdir(subpath):
-                #src = os.path.relpath(subpath, namepath)
                 src = subpath
                 tgt = os.path.join(namepath, dirname)
                 symlink_according_to_os(src, tgt)
