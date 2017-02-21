@@ -6,6 +6,9 @@ from urllib.request import urlretrieve
 
 from slugify import slugify
 
+if os.name == "nt":
+    import _winapi
+
 def mkdir(path):
     if not os.path.exists(path):
         os.mkdir(path)
@@ -125,9 +128,9 @@ def fetch(args, metadata):
     what = args[0]
     args = args[1:]
     if os.sep in what:
-        partition = what.partition(os.sep)
+        partition = os.path.split(what)
         what = partition[0]
-        args.insert(0, partition[2])
+        args.insert(0, partition[1])
     if what == "students":
         fetch_students(course)
     elif what == "groups":
@@ -159,6 +162,19 @@ def student_dirname(student):
 def normalize_pathname(pathname):
     return pathname.replace(os.sep  , "_")
 
+
+"""
+We create junctions instead of symlinks on windows, as they don't require
+privilege.
+"""
+def symlink_according_to_os(src, tgt):
+    if os.name == "nt":
+        _winapi.CreateJunction(src, tgt)
+    else:
+        rel_src = os.path.relpath(src, os.path.split(tgt)[0])
+        os.symlink(rel_src, tgt)
+
+
 def split_according_to_groups(course, subspath, path):
     if not os.path.isdir(subspath):
         subspath = os.path.join("subs", subspath)
@@ -183,9 +199,9 @@ def split_according_to_groups(course, subspath, path):
             dirname = student_dirname(students[uid])
             subpath = os.path.join(subspath, dirname)
             if os.path.isdir(subpath):
-                src = os.path.relpath(subpath, namepath)
+                src = subpath
                 tgt = os.path.join(namepath, dirname)
-                os.symlink(src, tgt)
+                symlink_according_to_os(src, tgt)
 
 def main_args_parser():
     parser = argparse.ArgumentParser(
