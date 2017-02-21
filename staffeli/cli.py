@@ -172,7 +172,8 @@ def symlink_according_to_os(src, tgt):
     if os.name == "nt":
         _winapi.CreateJunction(src, tgt)
     else:
-        os.symlink(src, tgt)
+        rel_src = os.path.relpath(src, os.path.split(tgt)[0])
+        os.symlink(rel_src, tgt)
 
 
 def split_according_to_groups(course, subspath, path):
