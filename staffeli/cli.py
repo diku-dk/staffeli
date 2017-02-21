@@ -230,8 +230,8 @@ Work with groups:
     group add group GROUP_CATEGORY GROUP_NAME
         Add a new group to an *existing* group category.
 
-    group add user GROUP_NAME USER
-        Add a user to a group.
+    group set members GROUP_NAME USER...
+        Set the members of a group.  Ignores any current members.
 
 Work with users:
     user find USER_NAME
@@ -256,8 +256,8 @@ def group(args):
     if len(args) == 4 and args[0] == 'add' and args[1] == 'group':
         add_group(args[2], args[3])
 
-    if len(args) == 4 and args[0] == 'add' and args[1] == 'user':
-        add_group_user(args[2], args[3])
+    if len(args) >= 4 and args[0] == 'set' and args[1] == 'members':
+        set_group_members(args[2], args[3:])
 
 def add_group(group_category_name, group_name):
     course = canvas.Course()
@@ -273,9 +273,9 @@ def add_group(group_category_name, group_name):
 
     can.create_group(group_category_id, group_name)
 
-    fetch_groups(course) # a bit silly
+    fetch_groups(course) # a bit silly, and very slow
 
-def add_group_user(group_name, user_name):
+def set_group_members(group_name, user_names):
     course = canvas.Course()
 
     can = canvas.Canvas()
@@ -287,17 +287,19 @@ def add_group_user(group_name, user_name):
     else:
         group_id = groups[0]['id']
 
-    users_all = can.all_students(course.id)
-    users = list(filter(lambda x: x['name'] == user_name,
-                        users_all))
-    if len(users) < 1:
-        raise Exception('no user of that name')
-    else:
-        user_id = users[0]['id']
-    print(user_id)
-    can.add_group_members(group_id, [user_id])
+    users_all = list(can.all_students(course.id))
+    user_ids = []
+    for user_name in user_names:
+        users = list(filter(lambda x: x['name'] == user_name,
+                            users_all))
+        if len(users) < 1:
+            raise Exception('no user of that name')
+        else:
+            user_id = users[0]['id']
+        user_ids.append(user_id)
+    can.add_group_members(group_id, user_ids)
 
-    fetch_groups(course) # a bit silly
+    fetch_groups(course) # a bit silly, and very slow
 
 def user(args):
     if len(args) == 2 and args[0] == 'find':
