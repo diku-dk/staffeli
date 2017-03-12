@@ -252,7 +252,7 @@ class StudentList(cachable.CachableEntity):
 
 class Submission(cachable.CachableEntity):
     def __init__(self, json = None):
-        self.cachename = 'submisison'
+        self.cachename = 'submission'
         if json == None:
             cachable.CachableEntity.__init__(self)
         else:
