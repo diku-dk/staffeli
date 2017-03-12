@@ -164,19 +164,6 @@ def student_dirname(student):
 def normalize_pathname(pathname):
     return pathname.replace(os.sep  , "_")
 
-
-"""
-We create junctions instead of symlinks on windows, as they don't require
-privilege.
-"""
-def symlink_according_to_os(src, tgt):
-    if os.name == "nt":
-        _winapi.CreateJunction(src, tgt)
-    else:
-        rel_src = os.path.relpath(src, os.path.split(tgt)[0])
-        os.symlink(rel_src, tgt)
-
-
 def split_according_to_groups(course, subspath, path):
     if not os.path.isdir(subspath):
         subspath = os.path.join("subs", subspath)
@@ -203,7 +190,7 @@ def split_according_to_groups(course, subspath, path):
             if os.path.isdir(subpath):
                 src = subpath
                 tgt = os.path.join(namepath, dirname)
-                symlink_according_to_os(src, tgt)
+                shutil.copytree(src, tgt, symlinks=True)
 
 def main_args_parser():
     parser = argparse.ArgumentParser(
