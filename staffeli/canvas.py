@@ -258,7 +258,10 @@ class Submission(cachable.CachableEntity):
         else:
             self.json = json
 
-        self.student_ids = [self.json['user_id']]
+        if 'student_ids' in self.json:
+            self.stdent_ids = self.json['student_ids']
+        else:
+            self.student_ids = [self.json['user_id']]
 
     def publicjson(self):
         return { self.cachename : self.json }
