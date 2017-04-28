@@ -19,12 +19,13 @@ setup(
         "requests>=2.12.5",
         "python-slugify>=1.2.1",
         "sphinx>=1.5.2",
-        "python-Levenshtein>=0.11.0"
+        "python-Levenshtein>=0.11.0",
+        "beautifulsoup4>=4.5.3"
     ],
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=readsybling('README.md'),
     url="https://github.com/DIKU-EDU/Staffeli",
-    version='0.3.3',
+    version='0.3.4',
     packages=find_packages(),
     maintainer="Oleks",
     maintainer_email="oleks@oleks.info",

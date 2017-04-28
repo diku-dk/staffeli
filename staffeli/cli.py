@@ -8,6 +8,8 @@ from slugify import slugify
 
 import Levenshtein as levenshtein
 
+from bs4 import BeautifulSoup
+
 if os.name == "nt":
     import _winapi
 
@@ -85,6 +87,11 @@ def fetch_attachments(path, attachments):
             continue
         urlretrieve(att['url'], targetpath)
 
+def write_body(path: str, body: str) -> None:
+    with open(os.path.join(path, 'body.txt'), 'w') as f:
+        soup = BeautifulSoup(body, 'html.parser')
+        f.write(soup.text.strip() + "\n")
+
 def fetch_sub(students, path, sub, metadata = False):
     json = sub.json
     sid = json['user_id']
@@ -98,7 +105,12 @@ def fetch_sub(students, path, sub, metadata = False):
     subpath = os.path.join(path, "{}_{}".format(students[sid]['kuid'], sid))
     mkdir(subpath)
     sub.cache(subpath)
-    if not metadata:
+    if metadata:
+        return
+    sub_type = json['submission_type']
+    if sub_type == 'online_text_entry':
+        write_body(subpath, json['body'])
+    elif sub_type == 'online_upload':
         if not 'attachments' in json:
             print("There is something wrong with {}.. Skipping".format(sid))
             print("This might be a 'No submission' submission.")
