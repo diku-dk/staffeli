@@ -127,12 +127,13 @@ def fetch_subs(course, name, deep = False, metadata = False):
 
 def fetch(args, metadata):
     course = canvas.Course()
-    what = args[0]
+    what = args[0].rstrip(os.sep)
     args = args[1:]
     if os.sep in what:
         partition = os.path.split(what)
         what = partition[0]
         args.insert(0, partition[1])
+    args = list(map(lambda s: s.rstrip(os.sep), args))
     if what == "students":
         fetch_students(course)
     elif what == "groups":
@@ -143,7 +144,7 @@ def fetch(args, metadata):
         if len(args) == 0:
             fetch_all_subs(course)
         else:
-            fetch_subs(course, " ".join(args).strip(os.sep), deep = True,
+            fetch_subs(course, " ".join(args), deep = True,
                 metadata = metadata == True)
     else:
         raise Exception("Don't yet know how to fetch {}.".format(str(args)))
