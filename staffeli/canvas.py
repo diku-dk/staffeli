@@ -468,12 +468,16 @@ class Canvas:
         if not 'grade' in resp:
           raise Exception("Canvas response looks weird: {}".format(resp))
 
-        speedgrader_url = "https://absalon.ku.dk/courses/{}/gradebook/speed_grader?assignment_id={}#%7B%22student_id%22%3A%22{}%22%7D".format(course_id, assignment_id, user_id)
-        gradebook_url = "https://absalon.ku.dk/courses/{}/gradebook/".format(course_id)
-
-        print("Looks good.\nVerification URLs: \n{}\n{}".format(
-            speedgrader_url, gradebook_url))
+        print("Looks good.")
+        self.show_verification_urls(course_id, assignment_id, user_id)
         return resp
+
+    def show_verification_urls(self, course_id, assignment_id, user_id):
+        speedgrader_url = "https://absalon.ku.dk/courses/{}/gradebook/speed_grader?assignment_id={}#%7B%22student_id%22%3A%22{}%22%7D".format(course_id, assignment_id, user_id)
+        gradebook_url = "https://absalon.ku.dk/courses/{}/assignments/{}/submissions/{}/".format(course_id, assignment_id, user_id)
+
+        print("Verification URLs: \n{}\n{}".format(
+            speedgrader_url, gradebook_url))
 
 def main(args):
     try:
