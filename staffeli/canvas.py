@@ -259,7 +259,7 @@ class Submission(cachable.CachableEntity):
             self.json = json
 
         if 'student_ids' in self.json:
-            self.stdent_ids = self.json['student_ids']
+            self.student_ids = self.json['student_ids']
         else:
             self.student_ids = [self.json['user_id']]
 
