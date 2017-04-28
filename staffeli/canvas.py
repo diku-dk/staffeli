@@ -289,6 +289,11 @@ class Assignment(listed.ListedEntity, cachable.CachableEntity):
     def publicjson(self):
         return { self.cachename : self.json }
 
+    def submission(self, id):
+        return self.canvas.get(
+            'courses/{}/assignments/{}/submissions/{}'.format(
+                self.course.id, self.id, id))
+
     def submissions(self):
         return self.canvas.get(
             'courses/{}/assignments/{}/submissions'.format(
