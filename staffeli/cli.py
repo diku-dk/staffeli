@@ -362,6 +362,8 @@ def grade_args_parser():
     parser.add_argument(
         "-m", metavar="COMMENT", dest='message', default="See attached files.")
     parser.add_argument(
+        "-1", metavar="ONE", dest='one', default=False)
+    parser.add_argument(
         "grade", metavar="GRADE")
     return parser
 
@@ -374,7 +376,18 @@ def grade(args):
     course = canvas.Course()
     assignment = canvas.Assignment(course)
     submission = canvas.Submission()
-    for student_id in submission.student_ids:
+    student_ids = submission.student_ids
+    if args.one:
+        student_ids = student_ids[:1]
+    for sub in assignment.submissions():
+        if sub['user_id'] in student_ids:
+            current_grade = sub['grade']
+            if current_grade == grade:
+                print('Already graded.')
+                course.canvas.show_verification_urls(
+                    course.id, assignment.id, sub['user_id'])
+                return
+    for student_id in student_ids:
         assignment.give_feedback(student_id, grade,
             message, filepaths, use_post = True)
 
