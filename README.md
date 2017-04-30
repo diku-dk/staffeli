@@ -2,8 +2,9 @@
 
 "Staffeli" is Danish for "easel" — a support frame for holding up a canvas.
 
-![An Easel](logo.jpg
-  "Image license: CC0; Source: https://pixabay.com/en/art-painting-modern-art-mural-1027828/")
+<div style="text-align:center"><img src ="logo.jpg" width="300" alt="An Easel"
+title="Image license: CC0; Source:
+https://pixabay.com/en/art-painting-modern-art-mural-1027828/"/></div>
 
 These tools leverage the [Canvas LMS REST
 API](https://canvas.instructure.com/doc/api/index.html) to create a more
