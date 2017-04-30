@@ -219,11 +219,12 @@ update a working area
     fetch   Fetch something that might have changed
 
 Grade a submission:
-    grade GRADE [-m COMMENT] [FILEPATH]...
+    grade GRADE [-m COMMENT] [-1] [FILEPATH]...
 
     Where
         GRADE           pass, fail, or an int.
         [-m COMMENT]    An optional comment to write.
+        [-1]            Only upload feedback for 1 student id (instead of all).
         [FILEPATH]...   Optional files to upload alongside.
 
 Work with groups:
