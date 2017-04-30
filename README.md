@@ -24,8 +24,8 @@ better, faster, stronger.
 LMS](https://www.canvaslms.com/).
 
 Initially, Staffeli is _not_ intended for managing course content, merely to
-let teachers and teaching assistants get an overview of the course (students,
-submissions, etc.), _and_ to get grading done efficiently.
+snapshot course data (e.g. enrolled students, groups, sections, submissions),
+_and_ to get grading done efficiently.
 
 ## Status
 
