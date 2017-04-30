@@ -185,3 +185,19 @@ Add this to your `~/.vimrc`:
 ```
 au BufNewFile,BufRead /path/to/staffeli/*.py set expandtab tabstop=4
 ```
+
+## Related Work
+
+In terms of Python-wrapper design, Staffeli is in many ways to
+[Canvas](https://www.canvaslms.com/) as
+[`python-gitlab`](http://python-gitlab.readthedocs.io/en/stable/) is to
+[GitLab](https://about.gitlab.com/).
+
+Closer to Canvas, however, we can mention these projects:
+
+* [`lumenlearning/python3-canvaslms-api`](https://github.com/lumenlearning/python3-canvaslms-api)
+  * 1 contributor
+  * Last commit was made on June 25, 2013.
+* [`dkloz/canvas-api-python`](https://github.com/dkloz/canvas-api-python)
+  * 1 contributor
+  * Last commit was made on May 13, 2016.
