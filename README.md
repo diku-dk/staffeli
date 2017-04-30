@@ -121,58 +121,10 @@ Where
     [FILEPATH]...   Optional files to upload alongside.
 ```
 
-## Design
-
-In the following, the keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" are to be
-interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119)
-(Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP
-14, RFC 2119, March 1997).
-
-In the following, the "foreseeable future" is roughly 5 years.
-
-1. Staffeli SHOULD be "cross-platform", working across all the *desktop*
-   platforms that teachers and teaching assistants might use for the foreseeable
-   future.
-
-2. Staffeli SHOULD be easy to maintain for the foreseeable future. The primary
-   programming language SHOULD be the one deemed most familiar to present and
-   perspective teaching assistants.
-
-3. Staffeli SHOULD be easy to extend. It is unlikely that Staffeli
-   meets everyone's needs, and so it should have a clear, modular design,
-   allowing for quick and dirty extensions, which can grow into stable parts
-   of Staffeli proper over time.
-
-4. Staffeli SHOULD be *fast*, not reloading information that is known (i.e.,
-   known to Staffeli users) to not have changed. This is to combat Canvas
-   page-loading time issues, and possible Canvas down-times.
-
-**Outcome 1:** Python 3, is deemed[1] a popular, modern, cross-platform language.
-Python 3 is the primary choice for every part of Staffeli. When relevant,
-cross-platform Python 3 code SHOULD be preferred over non-cross-platform code.
-For instance, when handling file system paths.
-
-**Exceptions to outcome 1:** When everyone involved is known to use a
-particular set of desktop platforms, and a part of Staffeli would be faster to
-write in a platform-specific way.
-
-**Outcome 2:** [YAML](http://yaml.org/) is a human-readable data serialization
-language. It is similar to JSON, but is deemed[1] slightly more readable.
-Staffeli generates local YAML dumps of Canvas course data that is not likely to
-change. These SHOULD be decorated with an expiration timestamp.
-
-**Outcome 3:** First and foremost, Staffeli provides a [Python 3 library
-interface](src/canvas.py), which hides low-level mechanics of the REST API. To
-make Staffeli accessible further, a [command-line interface](src/CanvasTA)
-hides the low-level mechanics of the Python 3 library interface. We are open to
-adding a web, mobile, or desktop UI, but no one has done any work on this yet.
-
-[1]: By @oleks, @nqpz, @orkeren. (Your name here?)
-
 ## Contributing
 
-Please follow our [style guide](STYLE.md)
+First, take a look at our [design guide](DESIGN.md) and [style
+guide](STYLE.md).
 
 Contact us at dikunix at dikumail dot dk.
 
