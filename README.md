@@ -170,21 +170,11 @@ adding a web, mobile, or desktop UI, but no one has done any work on this yet.
 
 ## Contributing
 
+Please follow our [style guide](STYLE.md)
+
 Contact us at dikunix at dikumail dot dk.
 
 Take a look at our on-going [issues](https://github.com/DIKU-EDU/Staffeli/issues).
-
-## Style Guide
-
-We use a tab-width of 4 spaces, with tabs expanded to spaces.
-
-### `vim`
-
-Add this to your `~/.vimrc`:
-
-```
-au BufNewFile,BufRead /path/to/staffeli/*.py set expandtab tabstop=4
-```
 
 ## Related Work
 
