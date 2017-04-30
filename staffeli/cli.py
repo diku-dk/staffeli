@@ -362,7 +362,7 @@ def grade_args_parser():
     parser.add_argument(
         "-m", metavar="COMMENT", dest='message', default="See attached files.")
     parser.add_argument(
-        "-1", metavar="ONE", dest='one', default=False)
+        "-1", action='store_true', dest='one', default=False)
     parser.add_argument(
         "grade", metavar="GRADE")
     return parser
