@@ -1,18 +1,15 @@
 # `staffeli` — DIKU Support Tools for Canvas LMS
 
-<p align="center">
-
-These tools leverage the [Canvas LMS REST
+<p align="center">These tools leverage the [Canvas LMS REST
 API](https://canvas.instructure.com/doc/api/index.html) to create a more
-pleasant environment for working with [Absalon](https://absalon.ku.dk/).
+pleasant environment for working with [Absalon](https://absalon.ku.dk/).</p>
 
-<img src ="logo.jpg" width="300" alt="An Easel"
-title="Image license: CC0; Source:
-https://pixabay.com/en/art-painting-modern-art-mural-1027828/"/>
+<p align="center"><img src ="logo.jpg" width="300" alt="An Easel" title="Image
+license: CC0; Source:
+https://pixabay.com/en/art-painting-modern-art-mural-1027828/"/></p>
 
-"Staffeli" is Danish for "easel" — a support frame for holding up a canvas.
-
-</p>
+<p align="center">"Staffeli" is Danish for "easel" — a support frame for
+holding up a canvas.</p>
 
 [![Documentation Status](https://readthedocs.org/projects/staffeli/badge/)](http://staffeli.readthedocs.io/en/latest/)
 [![Travis CI (Linux + macOS) Status](https://travis-ci.org/DIKU-EDU/staffeli.svg)](https://travis-ci.org/DIKU-EDU/staffeli)
