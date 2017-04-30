@@ -1,8 +1,8 @@
 # `staffeli` — DIKU Support Tools for Canvas LMS
 
-<p align="center">These tools leverage the [Canvas LMS REST
+These tools leverage the [Canvas LMS REST
 API](https://canvas.instructure.com/doc/api/index.html) to create a more
-pleasant environment for working with [Absalon](https://absalon.ku.dk/).</p>
+pleasant environment for working with [Absalon](https://absalon.ku.dk/).
 
 <p align="center"><img src ="logo.jpg" width="300" alt="An Easel" title="Image
 license: CC0; Source:
