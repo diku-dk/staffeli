@@ -18,6 +18,7 @@ mypy_files = [
         "staffeli/names.py",
         "staffeli/cachable.py",
         "staffeli/upload.py",
+        "tests/test_sections.py"
     ]
 
 flake8_files = mypy_files + [
