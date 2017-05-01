@@ -18,6 +18,12 @@ from staffeli import cachable, files, listed, names, upload
 def format_json(d):
     return json.dumps(d, sort_keys=True, indent=2, ensure_ascii=False)
 
+def _api_bool(value: bool) -> int:
+    if value:
+        return 1
+    else:
+        return 0
+
 def _req(token, method, api_base, url_relative, url_absolute=None, **args):
     try:
         args = args['_arg_list']
@@ -321,12 +327,14 @@ def _raise_lookup_file(namestr, lastparent):
 class Canvas:
     def __init__(self,
                  token=None,
+                 account_id=None,
                  api_base='https://absalon.ku.dk/api/v1/'):
         self.api_base = api_base
 
         if token is None:
-            with open(files.find_token_file()) as f:
-                token = f.read().strip()
+            (account_id, token) = files.find_rc()
+
+        self.account_id = account_id
         self.token = token
 
     def get(self, url_relative, **args):
@@ -361,6 +369,21 @@ class Canvas:
     def course_delete(self, course_id):
         return self.delete('courses/{}'.format(course_id), _arg_list=[
                 ('event', 'delete')
+            ])
+
+    def course_create(self, name: str, license: str = 'private', is_public: bool = False):
+        courses = self.courses()
+        for c in courses:
+            if name == c['name']:
+                raise Exception(
+                    "The course {} already exists. YAML dump:\n{}".format(
+                        name, yaml.dump(c, default_flow_style=False)))
+        return self.post('accounts/6/courses', _arg_list=[
+                ('course[name]', name),
+                ('course[course_code]', ''),
+                ('course[license]', license),
+                ('course[is_public]', _api_bool(is_public)),
+                ('enroll_me', 'true')
             ])
 
     def section_list(self, course_id):

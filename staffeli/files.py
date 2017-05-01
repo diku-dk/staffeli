@@ -1,11 +1,12 @@
 import os
 import os.path
 import yaml
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, Tuple
 from staffeli import names
 
 STAFFELI_FILENAME = ".staffeli.yml"
 TOKEN_FILENAMES = ["token", "token.txt", ".token"]
+STAFFELI_RC = ".staffelirc"
 MAX_DIR_SEARCH_DEPTH = 9
 
 
@@ -53,6 +54,18 @@ def _find_file(
 def find_token_file():
     return _find_file(TOKEN_FILENAMES)
 
+def find_rc() -> Tuple[int, str]:
+    try:
+        rcfile = _find_file(STAFFELI_RC)
+        import configparser
+        config = configparser.ConfigParser()
+        config.readfp(open(rcfile))
+        config = config['staffeli']
+        return (config['account_id'], config['token'])
+    except LookupError:
+        with open(_find_file(TOKEN_FILENAMES)) as f:
+            token = f.read().strip()
+        return (6, token)
 
 def load_staffeli_file(path: str) -> Union[List[Any], Dict[Any, Any]]:
     with open(path, 'r') as f:
