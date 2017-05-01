@@ -61,7 +61,10 @@ def _call_api(token, method, api_base, url_relative, all_pages=False, **args):
     while True:
         with urllib.request.urlopen(req) as f:
             data = json.loads(f.read().decode('utf-8'))
-            entries.extend(data)
+            if type(data) is list:
+                entries.extend(data)
+            else:
+                entries.append(data)
 
             # In some cases we want to extract many entries, e.g. the students
             # in a course.  However, some Absalon instances set a per_page limit
@@ -84,7 +87,10 @@ def _call_api(token, method, api_base, url_relative, all_pages=False, **args):
                     req = _req(token, method, api_base, None, url_absolute, **args)
             else:
                 break
-    return entries
+    if len(entries) == 1 and all_pages == False:
+        return entries[0]
+    else:
+        return entries
 
 def _upload_transit(course, filepath):
     form_url = "https://file-transit.appspot.com/upload"
