@@ -2,9 +2,12 @@ import os.path
 import yaml
 from staffeli import files
 
+from typing import Any
+
 
 class CachableEntity:
-    def __init__(self, path='.', walk=True):
+    def __init__(self, path: str = '.', walk: bool = True) -> None:
+        self.cachename = "entity"
         if os.path.isdir(path):
             depth = [i for i in [1] if not walk]
             self.parentdir, model = files.find_staffeli_file(
@@ -18,7 +21,7 @@ class CachableEntity:
                 ).format(path))
         self.json = model[self.cachename]
 
-    def cache(self, path=None):
+    def cache(self, path: str) -> None:
         if os.path.isdir(path):
             path = os.path.join(path, ".staffeli.yml")
         with open(path, 'w') as f:
@@ -26,5 +29,5 @@ class CachableEntity:
                 self.publicjson(),
                 f, default_flow_style=False, encoding='utf-8')
 
-    def publicjson(self):
+    def publicjson(self) -> Any:
         return self.json

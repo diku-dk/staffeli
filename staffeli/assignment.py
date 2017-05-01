@@ -1,10 +1,17 @@
 from staffeli import cachable
+from staffeli.canvas import Course
 from staffeli.listed import ListedEntity
 from staffeli.submission import Submission
 
+from typing import Any, Dict, Optional
+
 
 class Assignment(ListedEntity, cachable.CachableEntity):
-    def __init__(self, course, name=None, id=None, path=None):
+    def __init__(
+            self, course: Course,
+            name: Optional[str] = None,
+            id: Optional[int] = None,
+            path: Optional[str] = None) -> None:
         self.canvas = course.canvas
         self.course = course
         self.cachename = 'assignment'
@@ -23,7 +30,7 @@ class Assignment(ListedEntity, cachable.CachableEntity):
 
         self.subs = map(Submission, self.submissions())
 
-    def publicjson(self):
+    def publicjson(self) -> Dict[str, Any]:
         return {self.cachename: self.json}
 
     def submissions(self):
