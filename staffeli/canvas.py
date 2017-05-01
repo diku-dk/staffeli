@@ -353,6 +353,16 @@ class Canvas:
     def get_course(self, course_id):
         return self.get('courses/{}'.format(course_id))
 
+    def course_conclude(self, course_id):
+        return self.delete('courses/{}'.format(course_id), _arg_list=[
+                ('event', 'conclude')
+            ])
+
+    def course_delete(self, course_id):
+        return self.delete('courses/{}'.format(course_id), _arg_list=[
+                ('event', 'delete')
+            ])
+
     def section_list(self, course_id):
         _arg_list = [('include[]', 'students')]
         return self.get('courses/{}/sections'.format(course_id),
