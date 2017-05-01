@@ -54,6 +54,7 @@ def _find_file(
 def find_token_file():
     return _find_file(TOKEN_FILENAMES)
 
+
 def find_rc() -> Tuple[int, str]:
     try:
         rcfile = _find_file(STAFFELI_RC)
@@ -66,6 +67,7 @@ def find_rc() -> Tuple[int, str]:
         with open(_find_file(TOKEN_FILENAMES)) as f:
             token = f.read().strip()
         return (6, token)
+
 
 def load_staffeli_file(path: str) -> Union[List[Any], Dict[Any, Any]]:
     with open(path, 'r') as f:
