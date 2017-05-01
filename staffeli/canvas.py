@@ -367,16 +367,6 @@ class Canvas:
     def get_course(self, course_id):
         return self.get('courses/{}'.format(course_id))
 
-    def course_conclude(self, course_id):
-        return self.delete('courses/{}'.format(course_id), _arg_list=[
-                ('event', 'conclude')
-            ])
-
-    def course_delete(self, course_id):
-        return self.delete('courses/{}'.format(course_id), _arg_list=[
-                ('event', 'delete')
-            ])
-
     def course_create(self, name: str, license: str = 'private', is_public: bool = False):
         courses = self.courses()
         for c in courses:
