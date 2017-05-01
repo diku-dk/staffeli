@@ -14,20 +14,16 @@ def run(command: List[str]) -> None:
     except subprocess.CalledProcessError:
         exitcode = 1
 
-
-flake8_files = [
-        "staffeli/names.py",
-        "staffeli/files.py",
-        "staffeli/cachable.py",
-        "staffeli/assignment.py",
-        "staffeli/listed.py",
-        "staffeli/upload.py"
-    ]
-
 mypy_files = [
         "staffeli/names.py",
         "staffeli/cachable.py",
-        "staffeli/upload.py"
+        "staffeli/upload.py",
+    ]
+
+flake8_files = mypy_files + [
+        "staffeli/files.py",
+        "staffeli/assignment.py",
+        "staffeli/listed.py"
     ]
 
 run(["flake8"] + flake8_files)
