@@ -26,7 +26,7 @@ setup(
     long_description=readsybling('README.md'),
     url="https://github.com/DIKU-EDU/Staffeli",
     version='0.3.6',
-    packages=find_packages(),
+    packages=["staffeli"],
     maintainer="Oleks",
     maintainer_email="oleks@oleks.info",
     license="EUPLv1.1",
