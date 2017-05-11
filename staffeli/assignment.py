@@ -22,7 +22,7 @@ class Assignment(ListedEntity, cachable.CachableEntity):
                 walk = True
             else:
                 walk = False
-            cachable.CachableEntity.__init__(self, path=path, walk=walk)
+            cachable.CachableEntity.__init__(self, self.cachename, path, walk)
             ListedEntity.__init__(self)
         else:
             entities = self.canvas.list_assignments(self.course.id)

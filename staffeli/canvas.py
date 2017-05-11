@@ -167,7 +167,7 @@ class GroupList(listed.ListedEntity, cachable.CachableEntity):
         self.canvas = course.canvas
 
         if path != None:
-            cachable.CachableEntity.__init__(self, path = path, walk = False)
+            cachable.CachableEntity.__init__(self, self.cachename, path, walk = False)
         else:
             if id != None:
                 self.id = id
@@ -210,7 +210,7 @@ class Course(listed.ListedEntity, cachable.CachableEntity):
         self.cachename = 'course'
 
         if name == None and id == None:
-            cachable.CachableEntity.__init__(self)
+            cachable.CachableEntity.__init__(self, self.cachename)
             listed.ListedEntity.__init__(self)
         else:
             entities = self.canvas.courses()
@@ -244,7 +244,7 @@ class StudentList(cachable.CachableEntity):
         self.cachename = 'students'
 
         if course == None:
-            cachable.CachableEntity.__init__(self, searchdir)
+            cachable.CachableEntity.__init__(self, self.cachename, searchdir)
         else:
             self.json = course.canvas.all_students(course.id)
 
@@ -266,7 +266,7 @@ class Submission(cachable.CachableEntity):
     def __init__(self, json = None):
         self.cachename = 'submission'
         if json == None:
-            cachable.CachableEntity.__init__(self)
+            cachable.CachableEntity.__init__(self, self.cachename)
         else:
             self.json = json
 
@@ -290,7 +290,7 @@ class Assignment(listed.ListedEntity, cachable.CachableEntity):
                 walk = True
             else:
                 walk = False
-            cachable.CachableEntity.__init__(self, path = path, walk = walk)
+            cachable.CachableEntity.__init__(self, self.cachename, path, walk)
             listed.ListedEntity.__init__(self)
         else:
             entities = self.canvas.list_assignments(self.course.id)

@@ -6,12 +6,14 @@ from typing import Any
 
 
 class CachableEntity:
-    def __init__(self, path: str = '.', walk: bool = True) -> None:
-        self.cachename = "entity"
+    def __init__(
+            self, cachename: str,
+            path: str = '.', walk: bool = True
+            ) -> None:
         if os.path.isdir(path):
             depth = [i for i in [1] if not walk]
             self.parentdir, model = files.find_staffeli_file(
-                self.cachename, path, *depth)
+                cachename, path, *depth)
         elif os.path.isfile(path):
             self.parentdir = os.path.split(path)[0]
             model = files.load_staffeli_file(path)
@@ -19,7 +21,7 @@ class CachableEntity:
             raise LookupError((
                 "{} is neither a directory, nor file path."
                 ).format(path))
-        self.json = model[self.cachename]
+        self.json = model[cachename]
 
     def cache(self, path: str) -> None:
         if os.path.isdir(path):
