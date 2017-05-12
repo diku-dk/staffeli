@@ -114,7 +114,7 @@ class Canvas:
     def delete(self, rel_url: str, **args: QueryArg) -> List[Any]:
         return _api(self.token, 'DELETE', self.url(rel_url), **args)
 
-    def list_courses(self) -> Any:
+    def list_courses(self) -> List[Any]:
         return self.get_list(
             'courses')
 
