@@ -2,7 +2,7 @@ import pytest
 
 from hypothesis import given
 from hypothesis.strategies import lists, text
-from staffeli.canvas import Canvas
+from staffeli.course import Course
 from typing import Any, List
 
 name_chr = \
@@ -15,17 +15,12 @@ name_chr = \
 
 
 @pytest.fixture(scope='session')
-def canvas() -> Canvas:
-    return Canvas()
-
-
-@pytest.fixture(scope='session')
-def course_id(canvas: Canvas) -> int:
-    course_id = canvas.course('StaffeliTestBed').id
-    for gcat in canvas.list_group_categories(course_id):
-        canvas.delete_group_category(gcat['id'])
-    assert len(canvas.list_group_categories(course_id)) == 0
-    return course_id
+def course() -> Course:
+    course = Course(name='StaffeliTestBed')
+    for gcat in course.list_group_categories():
+        course.delete_group_category(gcat['id'])
+    assert len(course.list_group_categories()) == 0
+    return course
 
 
 def is_valid_group_category(gcat: Any) -> bool:
@@ -42,21 +37,20 @@ def is_valid_group_category(gcat: Any) -> bool:
     )
 def test_create_group_category(
         name: str,
-        canvas: Canvas,
-        course_id: int) -> None:
+        course: Course) -> None:
 
     # Try and add the given group category.
-    gcat = canvas.create_group_category(course_id, name)
+    gcat = course.create_group_category(name)
     assert is_valid_group_category(gcat)
     assert gcat['name'] == name
 
     # Try and delete the group category created above.
-    deleted_gcat = canvas.delete_group_category(gcat['id'])
+    deleted_gcat = course.delete_group_category(gcat['id'])
     assert is_valid_group_category(deleted_gcat)
     assert deleted_gcat['id'] == gcat['id']
 
     # Make sure the group categoy was actually deleted.
-    assert len(canvas.list_group_categories(course_id)) == 0
+    assert len(course.list_group_categories()) == 0
 
 
 @given(
@@ -66,20 +60,19 @@ def test_create_group_category(
     )
 def test_create_group_categories(
         names: List[str],
-        canvas: Canvas,
-        course_id: int) -> None:
+        course: Course) -> None:
 
-    len_before = len(canvas.list_group_categories(course_id))
+    len_before = len(course.list_group_categories())
 
     # Try and add the given number of group categories.
     gcat_ids = []
     for name in names:
-        gcat = canvas.create_group_category(course_id, name)
+        gcat = course.create_group_category(name)
         gcat_ids.append(gcat['id'])
-    len_after = len(canvas.list_group_categories(course_id))
+    len_after = len(course.list_group_categories())
     assert len_after - len_before == len(names)
 
     # Clean-up: Delete the group categories added above.
     for gcat_id in gcat_ids:
-        canvas.delete_group_category(gcat_id)
-    assert len(canvas.list_group_categories(course_id)) == len_before
+        course.delete_group_category(gcat_id)
+    assert len(course.list_group_categories()) == len_before

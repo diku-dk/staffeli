@@ -6,6 +6,8 @@ from typing import Any
 
 
 class CachableEntity:
+    cachename = None  # type: str
+
     def __init__(
             self, cachename: str,
             path: str = '.', walk: bool = True
