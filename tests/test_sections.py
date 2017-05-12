@@ -72,7 +72,7 @@ def test_create_sections(
 
     len_before = len(canvas.list_sections(course_id))
 
-    # Try and add the given number of sections
+    # Try and add the given number of sections.
     section_ids = []
     for name in names:
         section = canvas.create_section(course_id, name)
