@@ -31,9 +31,11 @@ def is_valid_group_category(gcat: Any) -> bool:
         'name' in gcat and \
         isinstance(gcat['name'], str)
 
+
 name_gen = text(
     name_chr, min_size=1, max_size=30).filter(
         lambda s: len(s.strip()) > 0)
+
 
 @given(name=name_gen)
 def test_create_group_category(
@@ -55,8 +57,8 @@ def test_create_group_category(
 
 
 @given(
-    names=lists(name_gen,
-        min_size=1, max_size=30, unique=True)
+    names=lists(
+        name_gen, min_size=1, max_size=30, unique=True)
     )
 def test_create_group_categories(
         names: List[str],
