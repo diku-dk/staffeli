@@ -118,6 +118,14 @@ class Canvas:
         return self.get_list(
             'courses')
 
+    def list_sections(self, course_id: int) -> List[Any]:
+        return self.get_list(
+            'courses/{}/sections'.format(course_id))
+
+    def delete_section(self, section_id):
+        return self.delete(
+            'sections/{}'.format(section_id))
+
     def create_group_category(self, course_id: int, name: str) -> Any:
         return self.post(
             'courses/{}/group_categories'.format(course_id),
