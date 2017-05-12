@@ -61,7 +61,7 @@ def find_rc() -> Tuple[int, str]:
         import configparser
         config = configparser.ConfigParser()
         config.readfp(open(rcfile))
-        config = config['staffeli']
+        config = config['default']
         return (int(config['account_id']), str(config['token']))
     except LookupError:
         with open(_find_file(TOKEN_FILENAMES)) as f:
