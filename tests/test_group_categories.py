@@ -3,7 +3,7 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import lists, text
 from staffeli.canvas import Canvas
-from typing import List
+from typing import Any, List
 
 name_chr = [chr(c) for c in range(ord('a'), ord('z') + 1)]
 
@@ -22,6 +22,15 @@ def course_id(canvas: Canvas) -> int:
     return course_id
 
 
+def is_valid_group_category(gcat: Any) -> bool:
+    return \
+        isinstance(gcat, dict) and \
+        'id' in gcat and \
+        isinstance(gcat['id'], int) and \
+        'name' in gcat and \
+        isinstance(gcat['name'], str)
+
+
 @given(
     name=text(name_chr, min_size=1, max_size=10)
     )
@@ -31,25 +40,15 @@ def test_create_group_category(
         course_id: int) -> None:
 
     # Try and add the given group category.
-    retval = canvas.create_group_category(course_id, name)
-    assert isinstance(retval, dict)
-    assert 'id' in retval
-    assert isinstance(retval['id'], int)
-    assert 'name' in retval
-    assert isinstance(retval['name'], str)
-    assert retval['name'] == name
-
-    gcat_id = retval['id']
+    gcat = canvas.create_group_category(course_id, name)
+    assert is_valid_group_category(gcat)
+    assert gcat['name'] == name
 
     # Try and delete the group category created above.
-    retval = canvas.delete_group_category(gcat_id)
-    assert isinstance(retval, dict)
-    assert 'id' in retval
-    assert isinstance(retval['id'], int)
-    assert retval['id'] == gcat_id
-    assert 'name' in retval
-    assert isinstance(retval['name'], str)
-    assert retval['name'] == name
+    deleted_gcat = canvas.delete_group_category(gcat['id'])
+    assert is_valid_group_category(deleted_gcat)
+    assert deleted_gcat['name'] == name
+    assert deleted_gcat['id'] == gcat['id']
 
     # Make sure the group categoy was actually deleted.
     assert len(canvas.list_group_categories(course_id)) == 0
