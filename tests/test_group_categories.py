@@ -47,7 +47,6 @@ def test_create_group_category(
     # Try and delete the group category created above.
     deleted_gcat = canvas.delete_group_category(gcat['id'])
     assert is_valid_group_category(deleted_gcat)
-    assert deleted_gcat['name'] == name
     assert deleted_gcat['id'] == gcat['id']
 
     # Make sure the group categoy was actually deleted.
