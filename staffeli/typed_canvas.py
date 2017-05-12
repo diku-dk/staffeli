@@ -30,8 +30,7 @@ def _read_json(f: Union[HTTPResponse, BinaryIO]) -> Any:
 
 def _list_req(token: str, method: str, url: str, **args: QueryArg) -> Request:
     # In the case of list-returning API calls, maximize the number of entries
-    # returned.  100 appears to be the max in at least one instance.  Combine
-    # this with the 'all_pages=True' argument in calling '_list_api'.
+    # returned.  100 appears to be the max in at least one instance.
     args['per_page'] = 100
     return _req(token, method, url, **args)
 
@@ -54,7 +53,7 @@ def _api(
 
 def _list_api(
         token: str, method: str, url: str,
-        all_pages: bool = True, **args: QueryArg) -> List[Any]:
+        **args: QueryArg) -> List[Any]:
     req = _list_req(token, method, url, **args)
     entries = []  # type: List[Any]
     while True:
@@ -76,17 +75,14 @@ def _list_api(
             # This works, although it is not foolproof in the extreme case that
             # entries are added or removed from Absalon between our requests.
             # This is probably not something to worry about.
-            if all_pages:
-                messages = str(f.getheader('Link')).split(',')
-                links = [_parse_pagination_link(m) for m in messages]
-                pagination_links = {rel: link for rel, link in links}
-                if pagination_links['current'] == pagination_links['last']:
-                    break
-                else:
-                    url = pagination_links['next']
-                    req = _list_req(token, method, url, **args)
-            else:
+            messages = str(f.getheader('Link')).split(',')
+            links = [_parse_pagination_link(m) for m in messages]
+            pagination_links = {rel: link for rel, link in links}
+            if pagination_links['current'] == pagination_links['last']:
                 break
+            else:
+                url = pagination_links['next']
+                req = _list_req(token, method, url, **args)
     return entries
 
 
@@ -110,7 +106,7 @@ class Canvas:
         return self.api_base + rel_url
 
     def get_list(self, rel_url: str, **args: QueryArg) -> List[Any]:
-        return _list_api(self.token, 'GET', self.url(rel_url), True, **args)
+        return _list_api(self.token, 'GET', self.url(rel_url), **args)
 
     def post(self, rel_url: str, **args: QueryArg) -> List[Any]:
         return _api(self.token, 'POST', self.url(rel_url), **args)
