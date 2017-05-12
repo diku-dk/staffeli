@@ -38,7 +38,7 @@ def is_valid_group_category(gcat: Any) -> bool:
 
 
 @given(
-    name=text(name_chr, min_size=1, max_size=10)
+    name=text(name_chr, min_size=1, max_size=30)
     )
 def test_create_group_category(
         name: str,
@@ -61,8 +61,8 @@ def test_create_group_category(
 
 @given(
     names=lists(
-        text(name_chr, min_size=1, max_size=10),
-        min_size=1, max_size=10, unique=True)
+        text(name_chr, min_size=1, max_size=30),
+        min_size=1, max_size=30, unique=True)
     )
 def test_create_group_categories(
         names: List[str],
