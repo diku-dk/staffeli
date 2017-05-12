@@ -129,3 +129,17 @@ guide](STYLE.md).
 Contact us at dikunix at dikumail dot dk.
 
 Take a look at our on-going [issues](https://github.com/DIKU-EDU/Staffeli/issues).
+
+# Testing
+
+This is a WIP. Currently, there are some static tests, including flake8 and
+mypy tests of selected modules run by [static_tests.py](static_tests.py).
+Furthermore, we have started on some pytests under the [tests](tests)
+directory. There is currently no CI, as our Canvas instance does not currently
+have a sandboxing environment, so things happen in a dedicated, manually
+created course called "StaffeliTestBed". To run tests from your local setup:
+
+```
+$ ./static_tests.py
+$ pytest
+```
