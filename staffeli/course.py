@@ -36,6 +36,9 @@ class Course(listed.ListedEntity, cachable.CachableEntity):
         self.id = self.json['id']
         self.displayname = self.json['name']
 
+    def web_url(self) -> str:
+        return self.canvas.web_url('courses/{}/'.format(self.id))
+
     def create_group_category(self, name: str) -> Any:
         return self.canvas.create_group_category(self.id, name)
 

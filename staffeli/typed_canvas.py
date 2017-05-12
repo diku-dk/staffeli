@@ -86,13 +86,18 @@ def _list_api(
 
 
 class Canvas:
+    base_url = None  # type: str
+    api_base = None  # type: str
+
     def __init__(
         self,
         token: Optional[str]=None,
         account_id: Optional[int]=None,
-        api_base: str='https://absalon.ku.dk/api/v1/'
+        base_url: str='https://absalon.ku.dk/',
+        api_base: str='api/v1/'
             ) -> None:
 
+        self.base_url = base_url
         self.api_base = api_base
 
         if token is None or account_id is None:
@@ -101,17 +106,20 @@ class Canvas:
             self.account_id = account_id  # type: int
             self.token = token  # type: str
 
-    def url(self, rel_url: str) -> str:
-        return self.api_base + rel_url
+    def api_url(self, rel_url: str) -> str:
+        return self.base_url + self.api_base + rel_url
+
+    def web_url(self, rel_url: str) -> str:
+        return self.base_url + rel_url
 
     def get_list(self, rel_url: str, **args: QueryArg) -> List[Any]:
-        return _list_api(self.token, 'GET', self.url(rel_url), **args)
+        return _list_api(self.token, 'GET', self.api_url(rel_url), **args)
 
     def post(self, rel_url: str, **args: QueryArg) -> List[Any]:
-        return _api(self.token, 'POST', self.url(rel_url), **args)
+        return _api(self.token, 'POST', self.api_url(rel_url), **args)
 
     def delete(self, rel_url: str, **args: QueryArg) -> List[Any]:
-        return _api(self.token, 'DELETE', self.url(rel_url), **args)
+        return _api(self.token, 'DELETE', self.api_url(rel_url), **args)
 
     def list_courses(self) -> List[Any]:
         return self.get_list(
