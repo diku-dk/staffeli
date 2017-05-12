@@ -426,6 +426,20 @@ class Canvas:
     def group_categories(self, course_id):
         return self.get('courses/{}/group_categories'.format(course_id))
 
+    def create_group_category(self, course_id: int, name: str):
+        return self.post(
+            'courses/{}/group_categories'.format(course_id),
+            name=name)
+
+    def list_group_categories(self, course_id: int):
+        return self.get(
+            'courses/{}/group_categories'.format(course_id),
+            all_pages=True)
+
+    def delete_group_category(self, gcat_id: int):
+        return self.delete(
+            'group_categories/{}'.format(gcat_id))
+
     ########## group methods ######################
     def groups(self, group_category_id):
         return self.get('group_categories/{}/groups'.format(group_category_id),
