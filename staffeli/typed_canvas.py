@@ -121,7 +121,7 @@ class Canvas:
         return self.get_list(
             'courses/{}/sections'.format(course_id))
 
-    def delete_section(self, section_id):
+    def delete_section(self, section_id: int) -> Any:
         return self.delete(
             'sections/{}'.format(section_id))
 
