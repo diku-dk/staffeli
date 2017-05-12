@@ -382,13 +382,11 @@ class Canvas:
                 ('enroll_me', 'true')
             ])
 
-    def section_list(self, course_id):
-        _arg_list = [('include[]', 'students')]
-        return self.get('courses/{}/sections'.format(course_id),
-            _arg_list=_arg_list)
+    def list_sections(self, course_id):
+        return self.get('courses/{}/sections'.format(course_id), all_pages=True)
 
-    def section_create(self, course_id, name):
-        sections = self.section_list(course_id)
+    def create_section(self, course_id, name):
+        sections = self.list_sections(course_id)
         existing = [s for s in sections if name == s['name']]
         for s in existing:
             raise Exception(
@@ -398,7 +396,7 @@ class Canvas:
         return self.post('courses/{}/sections'.format(course_id),
             _arg_list=_arg_list)
 
-    def section_delete(self, section_id):
+    def delete_section(self, section_id):
         return self.delete('sections/{}'.format(section_id))
 
     def section_enroll(self, section_id, user_id):
