@@ -5,7 +5,13 @@ from hypothesis.strategies import lists, text
 from staffeli.canvas import Canvas
 from typing import Any, List
 
-name_chr = [chr(c) for c in range(ord('a'), ord('z') + 1)]
+name_chr = \
+    list(map(chr,
+             list(range(ord('A'), ord('Z') + 1)) +
+             list(range(ord('a'), ord('z') + 1)) +
+             list(range(ord('0'), ord('9') + 1)) +
+             list(map(ord, ['_', '-', '+', '/', '&', ' '])) +
+             list(map(ord, ['Æ', 'Ø', 'Å', 'æ', 'ø', 'å']))))
 
 
 @pytest.fixture(scope='session')
