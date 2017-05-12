@@ -134,28 +134,3 @@ class Canvas:
     def delete_group_category(self, gcat_id: int) -> Any:
         return self.delete(
             'group_categories/{}'.format(gcat_id))
-
-# def _get_sections() -> Tuple[Dict[str, int], Dict[int, Any]]:
-#     results = _get_list(
-#         "courses/{}/sections".format(COURSE_ID),
-#         include='students')
-#     sections = {r['name']: r['id'] for r in results}
-#     students = {}  # type: Dict[int, Any]
-#     for r in results:
-#         for s in r['students']:
-#             s['section'] = r['name']
-#             students[s['id']] = s
-#     return (sections, students)
-#
-#
-# def _get_assignments() -> Dict[str, int]:
-#     results = _get_list(
-#         "courses/{}/assignments".format(COURSE_ID))
-#     return {r['name']: r['id'] for r in results}
-#
-#
-# def _get_submissions(assignment_id: int) -> Dict[int, Any]:
-#     results = _get_list(
-#         "courses/{}/assignments/{}/submissions".format(
-#             COURSE_ID, assignment_id))
-#     return {r['user_id']: r for r in results}
