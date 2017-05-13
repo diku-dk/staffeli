@@ -38,7 +38,4 @@ EOF
   exit ${failcode}
 fi
 
-./static_tests.py
-pytest
-
-exit 0
+exec pytest
