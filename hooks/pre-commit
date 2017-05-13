@@ -1,3 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-exec ./static_tests.py
+set -euo pipefail
+
+echo "Running static tests.."
+
+./static_tests.py
+
+echo "Good work!"
+
+exit 0
