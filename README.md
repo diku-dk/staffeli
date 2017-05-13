@@ -143,3 +143,8 @@ created course called "StaffeliTestBed". To run tests from your local setup:
 $ ./static_tests.py
 $ pytest
 ```
+
+These are also part of the [`pre-commit`](hooks/pre-commit) and
+[`pre-push`](hooks/pre-push) hooks, respectively. Install these hooks by
+executing [`hooks/install.sh`](hooks/install.sh). Unfortunately, neither these
+hooks, nor the hooks installer will work on Windows.
