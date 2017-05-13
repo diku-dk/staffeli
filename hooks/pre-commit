@@ -2,10 +2,11 @@
 
 set -euo pipefail
 
-echo "Running static tests.."
-
-./static_tests.py
-
-echo "Good work!"
+if git diff --cached --name-status | grep "^M.*\.py$"
+then
+  echo "Running static tests.."
+  ./static_tests.py
+  echo "Good work!"
+fi
 
 exit 0
