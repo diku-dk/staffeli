@@ -23,9 +23,9 @@ In the following, the "foreseeable future" is roughly 5 years.
    known to Staffeli users) to not have changed. This is to combat Canvas
    page-loading time issues, and possible Canvas down-times.
 
-**Outcome 1:** Python 3, is deemed[1] a popular, modern, cross-platform language.
-Python 3 is the primary choice for every part of Staffeli. When relevant,
-cross-platform Python 3 code SHOULD be preferred over non-cross-platform code.
+**Outcome 1:** Python 3, is deemed[1] a popular, modern, cross-platform
+language.  Python 3 is the primary choice for every part of Staffeli.
+Cross-platform Python 3 code SHOULD be preferred over non-cross-platform code.
 For instance, when handling file system paths.
 
 **Outcome 2:** [YAML](http://yaml.org/) is a human-readable data serialization
