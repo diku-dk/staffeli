@@ -28,10 +28,6 @@ Python 3 is the primary choice for every part of Staffeli. When relevant,
 cross-platform Python 3 code SHOULD be preferred over non-cross-platform code.
 For instance, when handling file system paths.
 
-**Exceptions to outcome 1:** When everyone involved is known to use a
-particular set of desktop platforms, and a part of Staffeli would be faster to
-write in a platform-specific way.
-
 **Outcome 2:** [YAML](http://yaml.org/) is a human-readable data serialization
 language. It is similar to JSON, but is deemed[1] slightly more readable.
 Staffeli generates local YAML dumps of Canvas course data that is not likely to
