@@ -33,7 +33,6 @@ flake8_files = mypy_files + [
 run(["flake8"] + flake8_files)
 run([
         "mypy",
-        "--disallow-untyped-calls",
         "--disallow-untyped-defs",
         "--strict-optional",
         "--ignore-missing-imports"
