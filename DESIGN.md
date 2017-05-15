@@ -26,7 +26,7 @@ In the following, the "foreseeable future" is roughly 5 years.
 **Outcome 1:** Python 3, is deemed[1] a popular, modern, cross-platform
 language.  Python 3 is the primary choice for every part of Staffeli.
 Cross-platform Python 3 code SHOULD be preferred over non-cross-platform code.
-For instance, when handling file system paths.
+For instance, when handling file-system paths.
 
 **Outcome 2:** [YAML](http://yaml.org/) is a human-readable data serialization
 language. It is similar to JSON, but is deemed[1] slightly more readable.
