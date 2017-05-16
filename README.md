@@ -132,10 +132,10 @@ Take a look at our on-going [issues](https://github.com/DIKU-EDU/Staffeli/issues
 
 # Testing
 
-Currently, there are some static tests, including flake8 and
-mypy tests of selected modules run by [static_tests.py](static_tests.py).
-Furthermore, we have started on some pytests under the [tests](tests)
-directory.
+Currently, there are some static tests, including
+[flake8](http://flake8.pycqa.org/) and [mypy](http://mypy-lang.org/) tests of
+selected modules run by [static_tests.py](static_tests.py).  Furthermore, we
+have started on some pytests under the [tests](tests) directory.
 
 Proper CI is a WIP. Currently, [Travis
 CI](https://travis-ci.org/DIKU-EDU/staffeli) will only run the static tests.
