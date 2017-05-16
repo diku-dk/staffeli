@@ -57,5 +57,4 @@ function install_files {
 }
 
 install_files \
-  pre-push \
-  pre-commit \
+  pre-commit
