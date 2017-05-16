@@ -31,7 +31,7 @@ before_install:
   - docker run --publish=3000:3000 --detach lbjay/canvas-docker
   - pip install mypy flake8 pytest
   - python static_tests.py
-install:
-  - pip install .
-script:
+  - sleep 60
   - pytest tests/test_courses.py
+install: "pip install ."
+script: exit 0
