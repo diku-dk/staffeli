@@ -144,14 +144,7 @@ $ ./static_tests.py
 $ pytest
 ```
 
-These are also part of the [`pre-commit`](hooks/pre-commit) and
-[`pre-push`](hooks/pre-push) hooks, respectively. Install these hooks by
-executing [`hooks/install.sh`](hooks/install.sh). Unfortunately, neither these
-hooks, nor the hooks installer will work on Windows.
-
-After installing the hooks, you can commit or push without going through these
-tests using the `--no-verify` option. It is not recommended to commit without
-verifying, as the hook will only run `static_tests.py` if some Python files
-have changed. It is however, acceptable to push without verifying, as running
-these tests is a lengthy process, and requires certain privileges on our Canvas
-instance.
+Running the static tests is also part of the [`pre-commit`](hooks/pre-commit)
+hook. Install these hooks by executing [`hooks/install.sh`](hooks/install.sh).
+Unfortunately, neither these hooks, nor the hooks installer will work on
+Windows.
