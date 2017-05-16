@@ -1,10 +1,13 @@
+import pytest
+
 from hypothesis import given
 from staffeli.course import Course
 from typing import Any, List
 
 from test_common import gen_name, gen_names
-from test_common import canvas, course  # noqa: F401
+from test_common import canvas, init_course  # noqa: F401
 from test_common import section_id, user_id  # noqa: F401
+from test_common import course_name, section_name  # noqa: F401
 
 
 def is_valid_section(section: Any) -> bool:
@@ -16,7 +19,20 @@ def is_valid_section(section: Any) -> bool:
         isinstance(section['name'], str)
 
 
-@given(name=gen_name)  # noqa: F811
+@pytest.fixture(scope='function')  # noqa: F811
+def course(
+        init_course: Course,
+        course_name: str,
+        section_name: str) -> Course:
+    reserved = [course_name, section_name]
+    for section in init_course.list_sections():
+        if section['name'] in reserved:
+            continue
+        init_course.delete_section(section['id'])
+    return init_course
+
+
+@given(name=gen_name)
 def test_create_section(
         name: str,
         course: Course) -> None:
@@ -39,22 +55,25 @@ def test_enroll_user(  # noqa: F811
     return course.section_enroll(section_id, user_id)
 
 
-@given(names=gen_names)  # noqa: F811
+@given(names=gen_names)
 def test_create_sections(
         names: List[str],
         course: Course) -> None:
 
-    len_before = len(course.list_sections())
-
     # Try and add the given number of sections.
-    sids = []
+    sections = []
     for name in names:
         section = course.create_section(name)
-        sids.append(section['id'])
-    len_after = len(course.list_sections())
-    assert len_after - len_before == len(names)
+        sections.append(section)
+
+    sids = [s['id'] for s in sections]
+    snames = [s['name'] for s in sections]
+
+    assert sorted(snames) == sorted(names)
 
     # Clean-up: Delete the sections created above.
+    deleted_ids = []
     for sid in sids:
-        course.delete_section(sid)
-    assert len(course.list_sections()) == len_before
+        del_section = course.delete_section(sid)
+        deleted_ids.append(del_section['id'])
+    assert sorted(deleted_ids) == sorted(sids)

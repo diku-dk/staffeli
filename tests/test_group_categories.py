@@ -1,10 +1,11 @@
+import pytest
+
 from hypothesis import given
 from staffeli.course import Course
 from typing import Any, List
 
-
 from test_common import gen_nonempty_name, gen_nonempty_names
-from test_common import canvas, course  # noqa: F401
+from test_common import course_name, canvas, init_course  # noqa: F401
 
 
 def is_valid_group_category(gcat: Any) -> bool:
@@ -16,7 +17,14 @@ def is_valid_group_category(gcat: Any) -> bool:
         isinstance(gcat['name'], str)
 
 
-@given(name=gen_nonempty_name)  # noqa: F811
+@pytest.fixture(scope='function')  # noqa: F811
+def course(init_course: Course) -> Course:
+    for gcat in init_course.list_group_categories():
+        init_course.delete_group_category(gcat['id'])
+    return init_course
+
+
+@given(name=gen_nonempty_name)
 def test_create_group_category(
         name: str,
         course: Course) -> None:
@@ -31,26 +39,26 @@ def test_create_group_category(
     assert is_valid_group_category(deleted_gcat)
     assert deleted_gcat['id'] == gcat['id']
 
-    # Make sure the group categoy was actually deleted.
-    assert len(course.list_group_categories()) == 0
 
-
-@given(names=gen_nonempty_names)  # noqa: F811
+@given(names=gen_nonempty_names)
 def test_create_group_categories(
         names: List[str],
         course: Course) -> None:
 
-    len_before = len(course.list_group_categories())
-
     # Try and add the given number of group categories.
-    gcat_ids = []
+    gcats = []
     for name in names:
         gcat = course.create_group_category(name)
-        gcat_ids.append(gcat['id'])
-    len_after = len(course.list_group_categories())
-    assert len_after - len_before == len(names)
+        gcats.append(gcat)
+
+    gcat_ids = [gcat['id'] for gcat in gcats]
+    gcat_names = [gcat['name'] for gcat in gcats]
+
+    assert sorted(gcat_names) == sorted(names)
 
     # Clean-up: Delete the group categories added above.
+    del_gcat_ids = []
     for gcat_id in gcat_ids:
-        course.delete_group_category(gcat_id)
-    assert len(course.list_group_categories()) == len_before
+        del_gcat = course.delete_group_category(gcat_id)
+        del_gcat_ids.append(del_gcat['id'])
+    assert sorted(del_gcat_ids) == sorted(gcat_ids)

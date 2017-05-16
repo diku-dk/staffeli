@@ -39,23 +39,37 @@ def _create_course_if_missing(canvas: Canvas, name: str) -> None:
 
 
 @pytest.fixture(scope='session')
-def course(canvas: Canvas) -> Course:
-    name = 'StaffeliTestCourse'
-    _create_course_if_missing(canvas, name)
-    return Course(canvas=canvas, name=name)
-
-
-def _get_section_or_create(course: Course, name: str) -> int:
-    for section in course.list_sections():
-        if section['name'] == name:
-            return section['id']
-    return course.create_section(name)['id']
+def course_name() -> str:
+    return 'StaffeliTestCourse'
 
 
 @pytest.fixture(scope='session')
-def section_id(course: Course) -> int:
-    name = 'StaffeliTestSection'
-    return _get_section_or_create(course, name)
+def init_course(canvas: Canvas, course_name: str) -> Course:
+    _create_course_if_missing(canvas, course_name)
+    return Course(canvas=canvas, name=course_name)
+
+
+def _get_section_or_create(
+        init_course: Course,
+        name: str
+        ) -> int:
+    for section in init_course.list_sections():
+        if section['name'] == name:
+            return section['id']
+    return init_course.create_section(name)['id']
+
+
+@pytest.fixture(scope='session')
+def section_name() -> str:
+    return 'StaffeliTestSection'
+
+
+@pytest.fixture(scope='session')
+def section_id(
+        init_course: Course,
+        section_name: str
+        ) -> int:
+    return _get_section_or_create(init_course, section_name)
 
 
 @pytest.fixture(scope='session')
