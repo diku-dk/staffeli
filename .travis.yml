@@ -1,30 +1,30 @@
 language: python
 os:
-  - linux
-  - osx
+- linux
+- osx
 python:
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.5-dev" # 3.5 development branch
-  - "3.6"
-  - "3.6-dev" # 3.6 development branch
-  - "3.7-dev" # 3.7 development branch
-  - "nightly" # currently points to 3.7-dev
+- '3.3'
+- '3.4'
+- '3.5'
+- 3.5-dev
+- '3.6'
+- 3.6-dev
+- 3.7-dev
+- nightly
 matrix:
   exclude:
   - os: osx
-    python: "3.3"
+    python: '3.3'
   - os: osx
-    python: "3.4"
+    python: '3.4'
   - os: osx
-    python: "3.5"
+    python: '3.5'
   - os: osx
-    python: "3.5-dev"
+    python: 3.5-dev
   - os: osx
-    python: "3.6"
+    python: '3.6'
 before_install:
-  - pip install mypy flake8
-  - python static_tests.py
-install: "pip install ."
+- pip install mypy flake8
+- python static_tests.py
+install: pip install .
 script: exit 0
