@@ -2,3 +2,4 @@ mypy>=0.511
 flake8>=3.3.0
 pytest>=3.0.7
 hypothesis>=3.8.3
+pytest-cov>=2.5.1

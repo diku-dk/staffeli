@@ -176,6 +176,33 @@ Assuming you have these tools installed, you can do this:
 $ pytest
 ```
 
+### Dynamic Test Coverage
+
+Run `pytest` with the option `--cov=staffeli` to get an idea of the test
+coverage of Staffeli proper. It is pretty lousy ATM. As of 2016-05-16, the
+numbers were:
+
+```
+Name                          Stmts   Miss  Cover
+-------------------------------------------------
+staffeli/assignment.py           28     28     0%
+staffeli/cachable.py             22     13    41%
+staffeli/canvas.py              326    326     0%
+staffeli/canvasTA-subs.py        58     58     0%
+staffeli/cli.py                 295    295     0%
+staffeli/course.py               37      4    89%
+staffeli/files.py                57     41    28%
+staffeli/listed.py               31     13    58%
+staffeli/names.py                 3      1    67%
+staffeli/resubmissions.py       121    121     0%
+staffeli/speedgrader_url.py       9      9     0%
+staffeli/submission.py           22     22     0%
+staffeli/typed_canvas.py        102      4    96%
+staffeli/upload.py               17     17     0%
+-------------------------------------------------
+TOTAL                          1128    952    16%
+```
+
 ## Git Hooks
 
 The static and dynamic tests are also part of the
