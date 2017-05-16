@@ -1,26 +1,10 @@
-import pytest
-
 from hypothesis import given
-from hypothesis.strategies import lists, text
 from staffeli.course import Course
 from typing import Any, List
 
-name_chr = \
-    list(map(chr,
-             list(range(ord('A'), ord('Z') + 1)) +
-             list(range(ord('a'), ord('z') + 1)) +
-             list(range(ord('0'), ord('9') + 1)) +
-             list(map(ord, ['_', '-', '+', '/', '&', ' '])) +
-             list(map(ord, ['Æ', 'Ø', 'Å', 'æ', 'ø', 'å']))))
 
-
-@pytest.fixture(scope='session')
-def course() -> Course:
-    course = Course(name='StaffeliTestBed')
-    for gcat in course.list_group_categories():
-        course.delete_group_category(gcat['id'])
-    assert len(course.list_group_categories()) == 0
-    return course
+from test_common import gen_nonempty_name, gen_nonempty_names
+from test_common import canvas, course  # noqa: F401
 
 
 def is_valid_group_category(gcat: Any) -> bool:
@@ -32,12 +16,7 @@ def is_valid_group_category(gcat: Any) -> bool:
         isinstance(gcat['name'], str)
 
 
-name_gen = text(
-    name_chr, min_size=1, max_size=30).filter(
-        lambda s: len(s.strip()) > 0)
-
-
-@given(name=name_gen)
+@given(name=gen_nonempty_name)  # noqa: F811
 def test_create_group_category(
         name: str,
         course: Course) -> None:
@@ -56,10 +35,7 @@ def test_create_group_category(
     assert len(course.list_group_categories()) == 0
 
 
-@given(
-    names=lists(
-        name_gen, min_size=1, max_size=30, unique=True)
-    )
+@given(names=gen_nonempty_names)  # noqa: F811
 def test_create_group_categories(
         names: List[str],
         course: Course) -> None:
