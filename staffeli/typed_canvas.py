@@ -3,6 +3,7 @@ import urllib
 import urllib.parse
 import urllib.request
 
+from typing import Dict  # noqa: F401
 from typing import Any, BinaryIO, List, Optional, Tuple, Union
 from urllib.request import Request
 from http.client import HTTPResponse
@@ -85,6 +86,13 @@ def _list_api(
     return entries
 
 
+def _api_bool(value: bool) -> int:
+    if value:
+        return 1
+    else:
+        return 0
+
+
 class Canvas:
     base_url = None  # type: str
     api_base = None  # type: str
@@ -124,6 +132,21 @@ class Canvas:
     def list_courses(self) -> List[Any]:
         return self.get_list(
             'courses')
+
+    def create_course(
+            self,
+            name: str,
+            license: str = 'private',
+            is_public: bool = False) -> Any:
+        url = 'accounts/{}/courses'.format(self.account_id)
+        args = {
+            'course[name]': name,
+            'course[course_code]': '',
+            'course[license]': license,
+            'course[is_public]': _api_bool(is_public),
+            'enroll_me': 'true'
+        }  # type: Dict[str, Union[int, str]]
+        return self.post(url, **args)
 
     def list_sections(self, course_id: int) -> List[Any]:
         return self.get_list(
