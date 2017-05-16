@@ -161,3 +161,25 @@ verifying, as the hook will only run [`static_tests.py`](static_tests.py) if
 some Python files have changed. It is however, acceptable to push without
 verifying, as running these tests can be a lengthy process, and we should have
 proper CI anyway.
+
+## Static Testing Framework
+
+We use [flake8](http://flake8.pycqa.org/) for style-checking and
+[mypy](http://mypy-lang.org/) for static type checking.
+
+Assuming you have these tools installed, you can do this:
+
+```
+$ ./static_tests.py
+```
+
+## Dynamic Testing Framework
+
+We use [pytest](https://docs.pytest.org/) together with
+[hypothesis](https://hypothesis.readthedocs.io/).
+
+Assuming you have these tools installed, you can do this:
+
+```
+$ pytest
+```
