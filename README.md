@@ -134,7 +134,7 @@ Take a look at our on-going [issues](https://github.com/DIKU-EDU/Staffeli/issues
 
 Currently, there are some static tests, including
 [flake8](http://flake8.pycqa.org/) and [mypy](http://mypy-lang.org/) tests of
-selected modules run by [static_tests.py](static_tests.py).  Furthermore, we
+selected modules run by [`static_tests.py`](static_tests.py).  Furthermore, we
 have started on some pytests under the [tests](tests) directory.
 
 Proper CI is a WIP. Currently, [Travis
@@ -157,6 +157,7 @@ hooks, nor the hooks installer will work on Windows.
 
 After installing the hooks, you can commit or push without going through these
 tests using the `--no-verify` option. It is not recommended to commit without
-verifying, as the hook will only run `static_tests.py` if some Python files
-have changed. It is however, acceptable to push without verifying, as running
-these tests can be a lengthy process, and we should have proper CI anyway.
+verifying, as the hook will only run [`static_tests.py`](static_tests.py) if
+some Python files have changed. It is however, acceptable to push without
+verifying, as running these tests can be a lengthy process, and we should have
+proper CI anyway.
