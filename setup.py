@@ -1,13 +1,13 @@
-from setuptools import setup, find_packages
 import os
 import sys
 
+from setuptools import setup
 
 if sys.version_info < (3, 3):
     sys.exit("Staffeli requires Python >= 3.3.")
 
 
-def readsybling(fname):
+def readsybling(fname: str) -> str:
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
