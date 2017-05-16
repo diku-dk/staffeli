@@ -27,10 +27,11 @@ matrix:
   - os: osx
     python: "3.6"
 before_install:
-before_install:
   - docker pull lbjay/canvas-docker
   - docker run --publish=3000:3000 --detach lbjay/canvas-docker
-  - pip install mypy flake8
+  - pip install mypy flake8 pytest
   - python static_tests.py
+  - sleep 60
+  - pytest tests/test_courses.py
 install: "pip install ."
 script: exit 0
