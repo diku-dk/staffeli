@@ -20,6 +20,7 @@ mypy_files = [
         "staffeli/names.py",
         "staffeli/cachable.py",
         "staffeli/upload.py",
+        "tests/test_courses.py",
         "tests/test_sections.py",
         "tests/test_group_categories.py"
     ]
