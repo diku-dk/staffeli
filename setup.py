@@ -24,7 +24,7 @@ setup(
     ],
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=readsybling('README.md'),
-    url="https://github.com/DIKU-EDU/Staffeli",
+    url="https://github.com/DIKU-EDU/staffeli",
     version='0.3.6',
     packages=["staffeli"],
     maintainer="Oleks",
