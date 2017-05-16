@@ -20,7 +20,8 @@ setup(
         "python-slugify>=1.2.1",
         "sphinx>=1.5.2",
         "python-Levenshtein>=0.11.0",
-        "beautifulsoup4>=4.5.3"
+        "beautifulsoup4>=4.5.3",
+        "typing>=3.6.1",
     ],
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=readsybling('README.md'),
