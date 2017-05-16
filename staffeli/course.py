@@ -48,6 +48,9 @@ class Course(listed.ListedEntity, cachable.CachableEntity):
     def delete_section(self, section_id: int) -> Any:
         return self.canvas.delete_section(section_id)
 
+    def section_enroll(self, section_id: int, user_id: int) -> Any:
+        return self.canvas.section_enroll(section_id, user_id)
+
     def create_group_category(self, name: str) -> Any:
         return self.canvas.create_group_category(self.id, name)
 

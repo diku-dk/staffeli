@@ -4,6 +4,7 @@ from typing import Any, List
 
 from test_common import gen_name, gen_names
 from test_common import canvas, course  # noqa: F401
+from test_common import section_id, user_id  # noqa: F401
 
 
 def is_valid_section(section: Any) -> bool:
@@ -33,6 +34,12 @@ def test_create_section(
     # Make sure the group categoy was actually deleted.
     assert len(course.list_sections()) == 1
 
+def test_enroll_user(  # noqa: F811
+        course: Course,
+        section_id: int,
+        user_id: int) -> None:
+    return course.section_enroll(section_id, user_id)
+
 
 @given(names=gen_names)  # noqa: F811
 def test_create_sections(
@@ -42,14 +49,14 @@ def test_create_sections(
     len_before = len(course.list_sections())
 
     # Try and add the given number of sections.
-    section_ids = []
+    sids = []
     for name in names:
         section = course.create_section(name)
-        section_ids.append(section['id'])
+        sids.append(section['id'])
     len_after = len(course.list_sections())
     assert len_after - len_before == len(names)
 
     # Clean-up: Delete the sections created above.
-    for section_id in section_ids:
-        course.delete_section(section_id)
+    for sid in sids:
+        course.delete_section(sid)
     assert len(course.list_sections()) == len_before

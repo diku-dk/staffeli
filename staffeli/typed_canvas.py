@@ -169,6 +169,11 @@ class Canvas:
         url = 'sections/{}'.format(section_id)
         return self.delete(url)
 
+    def section_enroll(self, section_id: int, user_id: int) -> Any:
+        url = 'sections/{}/enrollments'.format(section_id)
+        args = {'enrollment[user_id]': user_id}
+        return self.post(url, **args)
+
     def create_group_category(self, course_id: int, name: str) -> Any:
         url = 'courses/{}/group_categories'.format(course_id)
         args = {'name': name}
