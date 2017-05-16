@@ -8,11 +8,12 @@ if sys.version_info < (3, 3):
     sys.exit("Staffeli requires Python >= 3.3.")
 
 
-def readsybling(fname: str) -> str:
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
 def syblingpath(fname: str) -> str:
     return os.path.join(os.path.dirname(__file__), fname)
+
+
+def read(fname: str) -> str:
+    return open(syblingpath(fname)).read()
 
 
 def readlines(fname: str) -> List[str]:
@@ -34,7 +35,7 @@ setup(
     ],
     tests_require=readlines("test-requirements.txt"),
     keywords=["staffeli", "Canvas", "DIKU"],
-    long_description=readsybling('README.md'),
+    long_description=read('README.md'),
     url="https://github.com/DIKU-EDU/staffeli",
     version='0.3.6',
     packages=["staffeli"],
