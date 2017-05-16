@@ -152,6 +152,11 @@ class Canvas:
         return self.get_list(
             'courses/{}/sections'.format(course_id))
 
+    def create_section(self, course_id: int, name: str) -> Any:
+        args = {'course_section[name]': name}
+        return self.post(
+            'courses/{}/sections'.format(course_id), **args)
+
     def delete_section(self, section_id: int) -> Any:
         return self.delete(
             'sections/{}'.format(section_id))
