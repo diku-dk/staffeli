@@ -137,7 +137,7 @@ mypy tests of selected modules run by [static_tests.py](static_tests.py).
 Furthermore, we have started on some pytests under the [tests](tests)
 directory.
 
-Proper CI is a WIP. Currently, Travis [Travis
+Proper CI is a WIP. Currently, [Travis
 CI](https://travis-ci.org/DIKU-EDU/staffeli) will only run the static tests.
 
 The pytests rely on you having Docker installed, and firing up
