@@ -1,3 +1,6 @@
+sudo: required
+services:
+  - docker
 language: python
 os:
   - linux
@@ -24,6 +27,9 @@ matrix:
   - os: osx
     python: "3.6"
 before_install:
+before_install:
+  - docker pull lbjay/canvas-docker
+  - docker run --publish=3000:3000 --detach lbjay/canvas-docker
   - pip install mypy flake8
   - python static_tests.py
 install: "pip install ."
