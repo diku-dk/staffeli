@@ -132,39 +132,27 @@ Take a look at our on-going [issues](https://github.com/DIKU-EDU/Staffeli/issues
 
 # Testing
 
-Currently, there are some static tests, including
-[flake8](http://flake8.pycqa.org/) and [mypy](http://mypy-lang.org/) tests of
-selected modules run by [`static_tests.py`](static_tests.py).  Furthermore, we
-have started on some pytests under the [tests](tests) directory.
+Currently, [Travis CI](https://travis-ci.org/DIKU-EDU/staffeli) will only check
+that you roughly conform to the [PEP 8 Python Style
+Guide](https://www.python.org/dev/peps/pep-0008/) (using
+[flake8](http://flake8.pycqa.org/)), and perform static type-checking with
+[mypy](http://mypy-lang.org/), all only for selected Python files in this
+repository. See (and run?) [`static_tests.py`](static_tests.py) for further
+details.
 
-Proper CI is a WIP. Currently, [Travis
-CI](https://travis-ci.org/DIKU-EDU/staffeli) will only run the static tests.
-
-The pytests rely on you having Docker installed, and firing up
-[`start_local_canvas.py`](start_local_canvas.py) which will start an
-interactive session with a Docker image running an instance of Canvas. If you
-have done that, you can then run both test-suites as follows:
-
-```
-$ ./static_tests.py
-$ pytest
-```
-
-These are also part of the [`pre-commit`](hooks/pre-commit) and
-[`pre-push`](hooks/pre-push) hooks, respectively. Install these hooks by
-executing [`hooks/install.sh`](hooks/install.sh). Unfortunately, neither these
-hooks, nor the hooks installer will work on Windows.
-
-After installing the hooks, you can commit or push without going through these
-tests using the `--no-verify` option. It is not recommended to commit without
-verifying, as the hook will only run [`static_tests.py`](static_tests.py) if
-some Python files have changed. It is however, acceptable to push without
-verifying, as running these tests can be a lengthy process, and we should have
-proper CI anyway.
+Before you do that however, you might want to do this:
 
 ```
 $ pip3 install -r test-requirements.txt
 ```
+
+This will also install what you need to run the dynamic tests we have in store
+under [tests](tests), except for Docker.
+
+[`start_local_canvas.py`](start_local_canvas.py) will fire up a Docker image
+with a local Canvas instance for use with our [tests](tests). You will also
+find it in your browser under the address `localhost:3000`. The user is
+`canvas@example.edu` and the password is `canvas`.
 
 ## Static Testing Framework
 
@@ -187,3 +175,11 @@ Assuming you have these tools installed, you can do this:
 ```
 $ pytest
 ```
+
+## Git Hooks
+
+The static and dynamic tests are also part of the
+[`pre-commit`](hooks/pre-commit) and [`pre-push`](hooks/pre-push) hooks,
+respectively. Install these hooks by executing
+[`hooks/install.sh`](hooks/install.sh). Unfortunately, neither these hooks, nor
+the hooks installer will work on Windows.
