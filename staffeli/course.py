@@ -39,6 +39,15 @@ class Course(listed.ListedEntity, cachable.CachableEntity):
     def web_url(self) -> str:
         return self.canvas.web_url('courses/{}/'.format(self.id))
 
+    def create_section(self, name: str) -> Any:
+        return self.canvas.create_section(self.id, name)
+
+    def list_sections(self) -> Any:
+        return self.canvas.list_sections(self.id)
+
+    def delete_section(self, section_id: int) -> Any:
+        return self.canvas.delete_section(section_id)
+
     def create_group_category(self, name: str) -> Any:
         return self.canvas.create_group_category(self.id, name)
 
