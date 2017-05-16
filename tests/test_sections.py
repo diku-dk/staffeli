@@ -31,8 +31,6 @@ def test_create_section(
     assert is_valid_section(deleted_section)
     assert deleted_section['id'] == section['id']
 
-    # Make sure the group categoy was actually deleted.
-    assert len(course.list_sections()) == 1
 
 def test_enroll_user(  # noqa: F811
         course: Course,
