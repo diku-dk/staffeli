@@ -154,6 +154,12 @@ with a local Canvas instance for use with our [tests](tests). You will also
 find it in your browser under the address `localhost:3000`. The user is
 `canvas@example.edu` and the password is `canvas`.
 
+The static and dynamic tests are also part of the
+[`pre-commit`](hooks/pre-commit) and [`pre-push`](hooks/pre-push) hooks,
+respectively. Install these hooks by executing
+[`hooks/install.sh`](hooks/install.sh). Unfortunately, neither these hooks, nor
+the hooks installer will work on Windows.
+
 ## Static Testing Framework
 
 We use [flake8](http://flake8.pycqa.org/) for style-checking and
@@ -165,6 +171,8 @@ Assuming you have these tools installed, you can do this:
 $ ./static_tests.py
 ```
 
+This is also part of the [`pre-commit`](hooks/pre-commit) hook.
+
 ## Dynamic Testing Framework
 
 We use [pytest](https://docs.pytest.org/) together with
@@ -175,6 +183,8 @@ Assuming you have these tools installed, you can do this:
 ```
 $ pytest
 ```
+
+This is also part of the [`pre-push`](hooks/pre-push) hook.
 
 ### Dynamic Test Coverage
 
@@ -202,11 +212,3 @@ staffeli/upload.py               17     17     0%
 -------------------------------------------------
 TOTAL                          1128    952    16%
 ```
-
-## Git Hooks
-
-The static and dynamic tests are also part of the
-[`pre-commit`](hooks/pre-commit) and [`pre-push`](hooks/pre-push) hooks,
-respectively. Install these hooks by executing
-[`hooks/install.sh`](hooks/install.sh). Unfortunately, neither these hooks, nor
-the hooks installer will work on Windows.
