@@ -179,7 +179,7 @@ $ pytest
 ### Dynamic Test Coverage
 
 Run `pytest` with the option `--cov=staffeli` to get an idea of the test
-coverage of Staffeli proper. It is pretty lousy ATM. As of 2016-05-16, the
+coverage of Staffeli proper. It is pretty lousy ATM. As of 2017-05-16, the
 numbers were:
 
 ```
