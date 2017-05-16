@@ -162,6 +162,10 @@ some Python files have changed. It is however, acceptable to push without
 verifying, as running these tests can be a lengthy process, and we should have
 proper CI anyway.
 
+```
+$ pip3 install -r test-requirements.txt
+```
+
 ## Static Testing Framework
 
 We use [flake8](http://flake8.pycqa.org/) for style-checking and

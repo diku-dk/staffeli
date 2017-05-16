@@ -2,6 +2,7 @@ import os
 import sys
 
 from setuptools import setup
+from typing import List
 
 if sys.version_info < (3, 3):
     sys.exit("Staffeli requires Python >= 3.3.")
@@ -9,6 +10,14 @@ if sys.version_info < (3, 3):
 
 def readsybling(fname: str) -> str:
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+def syblingpath(fname: str) -> str:
+    return os.path.join(os.path.dirname(__file__), fname)
+
+
+def readlines(fname: str) -> List[str]:
+    with open(syblingpath(fname)) as f:
+        return [line for line in f]
 
 
 setup(
@@ -21,8 +30,9 @@ setup(
         "sphinx>=1.5.2",
         "python-Levenshtein>=0.11.0",
         "beautifulsoup4>=4.5.3",
-        "typing>=3.6.1",
+        "typing>=3.6.1"
     ],
+    tests_require=readlines("test-requirements.txt"),
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=readsybling('README.md'),
     url="https://github.com/DIKU-EDU/staffeli",
