@@ -130,8 +130,8 @@ class Canvas:
         return _api(self.token, 'DELETE', self.api_url(rel_url), **args)
 
     def list_courses(self) -> List[Any]:
-        return self.get_list(
-            'courses')
+        url = 'courses'
+        return self.get_list(url)
 
     def create_course(
             self,
@@ -149,27 +149,27 @@ class Canvas:
         return self.post(url, **args)
 
     def list_sections(self, course_id: int) -> List[Any]:
-        return self.get_list(
-            'courses/{}/sections'.format(course_id))
+        url = 'courses/{}/sections'.format(course_id)
+        return self.get_list(url)
 
     def create_section(self, course_id: int, name: str) -> Any:
+        url = 'courses/{}/sections'.format(course_id)
         args = {'course_section[name]': name}
-        return self.post(
-            'courses/{}/sections'.format(course_id), **args)
+        return self.post(url, **args)
 
     def delete_section(self, section_id: int) -> Any:
-        return self.delete(
-            'sections/{}'.format(section_id))
+        url = 'sections/{}'.format(section_id)
+        return self.delete(url)
 
     def create_group_category(self, course_id: int, name: str) -> Any:
-        return self.post(
-            'courses/{}/group_categories'.format(course_id),
-            name=name)
+        url = 'courses/{}/group_categories'.format(course_id)
+        args = {'name': name}
+        return self.post(url, **args)
 
     def list_group_categories(self, course_id: int) -> List[Any]:
-        return self.get_list(
-            'courses/{}/group_categories'.format(course_id))
+        url = 'courses/{}/group_categories'.format(course_id)
+        return self.get_list(url)
 
     def delete_group_category(self, gcat_id: int) -> Any:
-        return self.delete(
-            'group_categories/{}'.format(gcat_id))
+        url = 'group_categories/{}'.format(gcat_id)
+        return self.delete(url)
