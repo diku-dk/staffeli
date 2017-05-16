@@ -15,6 +15,7 @@ def run(command: List[str]) -> None:
         exitcode = 1
 
 mypy_files = [
+        "setup.py",
         "staffeli/typed_canvas.py",
         "staffeli/course.py",
         "staffeli/names.py",
