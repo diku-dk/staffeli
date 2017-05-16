@@ -162,7 +162,7 @@ the hooks installer will work on Windows.
 ## Static Testing Framework
 
 We use [flake8](http://flake8.pycqa.org/) for style-checking and
-[mypy](http://mypy-lang.org/) for static type checking.
+[mypy](http://mypy-lang.org/) for static type-checking.
 
 Assuming you have these tools installed, you can do this:
 
