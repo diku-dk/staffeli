@@ -161,6 +161,11 @@ class Canvas:
         return self.post(url, **args)
 
     def delete_section(self, section_id: int) -> Any:
+        """Delete a section.
+
+        Note how this method does not take a course ID.
+        Section IDs are global across all courses, and,
+        to our knowledge, are not instantly re-usable."""
         url = 'sections/{}'.format(section_id)
         return self.delete(url)
 
@@ -174,5 +179,10 @@ class Canvas:
         return self.get_list(url)
 
     def delete_group_category(self, gcat_id: int) -> Any:
+        """Delete a group category.
+
+        Note how this method does not take a course ID.
+        Group Category IDs are global across all courses, and,
+        to our knowledge, are not instantly re-usable."""
         url = 'group_categories/{}'.format(gcat_id)
         return self.delete(url)
