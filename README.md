@@ -147,8 +147,7 @@ $ pip3 install -r test-requirements.txt
 ```
 
 This will also install what you need to run the dynamic tests we have in store
-under [tests](tests), except for Docker.
-
+under [tests](tests), except for **Docker**:
 [`start_local_canvas.py`](start_local_canvas.py) will fire up a Docker image
 with a local Canvas instance for use with our [tests](tests). You will also
 find it in your browser under the address `localhost:3000`. The user is
