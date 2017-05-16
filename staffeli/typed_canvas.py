@@ -14,6 +14,9 @@ QueryArg = Union[int, str]
 
 
 def _req(token: str, method: str, url: str, **args: QueryArg) -> Request:
+    """The root of staffeli: Perform an API request.
+
+    Handle with care."""
     query_string = urllib.parse.urlencode(
         list(args.items()),
         safe='[]@', doseq=True).encode('utf-8')
