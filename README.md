@@ -132,12 +132,18 @@ Take a look at our on-going [issues](https://github.com/DIKU-EDU/Staffeli/issues
 
 # Testing
 
-This is a WIP. Currently, there are some static tests, including flake8 and
+Currently, there are some static tests, including flake8 and
 mypy tests of selected modules run by [static_tests.py](static_tests.py).
 Furthermore, we have started on some pytests under the [tests](tests)
-directory. There is currently no CI, as our Canvas instance does not currently
-have a sandboxing environment, so things happen in a dedicated, manually
-created course called "StaffeliTestBed". To run tests from your local setup:
+directory.
+
+Proper CI is a WIP. Currently, Travis [Travis
+CI](https://travis-ci.org/DIKU-EDU/staffeli) will only run the static tests.
+
+The pytests rely on you having Docker installed, and firing up
+[`start_local_canvas.py`](start_local_canvas.py) which will start an
+interactive session with a Docker image running an instance of Canvas. If you
+have done that, you can then run both test-suites as follows:
 
 ```
 $ ./static_tests.py
@@ -153,5 +159,4 @@ After installing the hooks, you can commit or push without going through these
 tests using the `--no-verify` option. It is not recommended to commit without
 verifying, as the hook will only run `static_tests.py` if some Python files
 have changed. It is however, acceptable to push without verifying, as running
-these tests is a lengthy process, and requires certain privileges on our Canvas
-instance.
+these tests can be a lengthy process, and we should have proper CI anyway.
