@@ -15,7 +15,10 @@ before_install:
 - python static_tests.py
 - pip install restructuredtext_lint
 - rst-lint README.rst
-install: pip install .
+install:
+- pip install .
+- pip uninstall -y .
+- pip install staffeli
 script: exit 0
 deploy:
   provider: pypi
