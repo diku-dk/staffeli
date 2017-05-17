@@ -37,7 +37,7 @@ setup(
     keywords=["staffeli", "Canvas", "DIKU"],
     long_description=read('README.rst'),
     url="https://github.com/DIKU-EDU/staffeli",
-    version='0.4.1',
+    version='0.4.2',
     packages=["staffeli"],
     maintainer="Oleks",
     maintainer_email="oleks@oleks.info",
