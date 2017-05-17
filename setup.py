@@ -35,7 +35,7 @@ setup(
     ],
     tests_require=readlines("test-requirements.txt"),
     keywords=["staffeli", "Canvas", "DIKU"],
-    long_description=read('README.md'),
+    long_description=read('README.rst'),
     url="https://github.com/DIKU-EDU/staffeli",
     version='0.4.1',
     packages=["staffeli"],
