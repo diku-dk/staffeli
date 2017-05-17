@@ -1,7 +1,6 @@
 language: python
 os:
 - linux
-- osx
 python:
 - '3.3'
 - '3.4'
@@ -11,18 +10,6 @@ python:
 - 3.6-dev
 - 3.7-dev
 - nightly
-matrix:
-  exclude:
-  - os: osx
-    python: '3.3'
-  - os: osx
-    python: '3.4'
-  - os: osx
-    python: '3.5'
-  - os: osx
-    python: 3.5-dev
-  - os: osx
-    python: '3.6'
 before_install:
 - pip install mypy flake8
 - python static_tests.py
