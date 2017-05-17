@@ -6,11 +6,13 @@ API <https://canvas.instructure.com/doc/api/index.html>`__ to create a
 more pleasant environment for working with
 `Absalon <https://absalon.ku.dk/>`__.
 
-.. image:: logo.jpg
-  :width: 200px
-  :align: center
-  :alt: An image of an easel.
-  :title: Image-license: CC0; Source:https://pixabay.com/en/art-painting-modern-art-mural-1027828/
+.. class:: no-web
+
+    .. image:: logo.jpg
+        :width: 200px
+        :align: center
+        :alt: An image of an easel.
+        :title: Image-license: CC0; Source:https://pixabay.com/en/art-painting-modern-art-mural-1027828/
 
 .. class:: center
 
