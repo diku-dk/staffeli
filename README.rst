@@ -61,7 +61,7 @@ Installation
 1. Clone, or
    `download <https://github.com/DIKU-EDU/staffeli/archive/master.zip>`__
    this repository.
-2. ``pip3 install .``
+2. ``pip3 install -e .``
 
 Getting Started
 ---------------
