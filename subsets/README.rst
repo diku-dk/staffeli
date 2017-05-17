@@ -1,4 +1,4 @@
-Self-contained subsets of Staffeli
+Self-Contained Subsets of Staffeli
 ==================================
 
 Some teachers might have a wish to get a selected, self-contained subset of
