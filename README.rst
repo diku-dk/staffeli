@@ -86,7 +86,7 @@ Unfortunately, to the best of our knowledge, Canvas has no means to
 segregate or specialize tokens, so this is really "all or nothing".
 
 Cloning a Course
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
 
 To clone a course:
 
@@ -100,7 +100,7 @@ multiple conflicting names, or no matching course names, Staffeli will
 complain and let you try again.
 
 Fetch Submissions for a New Assignment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Use ``staffeli fetch``. For instance, to fetch all submissions for "A3":
 
@@ -116,7 +116,7 @@ themselves:
     $ staffeli fetch subs
 
 Fetch Groups
-~~~~~~~~~~~~
+^^^^^^^^^^^^
 
 This is a good idea to make sure you are up-to-date with canvas.
 
@@ -125,7 +125,7 @@ This is a good idea to make sure you are up-to-date with canvas.
     $ staffeli fetch groups
 
 Split According to Some Group Category
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Assuming you already fetched groups and submissions,
 
@@ -141,7 +141,7 @@ changes to ```groups`` <groups>`__, ```subs`` <subs>`__, and
 ```splits`` <splits>`__, when making splits for some new assignment.
 
 Grade a Submission
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 
 Assuming you are in the submission directory, you can use
 ``staffeli grade`` to grade the submission:
@@ -167,7 +167,7 @@ Take a look at our on-going
 `issues <https://github.com/DIKU-EDU/Staffeli/issues>`__.
 
 Testing
-=======
+-------
 
 Currently, `Travis CI <https://travis-ci.org/DIKU-EDU/staffeli>`__ will
 only check that you roughly conform to the `PEP 8 Python Style
@@ -199,7 +199,7 @@ Unfortunately, neither these hooks, nor the hooks installer will work on
 Windows.
 
 Static Testing Framework
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 We use `flake8 <http://flake8.pycqa.org/>`__ for style-checking and
 `mypy <http://mypy-lang.org/>`__ for static type-checking.
@@ -213,7 +213,7 @@ Assuming you have these tools installed, you can do this:
 This is also part of the ```pre-commit`` <hooks/pre-commit>`__ hook.
 
 Dynamic Testing Framework
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We use `pytest <https://docs.pytest.org/>`__ together with
 `hypothesis <https://hypothesis.readthedocs.io/>`__.
@@ -227,7 +227,7 @@ Assuming you have these tools installed, you can do this:
 This is also part of the ```pre-push`` <hooks/pre-push>`__ hook.
 
 Dynamic Test Coverage
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
 
 Run ``pytest`` with the option ``--cov=staffeli`` to get an idea of the
 test coverage of Staffeli proper.
