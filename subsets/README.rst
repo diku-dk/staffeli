@@ -20,11 +20,10 @@ This is noble, but silly work because:
 It would be great for someone to do a BSc project to formalize the process:
 
 1. To get a simplified, self-contained subset, start by writing a thin wrapper
-using the Staffeli API. Then, use call-graph analysis to extract just the parts
-of Staffeli needed to support the wrapper. Package it all up into a neat little
-Python file.
-
+   using the Staffeli API. Then, use call-graph analysis to extract just the
+   parts of Staffeli needed to support the wrapper. Package it all up into a
+   neat little Python file.
 2. Next, it would be great to record the point at which the subset was
-constructed, and enable one to *compare* that, or the current version Staffeli
-to the subset, such that the differences between upstream and downstream can be
-identified and dealt with.
+   constructed, and enable one to *compare* that, or the current version
+   Staffeli to the subset, such that the differences between upstream and
+   downstream can be identified and dealt with.
