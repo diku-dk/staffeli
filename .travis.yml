@@ -26,5 +26,7 @@ matrix:
 before_install:
 - pip install mypy flake8
 - python static_tests.py
+- pip install restructuredtext_lint
+- rst-lint README.rst
 install: pip install .
 script: exit 0
