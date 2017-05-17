@@ -14,6 +14,7 @@ holding up a canvas.</p>
 [![Documentation Status](https://readthedocs.org/projects/staffeli/badge/)](http://staffeli.readthedocs.io/en/latest/)
 [![Travis CI (Linux + macOS) Status](https://travis-ci.org/DIKU-EDU/staffeli.svg)](https://travis-ci.org/DIKU-EDU/staffeli)
 [![License: EUPL v1.1](https://img.shields.io/badge/license-EUPL%20v1.1-blue.svg)](https://github.com/DIKU-EDU/Staffeli/blob/master/LICENSE.md)
+[![PyPI](https://img.shields.io/pypi/v/staffeli.svg)](https://pypi.python.org/pypi/staffeli)
 
 ## Purpose
 
