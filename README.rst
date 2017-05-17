@@ -158,8 +158,12 @@ Assuming you are in the submission directory, you can use
 Documentation
 -------------
 
-This is `reStructured Text <http://www.sphinx-doc.org/en/stable/rest.html>`_.
-You might want to follow the `Python documentation style guide
+It is up-and-coming on
+[ReadTheDocs](http://staffeli.readthedocs.io/en/latest/). The source files for
+that page are under [docs/source](docs/source), and they are, much like this
+README, written in `reStructured Text
+<http://www.sphinx-doc.org/en/stable/rest.html>`_. It is also suggested to
+follow the `Python documentation style guide
 <https://docs.python.org/devguide/documenting.html#style-guide>`_.
 
 Contributing
