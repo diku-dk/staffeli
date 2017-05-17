@@ -25,5 +25,5 @@ Python file.
 
 Next, it would be great to record the point at which the subset was
 constructed, and enable to *compare* that, or the current version Staffeli to
-the subset, such that changes waiting upstream or downstream changes can be
-identified and dealt with.
+the subset, such that the *diff*erences between upstream and downstream can be
+identified and dealth with.
