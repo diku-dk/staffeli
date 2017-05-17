@@ -5,8 +5,8 @@ Some teachers might wish to get a simplified, self-contained subset of
 Staffeli. This way, they reap the benefits of Staffeli, without inheriting it
 as a software dependency: The features that they don't need can be carved out,
 allowing to simplify the code-base, perhaps so much that it can fit on a
-human-readable Python file which can be distributed and backed up by *copying
-the file*.
+human-readable Python file, which can be distributed, and backed up, by
+*copying the file*.
 
 Examples:
 
