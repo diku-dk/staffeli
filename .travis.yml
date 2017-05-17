@@ -17,9 +17,8 @@ before_install:
 - rst-lint README.rst
 install: pip install .
 script: exit 0
-after_script:
-- echo "[distutils]\nindex-servers =\n    pypi\n\n" > ~/.pypirc
-- echo "[pypi]\nusername:dikunix\npassword:${PYPI_PASSWORD}\n" >> ~/.pypirc
-- python setup.py sdist upload
-env:
-  secure: lxynKL+ebF0aZOc5+DS2Upe2TDdEOZSWJU5Mj+4eDJVxjnDbmvd4BYNd6IXvWyolsbxiJSnoH6Mgh6JKD3afy3BlvwpUXsqN8NEoWYpZDwIoV0n2poBuqiRCsgC9DYBq7rgqZIenmzq3qQoCCK6Gj+0IZ15ymQBt8SEYyxy0LUAXR0RIMTENWs5+xPT5fBLDU28/pGs1c5cmAo5fZJPWvNmnsZFJPoOQ9ZCyanOMugi1VJaZDGIhx7znsF/wYIO+PtJIySoQDhXxG8F+vYJLXp9Y6sWUnt6rtfGW+hWj4Fz2cXVOf9yboWQJCionlanMiUQoWviOPbQ8pT9QFWDBpdnL249u4QUTM/nVy+zjeI9YDqE7DulIPakSWFEd+/9GtozttFIBLctDSxPIwmO6tad8cGyZbLw+E5iuKuoTpE4UGEtIthQEVSKj9FsgWi5Urh6/X5N4XZzcbwH0wElL3LFYPJV7QzeZ3oQBUMjtwFTQLGlHUTqpvWJJUv4YvhXnhxr6X4AmRusUGXQ1EeQ4QpUKkDpVvz4pFxqUAEzuIis7UGNaUm3F/QZdx/7GYNn8ZhuRJuuj1OK0JSG3MsE1rdEGyyi+f48k8FRbk+ZDIf6EFU5q5cI4R1BrK9wz94/PxcNU5dLih6uzzddpkM5I35Jll/jpYTA9VdSpY9IYhWI=
+deploy:
+  provider: pypi
+  user: dikunix
+  password:
+    secure: i7bNC2jgIehUlGr7F2l48phdV9xSZepTpligjrWQ0CHmZB40xF9DpDLGwODXkirrTiNSnPAh8qH4hOJzjN6VC3n3z2RW5A9wtV/+vnxwzWn9pVq5/0cnZHrNpV2oY0Q6zTG/JgJxD7W3G+oTWFpOxpH5eBiHZvftZ8yD9nRLTWBTOjZSF309CUxz1cdNLV3kKIgSL2mrWeY3hKl0JfLQbobe4z+tWlWorSrEkofFqDJdYqLtgZEOUlzR7Ot04YtUFtekMuFpHSPe2JPNXKdX1R07hV9Kwp4bKQJkmzrH2C3CeT4Fk8yCX3CjgPjs7FeS+AH0Podk9dKNyAIlgUdgWDwEeoMj/AmZ4T9ret8OZUgsce/A3PI5HeyfrNmSCSaWyS/3ZZeVPT2w65HsdENtaQGo+B7MSI4o1Vr2pRHvmM3K/104dHdj/QRGN6T3iVWdyaduryOrgTLw+M8c2PWbcKQYswsV+9kXbODzLNwDpAuJQn0FwmTm7N7Jyi7YYTq49XNSW1kwIfIqqUR542dcRwuh48pPFEWFS3T5ycUkSCI2Hfg9gqZ9ubQ+MjusNWA4DiYE8mUO3E3bFtIgbhyEQmUs2Od5d/K6tKBFSXvLFEmqx1fTQaldG/r8fFitONkHvw+dD8RUyiQ1d27GaBvGw1dmb/5+GvgGstxJJufAeIw=
