@@ -1,9 +1,9 @@
 Self-Contained Subsets of Staffeli
 ==================================
 
-Some teachers might have a wish to get a selected, self-contained subset of
-Staffeli. This way, they reap the benefits of Staffeli, without inheriting it
-as a software dependency.
+Some teachers might wish to get a selected, self-contained subset of Staffeli.
+This way, they reap the benefits of Staffeli, without inheriting it as a
+software dependency.
 
 The features that they don't need can be carved out, allowing to simplify the
 code-base, perhaps so much that it can fit on a human-readable Python file
