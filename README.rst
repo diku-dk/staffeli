@@ -6,10 +6,6 @@ API <https://canvas.instructure.com/doc/api/index.html>`__ to create a
 more pleasant environment for working with
 `Absalon <https://absalon.ku.dk/>`__.
 
-.. image:: logo.jpg
-  :align: center
-  :alt: An image of an easel.
-
 "Staffeli" is Danish for "easel" — a support frame for holding up a
 canvas.
 
