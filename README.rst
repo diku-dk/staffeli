@@ -40,6 +40,12 @@ Initially, Staffeli is *not* intended for managing course content,
 merely to snapshot course data (e.g. enrolled students, groups,
 sections, submissions), *and* to get grading done efficiently.
 
+Although Staffeli is written in Python 3, it is not intent on forcing you to
+manage your course using Python, or to have to get acquainted with the Staffeli
+API to get things done. Staffeli extensively uses YAML files for storage,
+enabling the easy use of both *command-line utilities* and *the programming
+language of your choice*, to get things done quickly, and efficiently.
+
 Status
 ------
 
