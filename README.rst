@@ -47,8 +47,13 @@ sections, submissions), *and* to get grading done efficiently.
 Status
 ------
 
-This is a somewhat coherent summoning of scripts developed during
-courses using Canvas. Brace yourself. Lend a hand.
+Staffeli is maturing. It is being transitioned to be annotated with `type hints
+<https://www.python.org/dev/peps/pep-0484/>`__, with the types checked
+statically with `mypy <http://mypy-lang.org/>`__, and a test-suite `has been
+set up <tests>`__, but full-blown continuous integration remains to be set up.
+
+We are still covering a fairly small subset of the API. Brace yourself. Lend a
+hand.
 
 Installation
 ------------
