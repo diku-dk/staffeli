@@ -6,15 +6,9 @@ API <https://canvas.instructure.com/doc/api/index.html>`__ to create a
 more pleasant environment for working with
 `Absalon <https://absalon.ku.dk/>`__.
 
-.. class:: no-web
-
-    .. image:: logo.jpg
-        :width: 200px
-        :align: center
-        :alt: An image of an easel.
-        :title: Image-license: CC0; Source:https://pixabay.com/en/art-painting-modern-art-mural-1027828/
-
-.. class:: center
+.. image:: logo.jpg
+  :align: center
+  :alt: An image of an easel.
 
 "Staffeli" is Danish for "easel" — a support frame for holding up a
 canvas.
@@ -30,6 +24,10 @@ v1.1| |PyPI|
    :target: https://github.com/DIKU-EDU/Staffeli/blob/master/LICENSE.md
 .. |PyPI| image:: https://img.shields.io/pypi/v/staffeli.svg
    :target: https://pypi.python.org/pypi/staffeli
+
+.. contents::
+
+.. section-numbering::
 
 Purpose
 -------
