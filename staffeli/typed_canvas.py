@@ -206,3 +206,20 @@ class Canvas:
     def delete_group(self, group_id: int) -> Any:
         url = 'groups/{}'.format(group_id)
         return self.delete(url)
+
+    def create_user(self, pseudonym_id: str) -> Any:
+        url = 'accounts/{}/users'.format(self.account_id)
+        args = {'pseudonym[unique_id]': pseudonym_id}
+        return self.post(url, **args)
+
+    def enroll_user(
+            self, course_id: int, user_id: int,
+            enroll_type: str = 'StudentEnrollment',
+            enroll_state: str = 'active') -> Any:
+        url = 'courses/{}/enrollments'.format(course_id)
+        args = {
+            'enrollment[user_id]': user_id,
+            'enrollment[type]': enroll_type,
+            'enrollment[enrollment_state]': enroll_state
+        }
+        return self.post(url, **args)
