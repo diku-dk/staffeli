@@ -4,10 +4,10 @@ from hypothesis import given
 from staffeli.course import Course
 from typing import Any, List
 
-from test_common import gen_name, gen_names
-from test_common import canvas, init_course  # noqa: F401
-from test_common import section_id, user_id  # noqa: F401
-from test_common import course_name, section_name  # noqa: F401
+from common import gen_name, gen_names
+from common import canvas, init_course  # noqa: F401
+from common import section_id, user_id  # noqa: F401
+from common import course_name, section_name  # noqa: F401
 
 
 def is_valid_section(section: Any) -> bool:

@@ -4,8 +4,8 @@ from hypothesis import given
 from staffeli.course import Course
 from typing import Any, List
 
-from test_common import gen_nonempty_name, gen_nonempty_names
-from test_common import course_name, canvas, init_course  # noqa: F401
+from common import gen_nonempty_name, gen_nonempty_names
+from common import course_name, canvas, init_course  # noqa: F401
 
 
 def is_valid_group_category(gcat: Any) -> bool:

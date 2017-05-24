@@ -2,8 +2,8 @@ from hypothesis import given
 from staffeli.typed_canvas import Canvas
 from typing import Any
 
-from test_common import gen_nonempty_name
-from test_common import canvas  # noqa: F401
+from common import gen_nonempty_name
+from common import canvas  # noqa: F401
 
 
 def is_valid_course(course: Any) -> bool:
