@@ -243,7 +243,7 @@ Run ``pytest`` with the option ``--cov=staffeli`` to get an idea of the
 test coverage of Staffeli proper.
 
 It is pretty lousy ATM. As of `2017-05-24
-<https://github.com/DIKU-EDU/staffeli/commit/16c999e8c71134401a78d4d46435517b2271d6ac>`__,
+<https://github.com/DIKU-EDU/staffeli/commit/e5a0811edf26dc70eaad680e54b5763fc64f90fc>`__,
 the numbers were:
 
 ::
