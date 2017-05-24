@@ -40,7 +40,7 @@ def gcat(
 
 
 @given(name=gen_nonempty_name)  # noqa: F811
-def test_create_group(
+def _test_create_group(
         name: str,
         gcat: GroupCategory
         ) -> None:
@@ -57,7 +57,7 @@ def test_create_group(
 
 
 @given(names=gen_nonempty_names)  # noqa: F811
-def test_create_groups(
+def _test_create_groups(
         names: List[str],
         gcat: GroupCategory
         ) -> None:
