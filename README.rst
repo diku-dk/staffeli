@@ -242,8 +242,8 @@ Dynamic Test Coverage
 Run ``pytest`` with the option ``--cov=staffeli`` to get an idea of the
 test coverage of Staffeli proper.
 
-It is pretty lousy ATM. As of 2017-05-24
-(16c999e8c71134401a78d4d46435517b2271d6ac), the numbers were:
+It is pretty lousy ATM. As of 16c999e8c71134401a78d4d46435517b2271d6ac
+(2017-05-24), the numbers were:
 
 ::
 
