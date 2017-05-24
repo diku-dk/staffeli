@@ -97,6 +97,18 @@ def _api_bool(value: bool) -> int:
 
 
 class Canvas:
+    """This the lowest-level API with canvas.
+
+    This class aims to be a mere Python wrapper around
+    the canvas REST API, and it does not attempt to
+    restructure or segregate the API in any way except
+    to use a naming convention.
+
+    Please note, section, group category, and group IDs
+    are global, not course-specific. There is a finite
+    supply of them, and they are not readily repatriated
+    after the data they identify has been deleted."""
+
     base_url = None  # type: str
     api_base = None  # type: str
 
@@ -161,11 +173,6 @@ class Canvas:
         return self.post(url, **args)
 
     def delete_section(self, section_id: int) -> Any:
-        """Delete a section.
-
-        Note how this method does not take a course ID.
-        Section IDs are global across all courses, and,
-        to our knowledge, are not instantly re-usable."""
         url = 'sections/{}'.format(section_id)
         return self.delete(url)
 
@@ -184,10 +191,6 @@ class Canvas:
         return self.get_list(url)
 
     def delete_group_category(self, gcat_id: int) -> Any:
-        """Delete a group category.
 
-        Note how this method does not take a course ID.
-        Group Category IDs are global across all courses, and,
-        to our knowledge, are not instantly re-usable."""
         url = 'group_categories/{}'.format(gcat_id)
         return self.delete(url)
