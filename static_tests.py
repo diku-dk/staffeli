@@ -18,6 +18,7 @@ mypy_files = [
         "setup.py",
         "staffeli/typed_canvas.py",
         "staffeli/course.py",
+        "staffeli/gcat.py",
         "staffeli/names.py",
         "staffeli/cachable.py",
         "staffeli/upload.py",

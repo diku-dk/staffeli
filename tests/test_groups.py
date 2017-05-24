@@ -2,6 +2,7 @@ import pytest
 
 from hypothesis import given
 from staffeli.course import Course
+from staffeli.gcat import GroupCategory
 from typing import Any, List
 
 from common import gen_nonempty_name, gen_nonempty_names
@@ -26,20 +27,27 @@ def course(
     return init_course
 
 
+@pytest.fixture(scope='function')  # noqa: F811
+def gcat(
+        init_course: Course,
+        gcat_id: int
+        ) -> GroupCategory:
+    return GroupCategory(init_course, id=gcat_id)
+
+
 @given(name=gen_nonempty_name)  # noqa: F811
 def test_create_group(
         name: str,
-        course: Course,
-        gcat_id: int
+        gcat: GroupCategory
         ) -> None:
 
     # Try and add the given group.
-    group = course.canvas.create_group(gcat_id, name)
+    group = gcat.create_group(name)
     assert is_valid_group(group)
     assert group['name'] == name
 
     # Try and delete the group created above.
-    deleted_group = course.canvas.delete_group(group['id'])
+    deleted_group = gcat.delete_group(group['id'])
     assert is_valid_group(deleted_group)
     assert deleted_group['id'] == group['id']
 
@@ -47,14 +55,13 @@ def test_create_group(
 @given(names=gen_nonempty_names)  # noqa: F811
 def test_create_groups(
         names: List[str],
-        course: Course,
-        gcat_id: int
+        gcat: GroupCategory
         ) -> None:
 
     # Try and add the given number of groups.
     groups = []
     for name in names:
-        group = course.create_group(gcat_id, name)
+        group = gcat.create_group(name)
         groups.append(group)
 
     gids = [s['id'] for s in groups]
@@ -65,6 +72,6 @@ def test_create_groups(
     # Clean-up: Delete the groups created above.
     deleted_ids = []
     for gid in gids:
-        del_group = course.delete_group(gid)
+        del_group = gcat.delete_group(gid)
         deleted_ids.append(del_group['id'])
     assert sorted(deleted_ids) == sorted(gids)
