@@ -75,3 +75,29 @@ def section_id(
 @pytest.fixture(scope='session')
 def user_id() -> int:
     return 1
+
+
+def _get_gcat_or_create(
+        init_course: Course,
+        name: str
+        ) -> int:
+    for gcat in init_course.list_group_categories():
+        if gcat['name'] == name:
+            return gcat['id']
+    return init_course.create_group_category(name)['id']
+
+
+@pytest.fixture(scope='session')
+def gcat_name() -> str:
+    return 'StaffeliTestGCat'
+
+
+@pytest.fixture(scope='session')
+def gcat_id(
+        init_course: Course,
+        gcat_name: str
+        ) -> int:
+    gcat_id = _get_gcat_or_create(init_course, gcat_name)
+    for group in init_course.list_groups(gcat_id):
+        init_course.delete_group(group['id'])
+    return gcat_id

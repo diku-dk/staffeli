@@ -191,6 +191,18 @@ class Canvas:
         return self.get_list(url)
 
     def delete_group_category(self, gcat_id: int) -> Any:
-
         url = 'group_categories/{}'.format(gcat_id)
+        return self.delete(url)
+
+    def create_group(self, gcat_id: int, name: str) -> Any:
+        url = 'group_categories/{}/groups'.format(gcat_id)
+        args = {'name': name}
+        return self.post(url, **args)
+
+    def list_groups(self, gcat_id: int) -> List[Any]:
+        url = 'group_categories/{}/groups'.format(gcat_id)
+        return self.get_list(url)
+
+    def delete_group(self, group_id: int) -> Any:
+        url = 'groups/{}'.format(group_id)
         return self.delete(url)

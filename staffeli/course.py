@@ -59,3 +59,12 @@ class Course(listed.ListedEntity, cachable.CachableEntity):
 
     def delete_group_category(self, gcat_id: int) -> Any:
         return self.canvas.delete_group_category(gcat_id)
+
+    def create_group(self, gcat_id: int, name: str) -> Any:
+        return self.canvas.create_group(gcat_id, name)
+
+    def list_groups(self, gcat_id: int) -> Any:
+        return self.canvas.list_groups(gcat_id)
+
+    def delete_group(self, group_id: int) -> Any:
+        return self.canvas.delete_group(group_id)
