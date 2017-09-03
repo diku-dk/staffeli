@@ -234,6 +234,8 @@ Work with groups:
     group set members GROUP_NAME USER...
         Set the members of a group.  Ignores any current members.
 
+    group delete all groups GROUP_CATEGORY
+
 Work with sections:
     section add member SECTION_NAME USER
         Add a user to a section.
@@ -266,6 +268,9 @@ def group(args):
 
     if len(args) >= 4 and args[0] == 'set' and args[1] == 'members':
         set_group_members(args[2], args[3:])
+
+    if len(args) == 4 and args[0] == 'delete' and args[1] == 'all' and args[2] == 'groups':
+        delete_all_groups(args[3])
 
 def section(args):
     if len(args) == 4 and args[0] == 'add' and args[1] == 'member':
@@ -313,6 +318,22 @@ def set_group_members(group_name, user_names):
             user_id = users[0]['id']
         user_ids.append(user_id)
     can.add_group_members(group_id, user_ids)
+
+    fetch_groups(course) # a bit silly, and very slow
+
+def delete_all_groups(group_category_name):
+    course = canvas.Course()
+    can = canvas.Canvas()
+
+    categories_all = can.group_categories(course.id)
+    categories = list(filter(lambda x: x['name'] == group_category_name,
+                             categories_all))
+    if len(categories) < 1:
+        raise Exception('no category of that name')
+    else:
+        group_category_id = categories[0]['id']
+
+    can.delete_all_groups(group_category_id)
 
     fetch_groups(course) # a bit silly, and very slow
 

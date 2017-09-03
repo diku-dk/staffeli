@@ -465,7 +465,7 @@ class Canvas:
         return self.post('group_categories/{}/groups'.format(group_category_id),
                          name=name, join_level='invitation_only')
 
-    def delete_all_assignment_groups(self, group_category_id):
+    def delete_all_groups(self, group_category_id):
         groups = self.get('group_categories/{}/groups'.format(group_category_id),
                           all_pages=True)
         group_ids = [g['id'] for g in groups]
