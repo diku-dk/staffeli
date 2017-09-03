@@ -421,6 +421,17 @@ class Canvas:
     def group_categories(self, course_id):
         return self.get('courses/{}/group_categories'.format(course_id))
 
+    def course_sections(self, course_id):
+        return self.get('courses/{}/sections'.format(course_id))
+
+    def add_section_member(self, section_id, user_id):
+        args = {
+            'enrollment[user_id]': user_id,
+            'enrollment[type]': 'StudentEnrollment',
+            'enrollment[enrollment_state]': 'active'
+        }
+        return self.post('sections/{}/enrollments'.format(section_id), **args)
+
     def create_group_category(self, course_id: int, name: str):
         return self.post(
             'courses/{}/group_categories'.format(course_id),

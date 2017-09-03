@@ -1,4 +1,4 @@
-import argparse, os, os.path, shutil, yaml, sys, re
+import argparse, os, os.path, shutil, yaml, sys, re, random
 
 from staffeli import canvas
 
@@ -234,6 +234,13 @@ Work with groups:
     group set members GROUP_NAME USER...
         Set the members of a group.  Ignores any current members.
 
+Work with sections:
+    section add member SECTION_NAME USER
+        Add a user to a section.
+
+    section randomise SECTION_NAME...
+        Put students in sections of approx. equal size at random.
+
 Work with users:
     user find USER_NAME
         Check if the user exists.  If not, make a guess.
@@ -259,6 +266,13 @@ def group(args):
 
     if len(args) >= 4 and args[0] == 'set' and args[1] == 'members':
         set_group_members(args[2], args[3:])
+
+def section(args):
+    if len(args) == 4 and args[0] == 'add' and args[1] == 'member':
+        add_member_to_section(args[2], args[3])
+
+    if len(args) >= 3 and args[0] == 'randomise':
+        add_students_to_sections_random(args[1:])
 
 def add_group(group_category_name, group_name):
     course = canvas.Course()
@@ -301,6 +315,61 @@ def set_group_members(group_name, user_names):
     can.add_group_members(group_id, user_ids)
 
     fetch_groups(course) # a bit silly, and very slow
+
+def find_section_id(section_name):
+    course = canvas.Course()
+    can = canvas.Canvas()
+
+    sections_all = can.course_sections(course.id)
+    sections = list(filter(lambda x: x['name'] == section_name,
+                           sections_all))
+    if len(sections) < 1:
+        raise Exception('no section of that name')
+    else:
+        section_id = sections[0]['id']
+    return section_id
+
+def add_member_to_section(section_name, user_name):
+    course = canvas.Course()
+    can = canvas.Canvas()
+
+    section_id = find_section_id(section_name)
+
+    users_all = list(can.all_students(course.id))
+    users = list(filter(lambda x: (x['name'] == user_name or
+                                   x['login_id'][:6] == user_name),
+                        users_all))
+    if len(users) < 1:
+        raise Exception('no user of that name')
+    else:
+        user_id = users[0]['id']
+    can.add_section_member(section_id, user_id)
+
+# This functionality should maybe not be part of the main staffeli code, as it
+# can be composed just fine by the existing parts of staffeli.
+def add_students_to_sections_random(section_names):
+    course = canvas.Course()
+    can = canvas.Canvas()
+
+    section_ids = {section_name: find_section_id(section_name)
+                   for section_name in section_names}
+
+    users_all = list(can.all_students(course.id))
+
+    random.shuffle(users_all)
+    users_slice_start = 0
+    for section_name, n_sections_remaining in zip(
+            section_names, range(len(section_ids), 0, -1)):
+        n_users_remaining = len(users_all) - users_slice_start
+        section_size = n_users_remaining // n_sections_remaining
+        section_id = section_ids[section_name]
+        section_users = users_all[users_slice_start:users_slice_start + section_size]
+        print('Section {} (id: {}) gets {} students: {}'.format(
+            repr(section_name), section_id, section_size,
+            ', '.join(u['name'] for u in section_users)))
+        for user in section_users:
+            can.add_section_member(section_id, user['id'])
+        users_slice_start += section_size
 
 def user(args):
     if len(args) == 2 and args[0] == 'find':
@@ -405,6 +474,8 @@ def main():
         grade(remargs)
     elif action == "group":
         group(remargs)
+    elif action == "section":
+        section(remargs)
     elif action == "user":
         user(remargs)
     elif action == "groupsplit":
