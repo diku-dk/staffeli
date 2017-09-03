@@ -312,13 +312,13 @@ def find_user(user_name):
     users = list(can.all_students(course.id))
 
     # Hack to remove duplicates.
-    users_found = list(filter(lambda user: user_name == user['name'], users))
+    users_found = list(filter(lambda user: user_name == user['name'] or user_name == user['login_id'][:6], users))
     users_found = list(set(tuple(x.items()) for x in users_found))
     users_found = [{k: v for k, v in x} for x in users_found]
     if len(users_found) == 1:
-        print('Found; id: {}, sis_user_id: {}, sis_login_id: {}'.format(
+        print('Found; id: {}, sis_user_id: {}, sis_login_id: {}, name: {}'.format(
             users_found[0]['id'], users_found[0]['sis_user_id'],
-            users_found[0]['sis_login_id']))
+            users_found[0]['sis_login_id'], users_found[0]['name']))
     elif len(users_found) > 1:
         print('{} users found:'.format(len(users_found)))
         for user in users_found:
