@@ -87,10 +87,7 @@ def _call_api(token, method, api_base, url_relative, all_pages=False, **args):
                     req = _req(token, method, api_base, None, url_absolute, **args)
             else:
                 break
-    if len(entries) == 1 and all_pages == False:
-        return entries[0]
-    else:
-        return entries
+    return entries
 
 def _upload_transit(course, filepath):
     form_url = "https://file-transit.appspot.com/upload"
