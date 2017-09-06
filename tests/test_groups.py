@@ -26,7 +26,7 @@ def course(
         init_course: Course,
         user_ids: List[int]
         ) -> Course:
-    for user_id in user_ids:
+    for user_id in user_ids: # noqa F402
         init_course.canvas.enroll_user(init_course.id, user_id)
     return init_course
 
