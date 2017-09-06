@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 import subprocess
-import sys
-from typing import List
 
 subprocess.check_call([
     "docker", "run",
