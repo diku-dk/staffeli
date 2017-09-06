@@ -218,7 +218,7 @@ class Canvas:
             enroll_state: str = 'active') -> Any:
         url = 'courses/{}/enrollments'.format(course_id)
         args = {
-            'enrollment[user_id]': user_id,
+            'enrollment[user_id]': str(user_id),
             'enrollment[type]': enroll_type,
             'enrollment[enrollment_state]': enroll_state
         }
