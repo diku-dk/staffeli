@@ -1,6 +1,5 @@
 import pytest
 
-from hypothesis import given
 from hypothesis.strategies import lists, text
 from staffeli.typed_canvas import Canvas
 from staffeli.course import Course
@@ -31,7 +30,8 @@ gen_nonempty_names = lists(
     gen_nonempty_name, min_size=1, max_size=30, unique=True)
 
 gen_pseudonym = text(
-    pseudonym_chr, min_size=1, max_size=30).filter(lambda s: len(s.strip()) > 0)
+    pseudonym_chr, min_size=1, max_size=30).filter(
+        lambda s: len(s.strip()) > 0)
 gen_pseudonyms = lists(
     gen_pseudonym, min_size=1, max_size=30, unique=True)
 
@@ -92,7 +92,7 @@ def user_id() -> int:
 
 @pytest.fixture(scope='session')
 def user_ids(
-        init_course : Course,
+        init_course: Course,
         ) -> List[int]:
     names = gen_pseudonyms.example()
     uids = []
@@ -104,7 +104,7 @@ def user_ids(
 
 @pytest.fixture(scope='session')
 def gcat_ids(
-        init_course : Course,
+        init_course: Course,
         ) -> List[int]:
     names = gen_nonempty_names.example()
     gcat_ids = []
