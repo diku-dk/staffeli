@@ -37,7 +37,7 @@ The purpose of Staffeli is two-fold:
    LMS <https://www.canvaslms.com/>`__.
 
 Initially, Staffeli is *not* intended for managing course content,
-merely to snapshot course data (e.g. enrolled students, groups,
+merely to snapshot course data (e.g., enrolled students, groups,
 sections, submissions), *and* to get grading done efficiently.
 
 Although Staffeli is written in Python 3, it is not intent on forcing you to
