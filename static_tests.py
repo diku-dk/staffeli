@@ -14,8 +14,11 @@ def run(command: List[str]) -> None:
     except subprocess.CalledProcessError:
         exitcode = 1
 
+
 mypy_files = [
         "setup.py",
+        "static_tests.py",
+        "start_local_canvas.py",
         "staffeli/typed_canvas.py",
         "staffeli/course.py",
         "staffeli/gcat.py",

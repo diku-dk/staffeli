@@ -8,6 +8,7 @@ from typing import Any, List
 from common import gen_nonempty_name, gen_nonempty_names
 from common import canvas, init_course  # noqa: F401
 from common import gcat_id, user_id  # noqa: F401
+from common import user_ids  # noqa: F401
 from common import course_name, gcat_name  # noqa: F401
 
 
@@ -22,8 +23,11 @@ def is_valid_group(group: Any) -> bool:
 
 @pytest.fixture(scope='function')  # noqa: F811
 def course(
-        init_course: Course
+        init_course: Course,
+        user_ids: List[int]
         ) -> Course:
+    for user_id in user_ids: # noqa F402
+        init_course.canvas.enroll_user(init_course.id, user_id)
     return init_course
 
 
@@ -36,7 +40,7 @@ def gcat(
 
 
 @given(name=gen_nonempty_name)  # noqa: F811
-def test_create_group(
+def _test_create_group(
         name: str,
         gcat: GroupCategory
         ) -> None:
@@ -53,7 +57,7 @@ def test_create_group(
 
 
 @given(names=gen_nonempty_names)  # noqa: F811
-def test_create_groups(
+def _test_create_groups(
         names: List[str],
         gcat: GroupCategory
         ) -> None:
