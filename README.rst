@@ -234,7 +234,7 @@ Assuming you have these tools installed, you can do this:
 
     $ pytest
 
-This is also part of the ```pre-push`` <hooks/pre-push>`__ hook.
+This is also part of the `pre-push <hooks/pre-push>`__ hook.
 
 Dynamic Test Coverage
 ^^^^^^^^^^^^^^^^^^^^^
