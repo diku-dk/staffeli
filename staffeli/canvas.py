@@ -380,7 +380,8 @@ class Canvas:
             ])
 
     def list_sections(self, course_id):
-        return self.get('courses/{}/sections'.format(course_id), all_pages=True)
+        return self.get('courses/{}/sections'.format(course_id), all_pages=True,
+                        _arg_list=[('include[]', 'students')])
 
     def create_section(self, course_id, name):
         sections = self.list_sections(course_id)
@@ -519,6 +520,8 @@ class Canvas:
         _arg_list.append(("submission[posted_grade]", grade))
 
         resp = self.put(url_relative, _arg_list=_arg_list)
+        assert len(resp) == 1
+        resp = resp[0]
         if not 'grade' in resp:
           raise Exception("Canvas response looks weird: {}".format(resp))
 
