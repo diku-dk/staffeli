@@ -80,8 +80,8 @@ Step 5: Grading
 
   staffeli grade GRADE -f feedback.txt
 
-where ``GRADE`` is either ``pass`` or ``fail`` (``fail`` should still allow them
-to resubmit).  Staffeli knows where to send the feedback based on a hidden file
+where ``GRADE`` is either ``pass``, ``incomplete`` (resubmit) or ``fail``.
+Staffeli knows where to send the feedback based on a hidden file
 ``.staffeli.yml`` in the directory.
 
 This will upload your feedback as comment.  It is also possible to upload

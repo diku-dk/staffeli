@@ -222,7 +222,7 @@ Grade a submission:
     grade GRADE [-m COMMENT] [-1] [FILEPATH]...
 
     Where
-        GRADE           pass, fail, or an int.
+        GRADE           pass, fail, incomplete, or an int.
         [-m COMMENT]    An optional comment to write.
         [-f FILEPATH]   Upload the contents of a file as a comment.
         [-1]            Only upload feedback for 1 student id (instead of all).
@@ -431,7 +431,7 @@ def groupsplit(args):
     split_according_to_groups(canvas.Course(), args[0], args[1])
 
 def _check_grade(grade):
-    goodgrades = ["pass", "fail"]
+    goodgrades = ["pass", "fail", "incomplete"]
     if not grade in goodgrades:
         try:
             x = int(grade)
