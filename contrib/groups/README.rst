@@ -89,8 +89,8 @@ attachments, but this does not fly after a while, at least not on the KU
 instance of Canvas: There appears to be some kind of cumulative limit on the
 file sizes one can upload through the API.
 
-When uploading the feedback as a comment, note that there can at most be 56
-characters per line before word wrapping happens.
+When uploading the feedback as a comment, note that the line length is not
+fixed.
 
 
 Step 6: Late submissions and resubmissions
