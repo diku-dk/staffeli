@@ -94,6 +94,8 @@ def write_body(path: str, body: str) -> None:
 
 def fetch_sub(students, path, sub, metadata = False):
     json = sub.json
+    if json['workflow_state'] == 'unsubmitted' or json['submission_type'] is None:
+        return
     sid = json['user_id']
     if (not sid in students) or \
             (not 'kuid' in students[sid]):
