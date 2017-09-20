@@ -226,8 +226,9 @@ Grade a submission:
     grade GRADE [-m COMMENT] [-1] [FILEPATH]...
 
     Where
-        GRADE           pass, fail, or an int.
+        GRADE           pass, fail, incomplete, or an int.
         [-m COMMENT]    An optional comment to write.
+        [-f FILEPATH]   Upload the contents of a file as a comment.
         [-1]            Only upload feedback for 1 student id (instead of all).
         [FILEPATH]...   Optional files to upload alongside.
 
@@ -423,16 +424,18 @@ def find_user(user_name):
         users.sort(key=lambda user: levenshtein.ratio(user_name, user['name']),
                    reverse=True)
         for user in users[:10]:
-            print('{} ({:2%} match)'.format(
-                user['name'],
-                levenshtein.ratio(user_name, user['name'])))
+            print('{:.2%} match; id: {}, sis_user_id: {}, sis_login_id: {}, name: {}'.format(
+                levenshtein.ratio(user_name, user['name']),
+                user['id'], user['sis_user_id'],
+                user['sis_login_id'], user['name']))
+
         sys.exit(1)
 
 def groupsplit(args):
     split_according_to_groups(canvas.Course(), args[0], args[1])
 
 def _check_grade(grade):
-    goodgrades = ["pass", "fail"]
+    goodgrades = ["pass", "fail", "incomplete"]
     if not grade in goodgrades:
         try:
             x = int(grade)
@@ -457,6 +460,8 @@ def grade_args_parser():
     parser.add_argument(
         "-m", metavar="COMMENT", dest='message', default="See attached files.")
     parser.add_argument(
+        "-f", metavar="COMMENTFILE", dest='message_file')
+    parser.add_argument(
         "-1", action='store_true', dest='one', default=False)
     parser.add_argument(
         "grade", metavar="GRADE")
@@ -467,6 +472,10 @@ def grade(args):
     grade = _check_grade(args.grade)
     filepaths = _check_filepaths(remargs)
     message = args.message
+    message_file = args.message_file
+    if message_file is not None:
+        with open(message_file) as f:
+            message = f.read()
 
     course = canvas.Course()
     assignment = canvas.Assignment(course)

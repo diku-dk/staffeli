@@ -123,21 +123,6 @@ This is a good idea to make sure you are up-to-date with canvas.
 
     $ staffeli fetch groups
 
-Split According to Some Group Category
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Assuming you already fetched groups and submissions,
-
-::
-
-    $ staffeli groupsplit subs/A3 groups/Team.yml
-
-NB
-~~
-
-If you are using git to share course internals, remember to push both
-changes to ```groups`` <groups>`__, ```subs`` <subs>`__, and
-```splits`` <splits>`__, when making splits for some new assignment.
 
 Grade a Submission
 ^^^^^^^^^^^^^^^^^^
@@ -152,6 +137,7 @@ Assuming you are in the submission directory, you can use
     Where
         GRADE           pass, fail, or an int.
         [-m COMMENT]    An optional comment to write.
+        [-f FILEPATH]   Upload the contents of a file as a comment.
         [FILEPATH]...   Optional files to upload alongside.
 
 Documentation
