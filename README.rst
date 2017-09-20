@@ -60,10 +60,21 @@ hand.
 Installation
 ------------
 
-1. Clone, or
-   `download <https://github.com/DIKU-EDU/staffeli/archive/master.zip>`__
-   this repository.
-2. ``pip3 install -e .``
+These are instructions for installing Staffeli on your system.
+
+1. `Download this repository <https://github.com/DIKU-EDU/staffeli/archive/master.zip>`__
+   or ``git clone https://github.com/DIKU-EDU/staffeli.git``
+2. Enter directory and run ``pip3 install -e .``
+
+These are instructions for installing Staffeli in a user directory.
+
+1. Check that you have Python 3 and pip installed: ``which python3 pip3``
+2. Install virtualenv globally, e.g. with ``sudo pip3 install virtualenv``
+3. `Download this repository <https://github.com/DIKU-EDU/staffeli/archive/master.zip>`__
+   or ``git clone https://github.com/DIKU-EDU/staffeli.git``
+4. Enter directory and create virtualenv with ``virtualenv .``
+5. Activate virtualenv with ``source bin/activate``
+6. Install Staffeli in virtualenv, ``pip3 install .``
 
 Getting Started
 ---------------
