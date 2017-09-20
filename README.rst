@@ -69,12 +69,13 @@ These are instructions for installing Staffeli on your system.
 These are instructions for installing Staffeli in a user directory.
 
 1. Check that you have Python 3 and pip installed: ``which python3 pip3``
-2. Install virtualenv globally, e.g. with ``sudo pip3 install virtualenv``
+2. Install `virtualenv <https://virtualenv.pypa.io/en/stable/>`__ globally,
+   e.g. with ``sudo pip3 install virtualenv``
 3. `Download this repository <https://github.com/DIKU-EDU/staffeli/archive/master.zip>`__
    or ``git clone https://github.com/DIKU-EDU/staffeli.git``
 4. Enter directory and create virtualenv with ``virtualenv .``
 5. Activate virtualenv with ``source bin/activate``
-6. Install Staffeli in virtualenv, ``pip3 install .``
+6. Install Staffeli in virtualenv, ``pip3 install -e .``
 
 Getting Started
 ---------------
