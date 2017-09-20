@@ -200,6 +200,8 @@ def split_according_to_groups(course, subspath, path):
         namepath = os.path.join(splitpath, name)
         mkdir(namepath)
         for uid in uids:
+            if not uid in students:
+                continue
             dirname = student_dirname(students[uid])
             subpath = os.path.join(subspath, dirname)
             if os.path.isdir(subpath):
