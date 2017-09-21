@@ -103,12 +103,18 @@ To clone a course:
 
 ::
 
-    $ staffeli clone <course name>
+    $ staffeli clone '<course name>' [dir]
 
-The ``<course name>`` may be a substring of the course name as it
-appears on your dashboard. Casing is not important. If there are
-multiple conflicting names, or no matching course names, Staffeli will
+The ``'course name'`` is any case-insensitive substring of the course name as
+it appears on your dashboard. Use quotes in case the substring contains spaces.
+If there are multiple conflicting names matching the substring, Staffeli will
 complain and let you try again.
+
+The ``[dir]`` is an optional destination directory for the local working area,
+in case it should not be named ``<course string>``. For example::
+
+    $ staffeli clone 'Advanced programming' ap17
+    Cloning '5100-B1-1E17;Advanced programming' into 'ap17'...
 
 Fetch Submissions for a New Assignment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
