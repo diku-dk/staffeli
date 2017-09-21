@@ -30,12 +30,22 @@ def cache(o, dirpath):
         os.mkdir(dirpath)
     o.cache(dirpath)
 
-def clone(args):
-    dirname = " ".join(args)
+def clone(remargs):
+    if len(remargs) == 1:
+        course_name = remargs[0]
+        dirname = course_name
+    elif len(remargs) == 2:
+        course_name = remargs[0]
+        dirname = remargs[1]
+    else:
+        print("Usage: staffeli clone 'COURSE NAME' [DIRECTORY], or see: staffeli help")
+        sys.exit(1)
 
-    course = canvas.Canvas().course(name = dirname)
+    course = canvas.Canvas().course(name = course_name)
     mknewdir(dirname)
     course.cache(dirname)
+
+    print("Cloning '{}' into '{}'...".format(course.displayname, dirname))
 
     os.chdir(dirname)
     fetch_students(course)
@@ -216,10 +226,20 @@ def main_args_parser():
 """
 git-style, git-compatible command-line interface for canvas.
 
-start a working area
-    clone   Create a local clone for a course
+Create a local working area for a course:
+    clone 'COURSE NAME' [DIRECTORY]
 
-update a working area
+    Where
+        'COURSE NAME'   (An unambiguous, case-insensitive substring of)
+                        the course name as it appears on your dashboard.
+        [DIRECTORY]     An optional destination directory that defaults
+                        to the first argument.
+
+    For example:
+
+        $ staffeli clone 'Advanced programming' ap17
+
+Update a working area:
     fetch   Fetch something that might have changed
 
 Grade a submission:
