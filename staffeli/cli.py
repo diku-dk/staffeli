@@ -92,14 +92,15 @@ def fetch_attachments(path, attachments):
         targetpath = os.path.join(path, att['filename'])
         print("Downloading {}..".format(targetpath))
         if os.path.isfile(targetpath):
-            # TODO: Do this smarter
-            new_dir = 'resubmission'
+            # TODO: Do this smarter.  Check if the file is the same, or if it is
+            # a new file!
+            new_dir = 'new-download'
             i = 1
             while True:
                 targetdir = os.path.join(path, new_dir)
                 targetpath = os.path.join(targetdir, att['filename'])
                 if os.path.exists(targetpath):
-                    new_dir = 'resubmission-{}'.format(i)
+                    new_dir = 'new-download-{}'.format(i)
                     i += 1
                 else:
                     os.makedirs(targetdir, exist_ok=True)
