@@ -92,9 +92,20 @@ def fetch_attachments(path, attachments):
         targetpath = os.path.join(path, att['filename'])
         print("Downloading {}..".format(targetpath))
         if os.path.isfile(targetpath):
-            print("Skipped. Looks like it is already here.")
             # TODO: Do this smarter
-            continue
+            new_dir = 'resubmission'
+            i = 1
+            while True:
+                targetdir = os.path.join(path, new_dir)
+                targetpath = os.path.join(targetdir, att['filename'])
+                if os.path.exists(targetpath):
+                    new_dir = 'resubmission-{}'.format(i)
+                    i += 1
+                else:
+                    os.makedirs(targetdir, exist_ok=True)
+                    break
+            print("Looks like it is already here. Putting it in a new directory '{}'.".format(new_dir))
+
         urlretrieve(att['url'], targetpath)
 
 def write_body(path: str, body: str) -> None:
