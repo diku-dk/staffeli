@@ -509,6 +509,9 @@ def grade(args):
         _check_filepaths([args.comment_file])
         with open(args.comment_file) as f:
             comment = f.read()
+    elif args.attachments:
+        comment = "See attached file{}.".format(
+            "" if len(args.attachments) == 1 else "s")
     else:
         comment = None
 
