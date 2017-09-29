@@ -161,7 +161,7 @@ Assuming you are in the submission directory, you can use
 Split Submissions among TAs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-See `the groups contrib <tree/master/contrib/groups>`_.
+See `the groups contrib <https://github.com/DIKU-EDU/staffeli/tree/master/contrib/groups>`_.
 
 Documentation
 -------------
