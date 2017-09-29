@@ -515,9 +515,10 @@ class Canvas:
         ids = list(map(upload, filepaths))
 
         _arg_list = list(map(lambda x: ("comment[file_ids][]", x), ids))
-        _arg_list.append(("comment[text_comment]", message))
-        _arg_list.append(("comment[group_comment]", True))
         _arg_list.append(("submission[posted_grade]", grade))
+        if message:
+            _arg_list.append(("comment[text_comment]", message))
+            _arg_list.append(("comment[group_comment]", True))
 
         resp = self.put(url_relative, _arg_list=_arg_list)
         assert len(resp) == 1

@@ -476,38 +476,41 @@ def _check_grade(grade):
                 "\"{}\" is a bad grade. Acceptable grades are: \"{}\", or an int."
                 ).format(grade, "\", \"".join(goodgrades)))
             sys.exit(1)
-    return grade
 
 def _check_filepaths(filepaths):
     for filepath in filepaths:
         if not os.path.isfile(filepath):
             print("\"{}\" is not a file. What is this?".format(filepath))
             sys.exit(1)
-    return filepaths
 
 def grade_args_parser():
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.RawTextHelpFormatter,
-        description="")
-    parser.add_argument(
-        "-m", metavar="COMMENT", dest='message', default="See attached files.")
-    parser.add_argument(
-        "-f", metavar="COMMENTFILE", dest='message_file')
-    parser.add_argument(
-        "-1", action='store_true', dest='one', default=False)
-    parser.add_argument(
-        "grade", metavar="GRADE")
+        formatter_class=argparse.RawTextHelpFormatter, description='')
+
+    parser.add_argument('grade', metavar='GRADE', nargs=1)
+    parser.add_argument('attachments', nargs='*')
+    parser.add_argument('-1', action='store_true', dest='one', default=False)
+
+    comments = parser.add_mutually_exclusive_group(required=False)
+    comments.add_argument('-m', metavar='COMMENT', dest='comment', nargs=1)
+    comments.add_argument('-f', metavar='FILEPATH', dest='comment_file', nargs=1)
+
     return parser
 
 def grade(args):
-    args, remargs = grade_args_parser().parse_known_args(args)
-    grade = _check_grade(args.grade)
-    filepaths = _check_filepaths(remargs)
-    message = args.message
-    message_file = args.message_file
-    if message_file is not None:
-        with open(message_file) as f:
-            message = f.read()
+    args = grade_args_parser().parse_known_args(args)
+
+    _check_grade(args.grade)
+    _check_filepaths(args.attachments)
+
+    if args.comment:
+        comment = args.comment
+    elif args.comment_file:
+        _check_filepaths([args.comment_file])
+        with open(args.comment_file) as f:
+            comment = f.read()
+    else:
+        comment = None
 
     course = canvas.Course()
     assignment = canvas.Assignment(course)
@@ -524,8 +527,7 @@ def grade(args):
                     course.id, assignment.id, sub['user_id'])
                 return
     for student_id in student_ids:
-        assignment.give_feedback(student_id, grade,
-            message, filepaths, use_post = True)
+        assignment.give_feedback(student_id, grade, comment, attachments, use_post=True)
 
 def main():
     parser = main_args_parser()
