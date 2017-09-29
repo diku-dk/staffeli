@@ -158,6 +158,11 @@ Assuming you are in the submission directory, you can use
         [-f FILEPATH]   Upload the contents of a file as a comment.
         [FILEPATH]...   Optional files to upload alongside.
 
+Split Submissions among TAs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+See `the groups contrib <tree/master/contrib/groups>`_.
+
 Documentation
 -------------
 
