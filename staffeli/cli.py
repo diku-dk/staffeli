@@ -530,7 +530,7 @@ def grade(args):
                     course.id, assignment.id, sub['user_id'])
                 return
     for student_id in student_ids:
-        assignment.give_feedback(student_id, grade, comment, args.attachments, use_post=True)
+        assignment.give_feedback(student_id, args.grade, comment, args.attachments, use_post=True)
 
 def main():
     parser = main_args_parser()
