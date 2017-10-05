@@ -10,6 +10,8 @@ import glob
 import staffeli.canvas as canvaslib
 
 
+debug = print
+
 # Maps abc123 (or whatever before @ in KU email address) to Canvas User ID
 def get_user_id_mapping(canvas, course):
     user_ids = {}
@@ -18,7 +20,7 @@ def get_user_id_mapping(canvas, course):
         user_ids[m.group(1)] = s['id']
     return user_ids
 
-def create_groups_on_canvas(canvas, course, category_name, user_ids):
+def create_groups_on_canvas(canvas, course, category_name, user_ids, groups):
     group_cats = canvas.group_categories(course.id)
     group_cat = next(filter(lambda cat: cat['name'] == category_name, group_cats))
     group_cat_id = group_cat['id']
@@ -51,7 +53,6 @@ def create_groups_on_canvas(canvas, course, category_name, user_ids):
 def create(subs_path, category_name, groups_file):
     canvas = canvaslib.Canvas()
     course = canvaslib.Course()
-    debug = print
 
     # Get mapping from abc123 to Canvas User ID.
     user_ids = get_user_id_mapping(canvas, course)
@@ -62,7 +63,7 @@ def create(subs_path, category_name, groups_file):
     groups = [line.split(' ') for line in contents.split('\n')]
 
     # Update Canvas.
-    create_groups_on_canvas(canvas, course, category_name, user_ids)
+    create_groups_on_canvas(canvas, course, category_name, user_ids, groups)
 
     # Update locally.
     groupsubs_path = subs_path.replace('subs/', 'groupsubs/')
