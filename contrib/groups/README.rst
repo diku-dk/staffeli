@@ -101,14 +101,8 @@ fixed.
 Step 6: Late submissions and resubmissions
 ----------------------------------------------
 
-Late submissions are handled outside the group.txt staffeli system for now.  You
-can still fetch the new subs, but running the group-related scripts anew is not
-guaranteed to be safe.  If necessary, you can always create late groups with
-the ``staffeli group`` commands, or using Absalon's web interface.
-
-For now it is probably best to handle resubmissions partially from within the
-SpeedGrader web interface, at least for downloading the resubmissions.  Staffeli
-can be a bit confused about that.
+Fetch the subs anew.  Submission files will be put in separate subdirectories if
+they already exist.
 
 
 Helper tools
