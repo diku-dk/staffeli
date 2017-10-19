@@ -491,9 +491,10 @@ def grade_args_parser():
     parser.add_argument('attachments', nargs='*')
     parser.add_argument('-1', action='store_true', dest='one', default=False)
 
-    comments = parser.add_mutually_exclusive_group(required=False)
+    comments = parser.add_mutually_exclusive_group(required=True)
     comments.add_argument('-m', metavar='COMMENT', dest='comment')
     comments.add_argument('-f', metavar='FILEPATH', dest='comment_file')
+    comments.add_argument('--no-feedback', action='store_true')
 
     return parser
 
