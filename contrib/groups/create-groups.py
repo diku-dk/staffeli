@@ -15,7 +15,7 @@ debug = print
 # Maps abc123 (or whatever before @ in KU email address) to Canvas User ID
 def get_user_id_mapping(canvas, course):
     user_ids = {}
-    for s in canvas.all_students(course.id):
+    for s in canvas.list_students(course.id):
         m = re.match('^(.+?)@', s['login_id'])
         user_ids[m.group(1)] = s['id']
     return user_ids

@@ -9,7 +9,7 @@ import staffeli.canvas as canvas
 
 course = canvas.Course()
 can = canvas.Canvas()
-users = list(can.all_students(course.id))
+users = list(can.list_students(course.id))
 user_ku_ids = [u['login_id'].split('@')[0] for u in users]
 
 def ku_id_exists(ku_id):

@@ -243,7 +243,7 @@ class StudentList(cachable.CachableEntity):
         if course == None:
             cachable.CachableEntity.__init__(self, self.cachename, searchdir)
         else:
-            self.json = course.canvas.all_students(course.id)
+            self.json = course.canvas.list_students(course.id)
 
         self.mapping = {}
         for student in self.json:
@@ -397,7 +397,7 @@ class Canvas:
         return self.post('sections/{}/enrollments'.format(section_id),
             _arg_list=_arg_list)
 
-    def all_students(self, course_id):
+    def list_students(self, course_id):
         sections = self.get('courses/{}/sections'.format(course_id),
                             _arg_list=[('include','students')])
         students = []
