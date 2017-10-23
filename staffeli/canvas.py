@@ -250,11 +250,11 @@ class StudentList(cachable.CachableEntity):
             sid = student['id']
             self.mapping[sid] = student
             if 'login_id' in student:
-                self.mapping[sid]['kuid'] = student['login_id'][:6]
+                self.mapping[sid]['kuid'] = student['login_id'].partition('@')[0]
             # 'sis_login_id' is a deprecated field according to
             # <https://canvas.instructure.com/doc/api/users.html>.
             elif 'sis_login_id' in student:
-                self.mapping[sid]['kuid'] = student['sis_login_id'][:6]
+                self.mapping[sid]['kuid'] = student['sis_login_id'].partition('@')[0]
 
     def publicjson(self):
         return { self.cachename : self.json }
