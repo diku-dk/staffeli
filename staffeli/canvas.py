@@ -298,16 +298,11 @@ class Assignment(listed.ListedEntity, cachable.CachableEntity):
     def publicjson(self):
         return { self.cachename : self.json }
 
-    def submission(self, id):
-        return self.canvas.get(
-            'courses/{}/assignments/{}/submissions/{}'.format(
-                self.course.id, self.id, id))
+    def submission(self, student_id):
+        return self.canvas.submission(self.course.id, self.id, student_id)
 
     def submissions(self):
-        return self.canvas.get(
-            'courses/{}/assignments/{}/submissions'.format(
-                self.course.id, self.id),
-            all_pages=True)
+        return self.canvas.list_submissions(self.course.id, self.id)
 
     def submissions_download_url(self):
         return self.canvas.submissions_download_url(self.course.id, self.id)
@@ -487,16 +482,38 @@ class Canvas:
             'courses/{}/assignments/{}'.format(
                 course_id, assignment_id))
 
+    def submission(self, course_id, assignment_id, student_id, args=None):
+        """Returns the submission for a single student and a single assignment.
+           The parameter 'args' is passed as GET parameters. See the function
+           submission_history().
+        """
+        url = 'courses/{}/assignments/{}/submissions/{}'.format(
+            course_id, assignment_id, student_id)
+
+        if args is None:
+            return self.get(url)
+
+        return self.get(url, _arg_list=args)
+
     def submission_history(self, course_id, assignment_id, student_id):
+        """Returns the submission history for a single student and a single
+           assignment. This includes whether the submission is visible to
+           the student, the changes to the submission, the comments and the
+           rubric assessment.
+        """
         args = [
             ('include[]', 'visibility'),
             ('include[]', 'submission_history'),
             ('include[]', 'submission_comments'),
             ('include[]', 'rubric_assessment')
         ]
-        url = 'courses/{}/assignments/{}/submissions/{}'.format(
-            course_id, assignment_id, student_id)
-        return self.get(url, _arg_list=args)
+        return self.submission(course_id, assignment_id, student_id, args)
+
+    def list_submissions(self, course_id, assignment_id):
+        """Returns the submissions of a single assignment for a course."""
+        return self.get(
+            'courses/{}/assignments/{}/submissions'.format(
+                course_id, assignment_id), all_pages=True)
 
     def submissions_download_url(self, course_id, assignment_id):
         return self.assignment(
