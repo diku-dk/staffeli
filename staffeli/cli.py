@@ -118,15 +118,21 @@ def fetch_sub(students, path, sub, metadata = False):
     json = sub.json
     if json['workflow_state'] == 'unsubmitted' or json['submission_type'] is None:
         return
-    sid = json['user_id']
-    if (not sid in students) or \
-            (not 'kuid' in students[sid]):
-        print("There is something wrong with {}.. Skipping".format(sid))
-        print("Looks like this is a Test Student..")
-        print("Try and have a look in SpeedGrader(tm):\n{}".format(json['preview_url']))
-        print(sub)
+
+    try:
+        user_id = json['user_id']
+        student = students[user_id]
+        kuid = student['kuid']
+    except KeyError as e:
+        preview_url = json.pop('preview_url')
+        print("Failed fetching submission for user {an_id}. "
+              "Is {an_id} a test student? Skipping.\n"
+              "JSON debug: {json}\n"
+              "Try and look in SpeedGrader:\n{preview_url}"
+              .format(an_id=e.args[0], json=json, preview_url=preview_url))
         return
-    subpath = os.path.join(path, "{}_{}".format(students[sid]['kuid'], sid))
+
+    subpath = os.path.join(path, "{}_{}".format(kuid, user_id))
     mkdir(subpath)
     sub.cache(subpath)
     if metadata:
@@ -136,7 +142,7 @@ def fetch_sub(students, path, sub, metadata = False):
         write_body(subpath, json['body'])
     elif sub_type == 'online_upload':
         if not 'attachments' in json:
-            print("There is something wrong with {}.. Skipping".format(sid))
+            print("There is something wrong with {}.. Skipping".format(user_id))
             print("This might be a 'No submission' submission.")
             print("Try and have a look in SpeedGrader(tm):\n{}".format(json['preview_url']))
             print(sub)
@@ -157,7 +163,7 @@ def fetch_subs(course, name, deep = False, metadata = False):
     if not deep:
         return
 
-    students = canvas.StudentList(searchdir = "students").mapping
+    students = canvas.StudentList(searchdir = "students")
     for sub in assign.subs:
         fetch_sub(students, path, sub, metadata)
 
@@ -215,14 +221,14 @@ def split_according_to_groups(course, subspath, path):
 
     gl = canvas.GroupList(course, path = path)
     teams = gl.uidmap()
-    students = canvas.StudentList(searchdir = "students").mapping
+    students = canvas.StudentList(searchdir = "students")
 
     for name, uids in teams.items():
         name = normalize_pathname(name)
         namepath = os.path.join(splitpath, name)
         mkdir(namepath)
         for uid in uids:
-            if not uid in students:
+            if uid not in students:
                 continue
             dirname = student_dirname(students[uid])
             subpath = os.path.join(subspath, dirname)

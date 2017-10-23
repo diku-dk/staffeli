@@ -245,19 +245,27 @@ class StudentList(cachable.CachableEntity):
         else:
             self.json = course.canvas.list_students(course.id)
 
-        self.mapping = {}
+        self.user_ids = {}
+        self.kuids = {}
         for student in self.json:
-            sid = student['id']
-            self.mapping[sid] = student
-            if 'login_id' in student:
-                self.mapping[sid]['kuid'] = student['login_id'].partition('@')[0]
-            # 'sis_login_id' is a deprecated field according to
-            # <https://canvas.instructure.com/doc/api/users.html>.
-            elif 'sis_login_id' in student:
-                self.mapping[sid]['kuid'] = student['sis_login_id'].partition('@')[0]
+            user_id = student['id']
+            login_id = student['login_id']
+            kuid = student['kuid'] = login_id.partition("@")[0]
+
+            self.user_ids[user_id] = student
+            self.kuids[kuid] = student
 
     def publicjson(self):
         return { self.cachename : self.json }
+
+    def __contains__(self, an_id):
+        return an_id in self.user_ids or an_id in self.kuids
+
+    def __getitem__(self, an_id):
+        student = self.user_ids.get(an_id, None) or self.kuids.get(an_id, None)
+        if student is None:
+            raise KeyError(an_id)
+        return student
 
 class Submission(cachable.CachableEntity):
     def __init__(self, json = None):
