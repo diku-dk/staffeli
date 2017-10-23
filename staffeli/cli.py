@@ -344,7 +344,7 @@ def set_group_members(group_name, user_names):
     else:
         group_id = groups[0]['id']
 
-    users_all = list(can.list_students(course.id))
+    users_all = can.list_students(course.id)
     user_ids = []
     for user_name in user_names:
         users = list(filter(lambda x: x['name'] == user_name,
@@ -393,7 +393,7 @@ def add_member_to_section(section_name, user_name):
 
     section_id = find_section_id(section_name)
 
-    users_all = list(can.list_students(course.id))
+    users_all = can.list_students(course.id)
     users = list(filter(lambda x: (x['name'] == user_name or
                                    x['login_id'][:6] == user_name),
                         users_all))
@@ -412,7 +412,7 @@ def add_students_to_sections_random(section_names):
     section_ids = {section_name: find_section_id(section_name)
                    for section_name in section_names}
 
-    users_all = list(can.list_students(course.id))
+    users_all = can.list_students(course.id)
 
     random.shuffle(users_all)
     users_slice_start = 0
@@ -436,7 +436,7 @@ def user(args):
 def find_user(user_name):
     course = canvas.Course()
     can = canvas.Canvas()
-    users = list(can.list_students(course.id))
+    users = can.list_students(course.id)
 
     # Hack to remove duplicates.
     users_found = list(filter(lambda user: user_name == user['name'] or user_name == user['login_id'][:6], users))
