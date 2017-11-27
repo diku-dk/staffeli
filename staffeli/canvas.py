@@ -190,6 +190,8 @@ class GroupList(listed.ListedEntity, cachable.CachableEntity):
 class GroupCategoryList(cachable.CachableEntity):
     def __init__(self, canvas, course_id):
         self.json = canvas.group_categories(course_id)
+        if isinstance(self.json, dict):
+            self.json = [self.json]
 
     def publicjson(self):
         json = copy.deepcopy(self.json)
