@@ -193,8 +193,6 @@ class GroupCategoryList(cachable.CachableEntity):
 
     def publicjson(self):
         json = copy.deepcopy(self.json)
-        for cat in json:
-            del cat['is_member']
         return { 'group_categories': json }
 
 class Course(listed.ListedEntity, cachable.CachableEntity):
