@@ -20,7 +20,7 @@ declared=$("$(dirname "$0")"/stages/find-declared-groups.sh "${subs}" | sort)
 undeclared=$(comm -1 -3 \
   <(echo -n "${declared}" | tr ' ' '\n' | sort) \
   <(cd "${subs}"; find . -maxdepth 1 -type d | filter_nonempty_dirs \
-        | sed -r 's/^\.\///' \
+        | sed -E 's/^\.\///' \
         | grep -E '^[a-z]{3}[0-9]{3}_[0-9]*$' \
         | sort | cut -d '_' -f 1)  | \
     tr -d '\t')
