@@ -10,10 +10,16 @@ group assignment, start at step 0.
 Step 0: Assignment creation on Absalon
 --------------------------------------
 
-When creating a new assignment on Absalon, we make sure to tick the box that
-makes it a group assignment, and create a new group category 'Assignment N
-Groups', where N is the assignment number. This is important because once
-submissions have been uploaded, it cannot be changed into a group assignment.
+When creating a new assignment on Absalon, we make sure to tick the
+box that makes it a group assignment, and create a new group category
+'Assignment N Groups', where N is the assignment number. This is
+important because once submissions have been uploaded, it cannot be
+changed into a group assignment.  **Warning:** the group category
+created during this step is the means by which Staffeli automatically
+assigns the same grade to all participants of group members in that
+category.  Do *not* delete the category, as this will break this
+property.  Recreating it under the same name is not sufficient
+(although it will look that way in the web UI).
 
 
 Step 1: Handing uploading
