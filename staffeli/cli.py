@@ -439,19 +439,23 @@ def user(args):
     if len(args) == 2 and args[0] == 'find':
         find_user(args[1])
 
-def find_user(user_name):
+def _find_user(user_name):
     course = canvas.Course()
-    can = canvas.Canvas()
-    users = can.list_students(course.id)
+    users = course.list_students().json
 
     # Hack to remove duplicates.
     users_found = list(filter(lambda user: user_name == user['name'] or user_name == user['login_id'][:6], users))
     users_found = list(set(tuple(x.items()) for x in users_found))
     users_found = [{k: v for k, v in x} for x in users_found]
+    return users_found
+
+def find_user(user_name):
+    users_found = _find_user(user_name)
+
     if len(users_found) == 1:
-        print('Found; id: {}, sis_user_id: {}, sis_login_id: {}, name: {}'.format(
-            users_found[0]['id'], users_found[0]['sis_user_id'],
-            users_found[0]['sis_login_id'], users_found[0]['name']))
+        print('Found; id: {}, login_id: {}, kuid: {}, name: {}'.format(
+            users_found[0]['id'], users_found[0]['login_id'],
+            users_found[0]['kuid'], users_found[0]['name']))
     elif len(users_found) > 1:
         print('{} users found:'.format(len(users_found)))
         for user in users_found:
@@ -459,13 +463,13 @@ def find_user(user_name):
         sys.exit(1)
     else:
         print('No users found.  Guesses:')
-        users.sort(key=lambda user: levenshtein.ratio(user_name, user['name']),
+        users_found.sort(key=lambda user: levenshtein.ratio(user_name, user['name']),
                    reverse=True)
-        for user in users[:10]:
-            print('{:.2%} match; id: {}, sis_user_id: {}, sis_login_id: {}, name: {}'.format(
+        for user in users_found[:10]:
+            print('{:.2%} match; id: {}, login_id: {}, kuid: {}, name: {}'.format(
                 levenshtein.ratio(user_name, user['name']),
-                user['id'], user['sis_user_id'],
-                user['sis_login_id'], user['name']))
+                user['id'], user['login_id'],
+                user['kuid'], user['name']))
 
         sys.exit(1)
 
