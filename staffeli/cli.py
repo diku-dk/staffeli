@@ -261,13 +261,14 @@ Update a working area:
     fetch   Fetch something that might have changed
 
 Grade a submission:
-    grade GRADE [-m COMMENT] [-1] [FILEPATH]...
+    grade GRADE [-m COMMENT] [-1 | --kuid KUID] [FILEPATH]...
 
     Where
         GRADE           pass, fail, incomplete, or an int.
         [-m COMMENT]    An optional comment to write.
         [-f FILEPATH]   Upload the contents of a file as a comment.
         [-1]            Only upload feedback for 1 student id (instead of all).
+        [--kuid KUID]   Upload feedback for a specific student.
         [FILEPATH]...   Optional files to upload alongside.
 
 Work with groups:
