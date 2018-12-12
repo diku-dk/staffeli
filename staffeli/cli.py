@@ -499,7 +499,10 @@ def grade_args_parser():
 
     parser.add_argument('grade', metavar='GRADE')
     parser.add_argument('attachments', nargs='*')
-    parser.add_argument('-1', action='store_true', dest='one', default=False)
+
+    people = parser.add_mutually_exclusive_group()
+    people.add_argument('-1', action='store_true', dest='one', default=False)
+    people.add_argument('--kuid', dest='kuid')
 
     comments = parser.add_mutually_exclusive_group(required=True)
     comments.add_argument('-m', metavar='COMMENT', dest='comment')
@@ -532,6 +535,21 @@ def grade(args):
     student_ids = submission.student_ids
     if args.one:
         student_ids = student_ids[:1]
+    elif args.kuid is not None:
+        users_found = _find_user(args.kuid)
+        if len(users_found) == 1:
+            user_id = users_found[0]['id']
+            student_ids = [user_id]
+        elif len(users_found) > 1:
+            print("Kuid is too ambiguous! Found multiple users with the kuid {}:.".format(args.kuid))
+            for user in users_found:
+                print('- id: {}, login_id: {}, kuid: {}, name: {}'.format(
+                    user['id'], user['login_id'], user['kuid'], user['name']))
+            sys.exit(1)
+        else:
+            print("Found no users with the kuid {}!".format(args.kuid))
+            sys.exit(1)
+
     for sub in assignment.submissions():
         if sub['user_id'] in student_ids:
             current_grade = sub['grade']
