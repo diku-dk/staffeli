@@ -261,13 +261,14 @@ Update a working area:
     fetch   Fetch something that might have changed
 
 Grade a submission:
-    grade GRADE [-m COMMENT] [-1] [FILEPATH]...
+    grade GRADE [-m COMMENT] [-1 | --kuid KUID] [FILEPATH]...
 
     Where
         GRADE           pass, fail, incomplete, or an int.
         [-m COMMENT]    An optional comment to write.
         [-f FILEPATH]   Upload the contents of a file as a comment.
         [-1]            Only upload feedback for 1 student id (instead of all).
+        [--kuid KUID]   Upload feedback for a specific student.
         [FILEPATH]...   Optional files to upload alongside.
 
 Work with groups:
@@ -439,19 +440,23 @@ def user(args):
     if len(args) == 2 and args[0] == 'find':
         find_user(args[1])
 
-def find_user(user_name):
+def _find_user(user_name):
     course = canvas.Course()
-    can = canvas.Canvas()
-    users = can.list_students(course.id)
+    users = course.list_students().json
 
     # Hack to remove duplicates.
     users_found = list(filter(lambda user: user_name == user['name'] or user_name == user['login_id'][:6], users))
     users_found = list(set(tuple(x.items()) for x in users_found))
     users_found = [{k: v for k, v in x} for x in users_found]
+    return users_found
+
+def find_user(user_name):
+    users_found = _find_user(user_name)
+
     if len(users_found) == 1:
-        print('Found; id: {}, sis_user_id: {}, sis_login_id: {}, name: {}'.format(
-            users_found[0]['id'], users_found[0]['sis_user_id'],
-            users_found[0]['sis_login_id'], users_found[0]['name']))
+        print('Found; id: {}, login_id: {}, kuid: {}, name: {}'.format(
+            users_found[0]['id'], users_found[0]['login_id'],
+            users_found[0]['kuid'], users_found[0]['name']))
     elif len(users_found) > 1:
         print('{} users found:'.format(len(users_found)))
         for user in users_found:
@@ -459,13 +464,13 @@ def find_user(user_name):
         sys.exit(1)
     else:
         print('No users found.  Guesses:')
-        users.sort(key=lambda user: levenshtein.ratio(user_name, user['name']),
+        users_found.sort(key=lambda user: levenshtein.ratio(user_name, user['name']),
                    reverse=True)
-        for user in users[:10]:
-            print('{:.2%} match; id: {}, sis_user_id: {}, sis_login_id: {}, name: {}'.format(
+        for user in users_found[:10]:
+            print('{:.2%} match; id: {}, login_id: {}, kuid: {}, name: {}'.format(
                 levenshtein.ratio(user_name, user['name']),
-                user['id'], user['sis_user_id'],
-                user['sis_login_id'], user['name']))
+                user['id'], user['login_id'],
+                user['kuid'], user['name']))
 
         sys.exit(1)
 
@@ -495,7 +500,10 @@ def grade_args_parser():
 
     parser.add_argument('grade', metavar='GRADE')
     parser.add_argument('attachments', nargs='*')
-    parser.add_argument('-1', action='store_true', dest='one', default=False)
+
+    people = parser.add_mutually_exclusive_group()
+    people.add_argument('-1', action='store_true', dest='one', default=False)
+    people.add_argument('--kuid', dest='kuid')
 
     comments = parser.add_mutually_exclusive_group(required=True)
     comments.add_argument('-m', metavar='COMMENT', dest='comment')
@@ -528,6 +536,21 @@ def grade(args):
     student_ids = submission.student_ids
     if args.one:
         student_ids = student_ids[:1]
+    elif args.kuid is not None:
+        users_found = _find_user(args.kuid)
+        if len(users_found) == 1:
+            user_id = users_found[0]['id']
+            student_ids = [user_id]
+        elif len(users_found) > 1:
+            print("Kuid is too ambiguous! Found multiple users with the kuid {}:.".format(args.kuid))
+            for user in users_found:
+                print('- id: {}, login_id: {}, kuid: {}, name: {}'.format(
+                    user['id'], user['login_id'], user['kuid'], user['name']))
+            sys.exit(1)
+        else:
+            print("Found no users with the kuid {}!".format(args.kuid))
+            sys.exit(1)
+
     for sub in assignment.submissions():
         if sub['user_id'] in student_ids:
             current_grade = sub['grade']
