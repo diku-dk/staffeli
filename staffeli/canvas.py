@@ -410,7 +410,7 @@ class Canvas:
                             _arg_list=[('include','students')])
         students = []
         for section in sections:
-            if 'students' in section:
+            if ('students' in section) and not(section['students'] is None):
                 students.extend(section['students'])
 
         return students
