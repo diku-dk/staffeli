@@ -14,8 +14,6 @@ before_install:
 - rst-lint README.rst
 install:
 - pip install .
-- pip uninstall -y .
-- pip install staffeli
 script: exit 0
 deploy:
   provider: pypi
