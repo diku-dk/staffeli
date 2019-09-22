@@ -19,11 +19,11 @@ def is_valid_section(section: Any) -> bool:
         isinstance(section['name'], str)
 
 
-@pytest.fixture(scope='function')  # noqa: F811
+@pytest.fixture(scope='function')
 def course(
-        init_course: Course,
-        course_name: str,
-        section_name: str) -> Course:
+        init_course: Course,  # noqa: F811
+        course_name: str,  # noqa: F811
+        section_name: str) -> Course:  # noqa: F811
     reserved = [course_name, section_name]
     for section in init_course.list_sections():
         if section['name'] in reserved:
@@ -48,10 +48,10 @@ def test_create_section(
     assert deleted_section['id'] == section['id']
 
 
-def test_enroll_user(  # noqa: F811
-        course: Course,
-        section_id: int,
-        user_id: int) -> None:
+def test_enroll_user(
+        course: Course,  # noqa: F811
+        section_id: int,  # noqa: F811
+        user_id: int) -> None:  # noqa: F811
     return course.section_enroll(section_id, user_id)
 
 

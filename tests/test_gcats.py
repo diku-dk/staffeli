@@ -17,8 +17,8 @@ def is_valid_group_category(gcat: Any) -> bool:
         isinstance(gcat['name'], str)
 
 
-@pytest.fixture(scope='function')  # noqa: F811
-def course(init_course: Course) -> Course:
+@pytest.fixture(scope='function')
+def course(init_course: Course) -> Course:  # noqa: F811
     for gcat in init_course.list_group_categories():
         init_course.delete_group_category(gcat['id'])
     return init_course

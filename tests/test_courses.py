@@ -15,10 +15,10 @@ def is_valid_course(course: Any) -> bool:
         isinstance(course['name'], str)
 
 
-@given(name=gen_nonempty_name)  # noqa: F811
+@given(name=gen_nonempty_name)
 def test_create_course(
         name: str,
-        canvas: Canvas) -> None:
+        canvas: Canvas) -> None:  # noqa: F811
 
     # Try and add the given course.
     course = canvas.create_course(name)

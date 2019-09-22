@@ -21,20 +21,20 @@ def is_valid_group(group: Any) -> bool:
         isinstance(group['name'], str)
 
 
-@pytest.fixture(scope='function')  # noqa: F811
+@pytest.fixture(scope='function')
 def course(
-        init_course: Course,
-        user_ids: List[int]
+        init_course: Course,  # noqa: F811
+        user_ids: List[int]  # noqa: F811
         ) -> Course:
     for user_id in user_ids: # noqa F402
         init_course.canvas.enroll_user(init_course.id, user_id)
     return init_course
 
 
-@pytest.fixture(scope='function')  # noqa: F811
+@pytest.fixture(scope='function')
 def gcat(
-        init_course: Course,
-        gcat_id: int
+        init_course: Course,  # noqa: F811
+        gcat_id: int  # noqa: F811
         ) -> GroupCategory:
     return GroupCategory(init_course, id=gcat_id)
 
