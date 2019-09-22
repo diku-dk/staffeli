@@ -114,10 +114,10 @@ class Canvas:
 
     def __init__(
         self,
-        token: Optional[str]=None,
-        account_id: Optional[int]=None,
-        base_url: str='https://absalon.ku.dk/',
-        api_base: str='api/v1/'
+        token: Optional[str] = None,
+        account_id: Optional[int] = None,
+        base_url: str = 'https://absalon.ku.dk/',
+        api_base: str = 'api/v1/'
             ) -> None:
 
         self.base_url = base_url

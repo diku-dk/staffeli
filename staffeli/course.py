@@ -11,9 +11,9 @@ class Course(listed.ListedEntity, cachable.CachableEntity):
 
     def __init__(
         self,
-        canvas: Optional[Canvas]=None,
-        name: Optional[str]=None,
-        id: Optional[int]=None
+        canvas: Optional[Canvas] = None,
+        name: Optional[str] = None,
+        id: Optional[int] = None
             ) -> None:
 
         if canvas is None:

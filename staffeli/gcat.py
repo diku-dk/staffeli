@@ -11,9 +11,9 @@ class GroupCategory(listed.ListedEntity, cachable.CachableEntity):
 
     def __init__(
         self,
-        course: Optional[Course]=None,
-        name: Optional[str]=None,
-        id: Optional[int]=None
+        course: Optional[Course] = None,
+        name: Optional[str] = None,
+        id: Optional[int] = None
             ) -> None:
 
         if course is None:
