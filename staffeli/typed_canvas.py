@@ -126,8 +126,8 @@ class Canvas:
         if token is None or account_id is None:
             self.account_id, self.token = files.find_rc()
         else:
-            self.account_id = account_id  # type: int
-            self.token = token  # type: str
+            self.account_id = account_id
+            self.token = token
 
     def api_url(self, rel_url: str) -> str:
         return self.base_url + self.api_base + rel_url
