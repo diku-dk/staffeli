@@ -513,7 +513,8 @@ def grade_args_parser():
     return parser
 
 def grade(args):
-    args, _ = grade_args_parser().parse_known_args(args)
+    args, more_attachments = grade_args_parser().parse_known_args(args)
+    args.attachments += more_attachments
 
     _check_grade(args.grade)
     _check_filepaths(args.attachments)
