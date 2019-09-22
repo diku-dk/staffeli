@@ -14,8 +14,8 @@ v1.1| |PyPI|
 
 .. |Documentation Status| image:: https://readthedocs.org/projects/staffeli/badge/
    :target: http://staffeli.readthedocs.io/en/latest/
-.. |Travis CI (Linux + macOS) Status| image:: https://travis-ci.org/DIKU-EDU/staffeli.svg
-   :target: https://travis-ci.org/DIKU-EDU/staffeli
+.. |Travis CI (Linux + macOS) Status| image:: https://travis-ci.org/diku-dk/staffeli.svg
+   :target: https://travis-ci.org/diku-dk/staffeli
 .. |License: EUPL v1.1| image:: https://img.shields.io/badge/license-EUPL%20v1.1-blue.svg
    :target: https://github.com/DIKU-EDU/Staffeli/blob/master/LICENSE.md
 .. |PyPI| image:: https://img.shields.io/pypi/v/staffeli.svg
