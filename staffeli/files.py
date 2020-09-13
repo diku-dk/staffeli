@@ -3,6 +3,11 @@ import os.path
 import yaml
 from typing import Any, Dict, List, Union, Tuple
 from staffeli import names
+from yaml import load, dump
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 
 STAFFELI_FILENAME = ".staffeli.yml"
 TOKEN_FILENAMES = ["token", "token.txt", ".token"]
@@ -71,7 +76,7 @@ def find_rc() -> Tuple[int, str]:
 
 def load_staffeli_file(path: str) -> Union[List[Any], Dict[Any, Any]]:
     with open(path, 'r') as f:
-        return yaml.load(f)
+        return yaml.load(f, Loader=Loader)
 
 
 def find_staffeli_file(
